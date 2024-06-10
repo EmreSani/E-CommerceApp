@@ -1,9 +1,9 @@
-package com.project.ecommerce.entity;
+package com.project.ecommerce.entity.business;
 
+import com.project.ecommerce.entity.concretes.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "t_orderitem")
@@ -29,7 +29,7 @@ public class OrderItem {
     private Integer totalPrice;
 
     @ManyToOne
-    private Customer customer;
+    private User user;
 
     @ManyToOne
     private Cart cart;
