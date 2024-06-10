@@ -59,13 +59,12 @@ public class ContactMessageController {
         return contactMessageService.searchBySubject(subject,page,size,sort,type);
     }
 
-    // ODEV : No Content Type 204 kodu
     @DeleteMapping("/deleteById/{contactMessageId}") // http://localhost:8080/contactMessages/deleteById/2 + DELETE
     public ResponseEntity<String> deleteByIdPath(@PathVariable Long contactMessageId){
         return ResponseEntity.ok(contactMessageService.deleteById(contactMessageId));
     }
 
-    // Not: Odev2:deleteByIdParam ********************************************
+    // deleteByIdParam ********************************************
     @DeleteMapping("/deleteByIdParam")  //http://localhost:8080/contactMessages/deleteByIdParam?contactMessageId=2
     public ResponseEntity<String> deleteById(@RequestParam(value = "contactMessageId") Long contactMessageId){
         return ResponseEntity.ok(contactMessageService.deleteById(contactMessageId)); // servisdeki ayni metod

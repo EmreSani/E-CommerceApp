@@ -9,6 +9,7 @@ import com.project.ecommerce.contactmessage.repository.ContactMessageRepository;
 import com.project.ecommerce.exception.ConflictException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
+import com.project.ecommerce.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ public class ContactMessageService {
 
     private final ContactMessageRepository contactMessageRepository;
     private final ContactMessageMapper contactMessageMapper;
+    private final PageableHelper pageableHelper;
 
     public ResponseMessage<ContactMessageResponse> save(ContactMessageRequest contactMessageRequest) {
 
@@ -43,20 +45,14 @@ public class ContactMessageService {
 
     public Page<ContactMessageResponse> getAll(int page, int size, String sort, String type) {
 
-        Pageable pageable = PageRequest.of(page,size, Sort.by(sort).ascending());
-        if(Objects.equals(type, "desc")){
-            pageable = PageRequest.of(page,size, Sort.by(sort).descending());
-        }
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
 
         return contactMessageRepository.findAll(pageable).map(contactMessageMapper::contactMessageToResponse);
     }
 
     public Page<ContactMessageResponse> searchByEmail(String email, int page, int size, String sort, String type) {
 
-        Pageable pageable = PageRequest.of(page,size, Sort.by(sort).ascending());
-        if(Objects.equals(type, "desc")){
-            pageable = PageRequest.of(page,size, Sort.by(sort).descending());
-        }
+       Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
 
         return contactMessageRepository.findByEmailEquals(email, pageable).
                 map(contactMessageMapper::contactMessageToResponse);
@@ -75,10 +71,8 @@ public class ContactMessageService {
 
     public Page<ContactMessageResponse> searchBySubject(String subject, int page, int size, String sort, String type) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        if (Objects.equals(type, "desc")) {
-            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        }
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+
         return contactMessageRepository.findBySubjectEquals(subject, pageable). // Derived
                 map(contactMessageMapper::contactMessageToResponse);
     }

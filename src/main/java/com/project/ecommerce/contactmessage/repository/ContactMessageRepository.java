@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -25,7 +26,8 @@ public interface ContactMessageRepository extends JpaRepository<ContactMessage, 
     @Query("SELECT c FROM ContactMessage c WHERE " +
             "(EXTRACT(HOUR FROM c.dateTime) BETWEEN :startHour AND :endHour) AND " +
             "(EXTRACT(HOUR FROM c.dateTime) != :startHour OR EXTRACT(MINUTE FROM c.dateTime) >= :startMinute) AND " + // baslama dakikasina gore kontrol
-            "(EXTRACT(HOUR FROM c.dateTime) != :endHour OR EXTRACT(MINUTE FROM c.dateTime) <= :endMinute)") // bitis dakikasina gore kontrol
+            "(EXTRACT(HOUR FROM c.dateTime) != :endHour OR EXTRACT(MINUTE FROM c.dateTime) <= :endMinute)")
+        // bitis dakikasina gore kontrol
     List<ContactMessage> findMessagesBetweenTimes(@Param("startHour") int startHour,
                                                   @Param("startMinute") int startMinute,
                                                   @Param("endHour") int endHour,
