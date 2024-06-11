@@ -54,4 +54,7 @@ public abstract class AbstractUserRequest {
     @Email(message = "Please enter valid email")
     @Size(min = 5, max = 50, message = "Your email should be between 5 and 50 chars")
     private String email;
+
+    private Boolean isPremium = false;
+
 }
