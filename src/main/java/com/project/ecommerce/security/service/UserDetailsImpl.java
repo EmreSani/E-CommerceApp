@@ -24,7 +24,6 @@ public class UserDetailsImpl implements UserDetails {
     private Boolean isAdvisor;
     @JsonIgnore
     private String password;
-    private String ssn;
     private Collection<? extends  GrantedAuthority> authorities;
     private Boolean isPremium;
 

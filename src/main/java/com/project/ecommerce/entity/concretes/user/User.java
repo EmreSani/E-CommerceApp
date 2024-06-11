@@ -2,7 +2,7 @@ package com.project.ecommerce.entity.concretes.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.ecommerce.entity.business.OrderItem;
+import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.enums.Gender;
 import lombok.*;
 
@@ -30,7 +30,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private String lastName;
+    private String surname;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthDay;
