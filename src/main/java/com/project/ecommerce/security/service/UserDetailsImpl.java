@@ -26,18 +26,19 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private String ssn;
     private Collection<? extends  GrantedAuthority> authorities;
+    private Boolean isPremium;
 
-    public UserDetailsImpl(Long id, String username, String name, Boolean isAdvisor, String  password,
-                           String role, String ssn) {
+    public UserDetailsImpl(Long id, String username, String name, Boolean isPremium, String  password,
+                           String role) {
         this.id = id;
         this.username = username;
         this.name = name;
-        this.isAdvisor = isAdvisor;
+        this.isPremium = isPremium;
         this.password= password;
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(role));
         this.authorities=grantedAuthorities;
-        this.ssn=ssn;
+
     }
 
 
@@ -76,6 +77,8 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
     public boolean equals(Object o){
         if(this == o){
