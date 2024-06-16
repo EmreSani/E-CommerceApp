@@ -1,6 +1,5 @@
 package com.project.ecommerce.service.user;
 
-import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.exception.ResourceNotFoundException;
@@ -13,6 +12,7 @@ import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.repository.user.UserRepository;
 import com.project.ecommerce.service.business.OrderItemService;
+import com.project.ecommerce.service.helper.MethodHelper;
 import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.validator.UniquePropertyValidator;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +37,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final PageableHelper pageableHelper;
     private final OrderItemService orderItemService;
+    private final MethodHelper methodHelper;
 
 
     public ResponseMessage<UserResponse> saveUser(UserRequest userRequest, String userRole) {
@@ -87,19 +88,15 @@ public class UserService {
     public ResponseMessage<UserResponse> getUserById(Long userId) {
 
         return ResponseMessage.<UserResponse>builder().message(SuccessMessages.USER_FOUND).
-                httpStatus(HttpStatus.OK).object(userMapper.mapUserToUserResponse(isUserExist(userId))).build();
+                httpStatus(HttpStatus.OK).object(userMapper.mapUserToUserResponse(methodHelper.isUserExist(userId))).build();
 
     }
 
-    public User isUserExist(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() ->
-                new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE,
-                        userId)));
-    }
+
 
 
     public String deleteUserById(Long userId) {
-        userRepository.delete(isUserExist(userId));
+        userRepository.delete(methodHelper.isUserExist(userId));
 
         return String.format(SuccessMessages.USER_DELETE, userId); //TODO: need to control roles
 
@@ -180,6 +177,29 @@ public class UserService {
                         map(userMapper::mapUserToUserResponse).
                         collect(Collectors.toList())).
                 build();
+    }
+
+    public ResponseMessage<UserResponse> updateUser(UserRequest userRequest, Long userId) {
+
+        User foundUser = methodHelper.isUserExist(userId);
+
+        uniquePropertyValidator.checkUniqueProperties(foundUser, userRequest);
+
+
+        methodHelper.checkBuiltIn(foundUser);
+
+        User updatedUser = userMapper.mapUserRequestToUpdatedUser(userRequest, userId);
+
+        updatedUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        updatedUser.setUserRole(foundUser.getUserRole());
+
+        User savedUser = userRepository.save(updatedUser);
+
+        return ResponseMessage.<UserResponse>builder()
+                .message(SuccessMessages.USER_UPDATE_MESSAGE)
+                .httpStatus(HttpStatus.OK)
+                .object(userMapper.mapUserToUserResponse(savedUser))
+                .build() ;
     }
 }
 

@@ -24,65 +24,73 @@ public class UserController {
     @PostMapping("/save/{userRole}") // http://localhost:8080/user/save/Admin  + JSON + POST
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ResponseMessage<UserResponse>> saveUser(@RequestBody @Valid UserRequest userRequest,
-                                                                  @PathVariable String userRole){
+                                                                  @PathVariable String userRole) {
         return ResponseEntity.ok(userService.saveUser(userRequest, userRole));
     }
 
     @GetMapping("/allUsers")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<List<UserResponse>> getAllUsers (){
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{userId}") //http://localhost:8080/user/custom?id=1
     @PreAuthorize("hasAnyAuthority('ADMIN)")
-    public ResponseMessage<UserResponse> getUserById (@PathVariable Long userId){
+    public ResponseMessage<UserResponse> getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
 
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<String> deleteUserById (@RequestParam(value = "userId") Long userId){
+    public ResponseEntity<String> deleteUserById(@RequestParam(value = "userId") Long userId) {
         return ResponseEntity.ok(userService.deleteUserById(userId));
     }
 
-    //update method
+    //  5-id ile customer ı update etme -> http://localhost:8080/customers/update/1 //Customer is updated successfully mesajı dönsün.
+    //emaili update ederken yeni değer tabloda var ve kendi maili değilse hata fırlatır. (ConflictException)
+    @PutMapping("/update/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseMessage<UserResponse> updateUser(
+            @RequestBody @Valid UserRequest userRequest,
+            @PathVariable Long userId) {
+        return userService.updateUser(userRequest, userId);
+    }
 
     @GetMapping("/page")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Page<UserResponse>> getUserByPage(
-            @RequestParam(value = "page",defaultValue = "0") int page,
-            @RequestParam(value = "size",defaultValue = "10") int size,
-            @RequestParam(value = "sort",defaultValue = "name") String sort,
-            @RequestParam(value = "type",defaultValue = "desc") String type
-    ){
-        Page<UserResponse> usersByPage = userService.getUsersByPage(page,size,sort,type);
-        return new ResponseEntity<>(usersByPage, HttpStatus.OK) ;
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "name") String sort,
+            @RequestParam(value = "type", defaultValue = "desc") String type
+    ) {
+        Page<UserResponse> usersByPage = userService.getUsersByPage(page, size, sort, type);
+        return new ResponseEntity<>(usersByPage, HttpStatus.OK);
     }
 
 
     @GetMapping("/query")
     @PreAuthorize("hasAnyAuthority('ADMIN)")
-    public ResponseMessage<UserResponse> getUserByUserName (@RequestParam(value = "userName") String userName){
+    public ResponseMessage<UserResponse> getUserByUserName(@RequestParam(value = "userName") String userName) {
         return userService.getUserByUserName(userName);
     }
 
     //8-fullname ile customer getirme-> http://localhost:8080/customers/fullquery? name=Jack&lastName=Sparrow
     @GetMapping("/fullquery")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseMessage<List<UserResponse>> getUserByFullName (
+    public ResponseMessage<List<UserResponse>> getUserByFullName(
             @RequestParam(value = "name") String name,
             @RequestParam(value = "lastName") String lastname
-    ){
-       return userService.getUserByFullName(name,lastname);
-
+    ) {
+        return userService.getUserByFullName(name, lastname);
     }
+
     //9-İsmi ... içeren customerlar -> http://localhost:8080/customers/jpql?name=Ja
     @GetMapping("/jpql")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<List<UserResponse>> getUserByNameContains(
             @RequestParam(value = "name") String name
-    ){
+    ) {
         return userService.getUserByContains(name);
 
     }
@@ -90,21 +98,22 @@ public class UserController {
     //10-Idsi verilen müşterinin tüm siparişlerini getirme -> http://localhost:8080/customers/allorder/1
     @GetMapping("/allorder/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById (
-           @PathVariable Long id
-    ){
+    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(
+            @PathVariable Long id
+    ) {
         return userService.getUsersOrderItemsById(id);
 
     }
 
     //11-ÖDEV:Requestle gelen "harf dizisi" name veya lastname inde geçen customerları döndür. -> http://localhost:8080/customers/search?word=pa
-@GetMapping("/search")
+    @GetMapping("/search")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-public ResponseMessage<List<UserResponse>> getUserByFullNameContainsTheseLetters (
-        @RequestParam(value = "letters") String letters
-){
-    return userService.getUserByFullNameContainsTheseLetters(letters);
-}
+    public ResponseMessage<List<UserResponse>> getUserByFullNameContainsTheseLetters(
+            @RequestParam(value = "letters") String letters
+    ) {
+        return userService.getUserByFullNameContainsTheseLetters(letters);
+    }
 
+    //TODO: add updateUserForUsers
 
 }

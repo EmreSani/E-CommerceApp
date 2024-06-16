@@ -20,7 +20,7 @@ public class Cart {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
     private Integer totalPrice;

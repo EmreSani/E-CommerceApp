@@ -42,4 +42,19 @@ public class UserMapper {
                 .build();
 
     }
+
+    public User mapUserRequestToUpdatedUser(UserRequest userRequest, Long userId){
+        return User.builder()
+                .id(userId)
+                .username(userRequest.getUsername())
+                .name(userRequest.getName())
+                .surname(userRequest.getSurname())
+                .password(userRequest.getPassword())
+                .birthDay(userRequest.getBirthDay())
+                .birthPlace(userRequest.getBirthPlace())
+                .phoneNumber(userRequest.getPhoneNumber())
+                .gender(userRequest.getGender())
+                .email(userRequest.getEmail())
+                .build() ;
+    }
 }

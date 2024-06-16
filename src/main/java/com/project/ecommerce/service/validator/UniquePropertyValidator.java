@@ -4,7 +4,7 @@ package com.project.ecommerce.service.validator;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.exception.ConflictException;
 import com.project.ecommerce.payload.messages.ErrorMessages;
-import com.project.ecommerce.payload.request.abstracts.AbstractUserRequest;
+import com.project.ecommerce.payload.request.abstracts.UserRequest;
 import com.project.ecommerce.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,21 +32,21 @@ public class UniquePropertyValidator {
 
     }
 
-    public void checkUniqueProperties(User user, AbstractUserRequest abstractUserRequest){
+    public void checkUniqueProperties(User user, UserRequest userRequest){
         String updatedUsername = "";
         String updatedPhone = "";
         String updatedEmail = "";
         boolean isChanced = false;
-        if(!user.getUsername().equalsIgnoreCase(abstractUserRequest.getUsername())){
-            updatedUsername = abstractUserRequest.getUsername();
+        if(!user.getUsername().equalsIgnoreCase(userRequest.getUsername())){
+            updatedUsername = userRequest.getUsername();
             isChanced = true;
         }
-        if(!user.getPhoneNumber().equalsIgnoreCase(abstractUserRequest.getPhoneNumber())){
-            updatedPhone = abstractUserRequest.getPhoneNumber();
+        if(!user.getPhoneNumber().equalsIgnoreCase(userRequest.getPhoneNumber())){
+            updatedPhone = userRequest.getPhoneNumber();
             isChanced = true;
         }
-        if(!user.getEmail().equalsIgnoreCase(abstractUserRequest.getEmail())){
-            updatedEmail = abstractUserRequest.getEmail();
+        if(!user.getEmail().equalsIgnoreCase(userRequest.getEmail())){
+            updatedEmail = userRequest.getEmail();
             isChanced = true;
         }
 

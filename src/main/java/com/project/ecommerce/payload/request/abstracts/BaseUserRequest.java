@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public  abstract class BaseUserRequest extends AbstractUserRequest {
+public  abstract class BaseUserRequest extends UserRequest {
 
     @NotNull(message = "Please enter your password")
     @Size(min = 8, max = 60,message = "Your password should be at least 8 chars or maximum 60 characters")
