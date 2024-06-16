@@ -3,7 +3,7 @@ package com.project.ecommerce.controller.user;
 
 import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.authentication.LoginRequest;
-import com.project.ecommerce.payload.request.business.UpdatePasswordRequest;
+import com.project.ecommerce.payload.request.authentication.UpdatePasswordRequest;
 import com.project.ecommerce.payload.response.authentication.AuthResponse;
 import com.project.ecommerce.service.user.AuthenticationService;
 import lombok.RequiredArgsConstructor;

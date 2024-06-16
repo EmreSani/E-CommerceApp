@@ -15,4 +15,8 @@ public class SuccessMessages {
 
     public static final String ORDER_ITEMS_FOUND = "Order Items Found Successfully";
     public static final String ORDER_ITEM_FOUND = "Order Item Found Successfully";
+
+    public static final String PRODUCT_CREATE = "Product is saved successfully with id: %s";
+    public static final String PRODUCTS_FOUND = "Products found successfully";
+    public static final String PRODUCT_FOUND = "Product found successfully";
 }

@@ -25,13 +25,25 @@ public class OrderItem {
     private Product product;
 
     @Column(nullable = false)
- // @PrePersist?
-    private Double totalPrice = quantity * product.getPrice();
+    private Double totalPrice;
+
+    @PrePersist
+    @PreUpdate
+    public void calculateTotalPrice() {
+        if (product != null) {
+            this.totalPrice = this.quantity * product.getPrice();
+        }
+    }
 
     @ManyToOne
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order; // Order ile ilişki
 
 }

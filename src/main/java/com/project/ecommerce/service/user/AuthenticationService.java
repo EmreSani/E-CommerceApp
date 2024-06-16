@@ -4,7 +4,7 @@ import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.exception.BadRequestException;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.request.authentication.LoginRequest;
-import com.project.ecommerce.payload.request.business.UpdatePasswordRequest;
+import com.project.ecommerce.payload.request.authentication.UpdatePasswordRequest;
 import com.project.ecommerce.payload.response.authentication.AuthResponse;
 import com.project.ecommerce.repository.user.UserRepository;
 import com.project.ecommerce.security.jwt.JwtUtils;

@@ -1,4 +1,4 @@
-package com.project.ecommerce.payload.request.business;
+package com.project.ecommerce.payload.request.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
