@@ -2,6 +2,7 @@ package com.project.ecommerce.entity.concretes.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.enums.Gender;
 import lombok.*;
@@ -47,6 +48,9 @@ public class User {
 
     @Column(unique = true)
     private String phoneNumber;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cart cart;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private Set<OrderItem> orderItems;

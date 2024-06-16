@@ -8,12 +8,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsernameEquals(String username);
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     boolean existsByUsername(String username);
 
@@ -23,4 +26,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT COUNT(u) FROM User u WHERE u.userRole.roleType = ?1")
     long countAdmin(RoleType roleType);
+
+    User findByName(String name);
+
+    @Query(value = "SELECT u FROM User u WHERE u.name = :name AND u.surname = :lastname")
+    List<User> findByNameAndLastName(String name, String lastname);
+
+    @Query(value = "SELECT u FROM User u WHERE u.")
+    List<User> findByNameAndLastName();
 }

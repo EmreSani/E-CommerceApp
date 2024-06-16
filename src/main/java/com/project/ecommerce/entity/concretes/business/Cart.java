@@ -1,5 +1,6 @@
 package com.project.ecommerce.entity.concretes.business;
 
+import com.project.ecommerce.entity.concretes.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,4 +24,7 @@ public class Cart {
     private List<OrderItem> orderItems;
 
     private Integer totalPrice;
+
+    @OneToOne
+    private User user;
 }

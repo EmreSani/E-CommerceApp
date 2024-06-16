@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -33,6 +33,20 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/{userId}") //http://localhost:8080/user/custom?id=1
+    @PreAuthorize("hasAnyAuthority('ADMIN)")
+    public ResponseMessage<UserResponse> getUserById (@PathVariable Long userId){
+        return userService.getUserById(userId);
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<String> deleteUserById (@RequestParam(value = "userId") Long userId){
+        return ResponseEntity.ok(userService.deleteUserById(userId));
+    }
+
+    //update method
+
     @GetMapping("/page")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Page<UserResponse>> getUserByPage(
@@ -45,17 +59,27 @@ public class UserController {
         return new ResponseEntity<>(usersByPage, HttpStatus.OK) ;
     }
 
-    @GetMapping //http://localhost:8080/user/custom?id=1
+
+    @GetMapping("/query")
     @PreAuthorize("hasAnyAuthority('ADMIN)")
-    public ResponseMessage<UserResponse> getUserById (@RequestParam Long userId){
-        return userService.getUserById(userId);
+    public ResponseMessage<UserResponse> getUserByUserName (@RequestParam(value = "userName") String userName){
+        return userService.getUserByName(userName);
     }
 
-    @DeleteMapping
+    //8-fullname ile customer getirme-> http://localhost:8080/customers/fullquery? name=Jack&lastName=Sparrow
+    @GetMapping("/fullquery")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<String> deleteUserById (@RequestParam Long userId){
-        return ResponseEntity.ok(userService.deleteUserById(userId));
+    public ResponseMessage<List<UserResponse>> getUserByFullName (
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "lastName") String lastname
+    ){
+       return userService.getUserByFullName(name,lastname);
+
     }
+    //9-İsmi ... içeren customerlar -> http://localhost:8080/customers/jpql?name=Ja
+    //10-Idsi verilen müşterinin tüm siparişlerini getirme -> http://localhost:8080/customers/allorder/1
+    //11-ÖDEV:Requestle gelen "harf dizisi" name veya lastname inde geçen customerları döndür. -> http://localhost:8080/customers/search?word=pa
+
 
 
 }

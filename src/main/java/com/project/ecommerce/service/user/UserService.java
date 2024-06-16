@@ -45,8 +45,8 @@ public class UserService {
         User user = userMapper.mapUserRequestToUser(userRequest); // default: user is not premium
 
         // Setting role of the user
-        if(userRole.equalsIgnoreCase(RoleType.ADMIN.name())){
-            if(Objects.equals(userRequest.getUsername(),"Admin")){
+        if (userRole.equalsIgnoreCase(RoleType.ADMIN.name())) {
+            if (Objects.equals(userRequest.getUsername(), "Admin")) {
                 user.setBuilt_in(true);
             }
             user.setUserRole(userRoleService.getUserRole(RoleType.ADMIN));
@@ -63,27 +63,27 @@ public class UserService {
         return ResponseMessage.<UserResponse>builder()
                 .message(String.format(SuccessMessages.USER_CREATE, user.getId()))
                 .object(userMapper.mapUserToUserResponse(savedUser))
-                .build() ;
+                .build();
 
     }
 
-    public long countAllAdmins(){
+    public long countAllAdmins() {
         return userRepository.countAdmin(RoleType.ADMIN);
     }
 
     public List<UserResponse> getAllUsers() {
-       return userRepository.findAll().stream().map(userMapper::mapUserToUserResponse).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(userMapper::mapUserToUserResponse).collect(Collectors.toList());
     }
 
     public Page<UserResponse> getUsersByPage(int page, int size, String sort, String type) {
-       Pageable pageable = pageableHelper.getPageableWithProperties(page,size,sort,type);
-       return userRepository.findAll(pageable).map(userMapper::mapUserToUserResponse);
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        return userRepository.findAll(pageable).map(userMapper::mapUserToUserResponse);
     }
 
     public ResponseMessage<UserResponse> getUserById(Long userId) {
 
-    return ResponseMessage.<UserResponse>builder().message(SuccessMessages.USER_FOUND).
-            httpStatus(HttpStatus.OK).object( userMapper.mapUserToUserResponse(isUserExist(userId))).build();
+        return ResponseMessage.<UserResponse>builder().message(SuccessMessages.USER_FOUND).
+                httpStatus(HttpStatus.OK).object(userMapper.mapUserToUserResponse(isUserExist(userId))).build();
 
     }
 
@@ -95,9 +95,42 @@ public class UserService {
 
 
     public String deleteUserById(Long userId) {
-       userRepository.delete(isUserExist(userId));
+        userRepository.delete(isUserExist(userId));
 
-       return String.format(SuccessMessages.USER_DELETE, userId); //TODO: need to control roles
+        return String.format(SuccessMessages.USER_DELETE, userId); //TODO: need to control roles
+
+    }
+
+
+    public ResponseMessage<UserResponse> getUserByName(String userName) {
+
+        return ResponseMessage.<UserResponse>builder().
+                message(SuccessMessages.USER_FOUND).
+                httpStatus(HttpStatus.OK).
+                object(userMapper.mapUserToUserResponse(userRepository.findByUsername(userName).
+                        orElseThrow(() -> new ResourceNotFoundException
+                                (String.format
+                                        (ErrorMessages.NOT_FOUND_USER_MESSAGE_WITH_USERNAME, userName)))))
+                .build();
+
+    }
+
+
+    public ResponseMessage<List<UserResponse>> getUserByFullName(String name, String lastname) {
+
+        List<User> userList = userRepository.findByNameAndLastName(name, lastname);
+
+        if (userList.isEmpty()){
+            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE_WITHOUT_ID);
+        }
+
+        return ResponseMessage.<List<UserResponse>>builder().
+                message(SuccessMessages.USERS_FOUND).
+                httpStatus(HttpStatus.OK).
+                object(userList.stream().
+                        map(userMapper::mapUserToUserResponse).
+                        collect(Collectors.toList())).
+                build();
 
     }
 }

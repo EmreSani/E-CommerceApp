@@ -71,7 +71,7 @@ public class AuthenticationService {
     public void updatePassword(UpdatePasswordRequest updatePasswordRequest, HttpServletRequest request) {
 
         String userName = (String) request.getAttribute("username");
-        User user = userRepository.findByUsername(userName);
+        User user = userRepository.findByUsernameEquals(userName);
         // !!! Builtin attribute: Datalarının Değişmesi istenmeyen bir objenin builtIn değeri true olur.
         if(Boolean.TRUE.equals(user.getBuilt_in())) { // null değerleriyle çalışırken güvenli bir yöntemdir. Boolean.TRUE.equals
             throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
