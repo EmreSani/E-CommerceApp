@@ -1,5 +1,6 @@
 package com.project.ecommerce.service.user;
 
+import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.exception.ResourceNotFoundException;
@@ -7,9 +8,11 @@ import com.project.ecommerce.payload.mappers.UserMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.user.UserRequest;
+import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.repository.user.UserRepository;
+import com.project.ecommerce.service.business.OrderItemService;
 import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.validator.UniquePropertyValidator;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +36,7 @@ public class UserService {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
     private final PageableHelper pageableHelper;
+    private final OrderItemService orderItemService;
 
 
     public ResponseMessage<UserResponse> saveUser(UserRequest userRequest, String userRole) {
@@ -102,7 +106,7 @@ public class UserService {
     }
 
 
-    public ResponseMessage<UserResponse> getUserByName(String userName) {
+    public ResponseMessage<UserResponse> getUserByUserName(String userName) {
 
         return ResponseMessage.<UserResponse>builder().
                 message(SuccessMessages.USER_FOUND).
@@ -120,7 +124,7 @@ public class UserService {
 
         List<User> userList = userRepository.findByNameAndLastName(name, lastname);
 
-        if (userList.isEmpty()){
+        if (userList.isEmpty()) {
             throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE_WITHOUT_ID);
         }
 
@@ -133,4 +137,50 @@ public class UserService {
                 build();
 
     }
+
+    public ResponseMessage<List<UserResponse>> getUserByContains(String name) {
+
+        List<User> userList = userRepository.findByNameContains(name);
+
+        if (userList.isEmpty()) {
+            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE_WITHOUT_ID);
+        }
+
+        return ResponseMessage.<List<UserResponse>>builder().
+                message(SuccessMessages.USERS_FOUND).
+                httpStatus(HttpStatus.OK).
+                object(userList.stream().
+                        map(userMapper::mapUserToUserResponse).
+                        collect(Collectors.toList())).
+                build();
+    }
+
+    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
+
+      List<OrderItemResponse> orderItemList = orderItemService.getOrderItemsByUserId(userId);
+
+      return ResponseMessage.<List<OrderItemResponse>>builder()
+              .message(SuccessMessages.ORDER_ITEMS_FOUND)
+              .httpStatus(HttpStatus.OK)
+              .object(orderItemList)
+              .build();
+    }
+
+    public ResponseMessage<List<UserResponse>> getUserByFullNameContainsTheseLetters(String letters) {
+        List<User> userList = userRepository.findByNameOrLastNameContains(letters);
+
+        if (userList.isEmpty()) {
+            throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE_WITHOUT_ID);
+        }
+
+        return ResponseMessage.<List<UserResponse>>builder().
+                message(SuccessMessages.USERS_FOUND).
+                httpStatus(HttpStatus.OK).
+                object(userList.stream().
+                        map(userMapper::mapUserToUserResponse).
+                        collect(Collectors.toList())).
+                build();
+    }
 }
+
+

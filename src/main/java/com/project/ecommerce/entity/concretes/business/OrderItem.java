@@ -26,7 +26,7 @@ public class OrderItem {
 
     @Column(nullable = false)
  // @PrePersist?
-    private Integer totalPrice;
+    private Double totalPrice = quantity * product.getPrice();
 
     @ManyToOne
     private User user;

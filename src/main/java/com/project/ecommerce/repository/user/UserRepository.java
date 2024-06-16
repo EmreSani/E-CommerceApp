@@ -2,10 +2,9 @@ package com.project.ecommerce.repository.user;
 
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,6 +31,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u FROM User u WHERE u.name = :name AND u.surname = :lastname")
     List<User> findByNameAndLastName(String name, String lastname);
 
-    @Query(value = "SELECT u FROM User u WHERE u.")
-    List<User> findByNameAndLastName();
+    @Query("SELECT u FROM User u WHERE u.name LIKE %:name%")
+    List<User> findByNameContains(@Param("name") String name);
+
+    @Query("SELECT u FROM User u WHERE u.name LIKE %:letters% OR u.surname LIKE %:letters%")
+    List<User> findByNameOrLastNameContains(@Param("letters") String letters);
+
 }

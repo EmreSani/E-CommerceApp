@@ -3,8 +3,11 @@ package com.project.ecommerce.payload.mappers;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.payload.request.user.UserRequest;
 import com.project.ecommerce.payload.response.user.UserResponse;
+import lombok.Data;
+import org.springframework.stereotype.Component;
 
-
+@Data
+@Component
 public class UserMapper {
     public User mapUserRequestToUser(UserRequest userRequest) {
 

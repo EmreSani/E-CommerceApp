@@ -1,6 +1,7 @@
 package com.project.ecommerce.controller.user;
 
 import com.project.ecommerce.payload.request.user.UserRequest;
+import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.service.user.UserService;
@@ -63,7 +64,7 @@ public class UserController {
     @GetMapping("/query")
     @PreAuthorize("hasAnyAuthority('ADMIN)")
     public ResponseMessage<UserResponse> getUserByUserName (@RequestParam(value = "userName") String userName){
-        return userService.getUserByName(userName);
+        return userService.getUserByUserName(userName);
     }
 
     //8-fullname ile customer getirme-> http://localhost:8080/customers/fullquery? name=Jack&lastName=Sparrow
@@ -77,9 +78,33 @@ public class UserController {
 
     }
     //9-İsmi ... içeren customerlar -> http://localhost:8080/customers/jpql?name=Ja
-    //10-Idsi verilen müşterinin tüm siparişlerini getirme -> http://localhost:8080/customers/allorder/1
-    //11-ÖDEV:Requestle gelen "harf dizisi" name veya lastname inde geçen customerları döndür. -> http://localhost:8080/customers/search?word=pa
+    @GetMapping("/jpql")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseMessage<List<UserResponse>> getUserByNameContains(
+            @RequestParam(value = "name") String name
+    ){
+        return userService.getUserByContains(name);
 
+    }
+
+    //10-Idsi verilen müşterinin tüm siparişlerini getirme -> http://localhost:8080/customers/allorder/1
+    @GetMapping("/allorder/{userId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById (
+           @PathVariable Long id
+    ){
+        return userService.getUsersOrderItemsById(id);
+
+    }
+
+    //11-ÖDEV:Requestle gelen "harf dizisi" name veya lastname inde geçen customerları döndür. -> http://localhost:8080/customers/search?word=pa
+@GetMapping("/search")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+public ResponseMessage<List<UserResponse>> getUserByFullNameContainsTheseLetters (
+        @RequestParam(value = "letters") String letters
+){
+    return userService.getUserByFullNameContainsTheseLetters(letters);
+}
 
 
 }

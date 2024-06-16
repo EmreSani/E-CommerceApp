@@ -12,4 +12,7 @@ public class SuccessMessages {
     public static final String USERS_FOUND = "Users are Found Successfully";
     public static final String USER_UPDATE = "your information has been updated successfully";
     public static final String USER_UPDATE_MESSAGE = "User is Updated Successfully";
+
+    public static final String ORDER_ITEMS_FOUND = "Order Items Found Successfully";
+    public static final String ORDER_ITEM_FOUND = "Order Item Found Successfully";
 }
