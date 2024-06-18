@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -20,8 +21,8 @@ public class OrderItemController {
     private OrderItemService orderItemService;
 
     @PostMapping("/save")
-    public ResponseEntity<OrderItem> createOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest) {
-        return ResponseEntity.ok(orderItemService.createOrderItem(orderItemRequest));
+    public ResponseEntity<OrderItem> createOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(orderItemService.createOrderItem(orderItemRequest, httpServletRequest));
     }
 
 

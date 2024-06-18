@@ -4,7 +4,7 @@ import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.Order;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.exception.ResourceNotFoundException;
-import com.project.ecommerce.payload.mappers.OrderMapper;
+import com.project.ecommerce.payload.mappers.OrderMappers;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.response.business.OrderResponse;
@@ -25,7 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartService cartService;
     private final UserService userService;
-    private final OrderMapper orderMapper;
+    private final OrderMappers orderMapper;
 
     @Transactional
     public ResponseMessage<OrderResponse> createOrderFromCart(String username) {
@@ -49,6 +49,8 @@ public class OrderService {
         orderRepository.save(order);
 
         OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(order);
+
+        cartService.clearCart(cart);
 
         return ResponseMessage.<OrderResponse>builder()
                 .message(String.format(SuccessMessages.USER_CREATE,order.getId()))

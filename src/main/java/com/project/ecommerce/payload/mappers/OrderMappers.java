@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class OrderMapper {
+public class OrderMappers {
 
     private final OrderItemMapper orderItemMapper;
 
@@ -17,7 +17,7 @@ public class OrderMapper {
         orderResponse.setId(order.getId());
         orderResponse.setOrderDate(order.getOrderDate());
         orderResponse.setCustomerId(order.getCustomer().getId());
-        orderResponse.getOrderItems().addAll(order.getOrderItemResponses().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).toList());
+        orderResponse.getOrderItems().addAll(order.getOrderItem().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).toList());
         orderResponse.setCartId(order.getCart().getId());
 
         return orderResponse;

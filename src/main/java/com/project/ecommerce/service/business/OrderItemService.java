@@ -5,6 +5,7 @@ import com.project.ecommerce.entity.concretes.business.Order;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.entity.concretes.user.User;
+import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderItemMapper;
 import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.repository.business.OrderItemRepository;
@@ -14,6 +15,7 @@ import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,21 +40,40 @@ public class OrderItemService {
 
     }
 
-    public OrderItem createOrderItem(OrderItemRequest orderItemRequest) {
+    public OrderItem createOrderItem(OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
 
-        Product product = productService.isProductExistsById(orderItemRequest.getProductId());
-        User customer = methodHelper.isUserExist(orderItemRequest.getCustomerId());
-        Cart cart = cartService.getCartByUsername(customer.getUsername());
-        Order order = orderService.isOrderExistsById(orderItemRequest.getOrderId());
+        String username = (String) httpServletRequest.getAttribute("username");
+        Cart cart;
 
-        Double totalPrice = orderItemRequest.getQuantity() * product.getPrice();
+        if (username != null) {
+            User customer = userService.getUserByUserNameReturnsUser(username);
+            Product product = productService.isProductExistsById(orderItemRequest.getProductId());
+
+            // Stok kontrolü
+            if (product.getStock() < orderItemRequest.getQuantity()) {
+                throw new ResourceNotFoundException("Insufficient stock for product: " + product.getName());
+            }
+
+            cart = cartService.getCartByUsername(username);
+        } else {
+            HttpSession session = httpServletRequest.getSession();
+            cart = cartService.getCartBySession(session);
+        }
+//       String username = (String) httpServletRequest.getAttribute("username");
+//
+//       User customer = userService.getUserByUserNameReturnsUser(username);
+//
+//        Product product = productService.isProductExistsById(orderItemRequest.getProductId());
+//
+//        Cart cart = cartService.getCartByUsername(username);
+//
+//        Double totalPrice = orderItemRequest.getQuantity() * product.getPrice();
 
         OrderItem orderItem = OrderItem.builder()
                 .quantity(orderItemRequest.getQuantity())
                 .product(product)
                 .totalPrice(totalPrice)
                 .cart(cart)
-                .order(order)
                 .customer(customer)
                 .build();
 

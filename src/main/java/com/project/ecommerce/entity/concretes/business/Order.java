@@ -25,7 +25,7 @@ public class Order {
     private User customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItemResponses = new ArrayList<>();
+    private List<OrderItem> orderItem = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "cart_id")
@@ -35,12 +35,12 @@ public class Order {
     private LocalDateTime orderDate;
 
     public void addOrderItem(OrderItem orderItemResponse) {
-        orderItemResponses.add(orderItemResponse);
+        orderItem.add(orderItemResponse);
         orderItemResponse.setOrder(this);
     }
 
     public void removeOrderItem(OrderItem orderItemResponse) {
-        orderItemResponses.remove(orderItemResponse);
+        orderItem.remove(orderItemResponse);
         orderItemResponse.setOrder(null);
     }
 }

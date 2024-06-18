@@ -34,6 +34,8 @@ public class Cart {
     @OneToOne(mappedBy = "cart")
     private Order order;  // Sipariş ilişkisi
 
+    private String sessionId; // Anonim kullanıcılar için sessionId
+
     public void recalculateTotalPrice() {
         totalPrice = orderItemList.stream()
                 .mapToDouble(OrderItem::getTotalPrice)
