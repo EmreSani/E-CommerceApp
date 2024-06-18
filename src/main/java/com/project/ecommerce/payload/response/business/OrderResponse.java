@@ -20,7 +20,7 @@ public class OrderResponse {
 
     private Long id;
     private Long customerId;  // customer yerine customerId kullanabilirsiniz
-    private List<OrderItemResponse> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
     private Long cartId;  // cart yerine cartId kullanabilirsiniz
     private LocalDateTime orderDate;
 }
