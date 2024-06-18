@@ -72,7 +72,7 @@ public class ProductService {
                 .build();
     }
 
-    private Product isProductExistsById(Long id) {
+    public Product isProductExistsById(Long id) {
         return productRepository.
                 findById(id).
                 orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_PRODUCT_MESSAGE, id)));

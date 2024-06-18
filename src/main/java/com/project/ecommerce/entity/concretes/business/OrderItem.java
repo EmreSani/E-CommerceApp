@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "t_orderitem")
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,14 +35,15 @@ public class OrderItem {
     }
 
     @ManyToOne
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order; // Order ile ilişki
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private User customer;
 
 }

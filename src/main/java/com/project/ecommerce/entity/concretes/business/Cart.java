@@ -8,18 +8,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Table(name = "t_cart")
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Cart {
-//    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-//    private List<OrderItem> orderItems;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +23,20 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
-    private Integer totalPrice;
-
+    private Double totalPrice;
 
     @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
+    @JsonBackReference
     private User user;
+
+    @OneToOne(mappedBy = "cart")
+    private Order order;  // Sipariş ilişkisi
+
+    public void recalculateTotalPrice() {
+        totalPrice = orderItemList.stream()
+                .mapToDouble(OrderItem::getTotalPrice)
+                .sum();
+    }
 }

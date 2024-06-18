@@ -1,6 +1,7 @@
 package com.project.ecommerce.payload.mappers;
 
 import com.project.ecommerce.entity.concretes.business.OrderItem;
+import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -13,14 +14,15 @@ public class OrderItemMapper {
 
     private final UserMapper userMapper;
 
-    public OrderItemResponse mapOrderItemToOrderItemResponse (OrderItem orderItem){
+    public OrderItemResponse mapOrderItemToOrderItemResponse (OrderItem orderItemResponse){
         return OrderItemResponse.builder()
-                .totalPrice(orderItem.getTotalPrice())
-                .id(orderItem.getId())
-                .quantity(orderItem.getQuantity())
-                .userResponse(userMapper.mapUserToUserResponse(orderItem.getUser()))
-                .product(orderItem.getProduct())
-                .cart(orderItem.getCart())
+                .totalPrice(orderItemResponse.getTotalPrice())
+                .id(orderItemResponse.getId())
+                .quantity(orderItemResponse.getQuantity())
+                .userResponse(userMapper.mapUserToUserResponse(orderItemResponse.getCustomer()))
+                .product(orderItemResponse.getProduct())
+                .cart(orderItemResponse.getCart())
                 .build();
     }
+
 }

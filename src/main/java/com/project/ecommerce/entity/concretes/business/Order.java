@@ -9,36 +9,39 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "customer_id")
+    private User customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItemResponses = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;  // Sepet ilişkisi
 
     @Column(nullable = false)
     private LocalDateTime orderDate;
 
-    // Diğer sipariş bilgileri (adres, ödeme bilgileri vb.)
-
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
+    public void addOrderItem(OrderItem orderItemResponse) {
+        orderItemResponses.add(orderItemResponse);
+        orderItemResponse.setOrder(this);
     }
 
-    public void removeOrderItem(OrderItem orderItem) {
-        orderItems.remove(orderItem);
-        orderItem.setOrder(null);
+    public void removeOrderItem(OrderItem orderItemResponse) {
+        orderItemResponses.remove(orderItemResponse);
+        orderItemResponse.setOrder(null);
     }
 }
+

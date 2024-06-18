@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ProductMapper {
 
     public Product mapProductRequestToProduct(ProductRequest productRequest) {
-        return Product.builder().productName(productRequest)
+        return Product.builder().productName(productRequest.getProductName())
                 .brand(productRequest.getBrand())
                 .price(productRequest.getPrice())
                 .build();

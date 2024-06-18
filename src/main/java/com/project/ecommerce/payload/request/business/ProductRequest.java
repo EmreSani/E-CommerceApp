@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ProductRequest {
 
     @NotNull(message = "Please enter the product name")

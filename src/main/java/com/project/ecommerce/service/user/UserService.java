@@ -116,6 +116,15 @@ public class UserService {
 
     }
 
+    public User getUserByUserNameReturnsUser(String userName) {
+
+        return userRepository.findByUsername(userName).
+                orElseThrow(() -> new ResourceNotFoundException
+                        (String.format
+                                (ErrorMessages.NOT_FOUND_USER_MESSAGE_WITH_USERNAME, userName)));
+
+    }
+
 
     public ResponseMessage<List<UserResponse>> getUserByFullName(String name, String lastname) {
 

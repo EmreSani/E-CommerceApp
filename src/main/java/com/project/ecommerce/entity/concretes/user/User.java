@@ -55,7 +55,7 @@ public class User {
     private Cart cart;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
-    private Set<OrderItem> orderItems;
+    private Set<OrderItem> orderItemResponses;
 
     @OneToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
