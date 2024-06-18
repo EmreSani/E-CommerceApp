@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,42 +44,45 @@ public class OrderItemService {
     public OrderItem createOrderItem(OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
 
         String username = (String) httpServletRequest.getAttribute("username");
+
         Cart cart;
+
+        // Ürünü alın
+        Product product = productService.isProductExistsById(orderItemRequest.getProductId());
+
+        // Stok kontrolü
+        if (product.getStock() < orderItemRequest.getQuantity()) {
+            throw new ResourceNotFoundException("Insufficient stock for product: " + product.getProductName());
+        }
 
         if (username != null) {
             User customer = userService.getUserByUserNameReturnsUser(username);
-            Product product = productService.isProductExistsById(orderItemRequest.getProductId());
-
-            // Stok kontrolü
-            if (product.getStock() < orderItemRequest.getQuantity()) {
-                throw new ResourceNotFoundException("Insufficient stock for product: " + product.getName());
-            }
-
             cart = cartService.getCartByUsername(username);
+
+            // Sipariş öğesini oluşturun ve kaydedin
+            OrderItem orderItem = OrderItem.builder()
+                    .quantity(orderItemRequest.getQuantity())
+                    .product(product)
+                    .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
+                    .cart(cart)
+                    .customer(customer)
+                    .build();
+
+            return orderItemRepository.save(orderItem);
+
         } else {
             HttpSession session = httpServletRequest.getSession();
             cart = cartService.getCartBySession(session);
+
+            // Sipariş öğesini oluşturun ve kaydedin (anonim kullanıcı için müşteri olmadan)
+            OrderItem orderItem = OrderItem.builder()
+                    .quantity(orderItemRequest.getQuantity())
+                    .product(product)
+                    .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
+                    .cart(cart)
+                    .build();
+
+            return orderItemRepository.save(orderItem);
         }
-//       String username = (String) httpServletRequest.getAttribute("username");
-//
-//       User customer = userService.getUserByUserNameReturnsUser(username);
-//
-//        Product product = productService.isProductExistsById(orderItemRequest.getProductId());
-//
-//        Cart cart = cartService.getCartByUsername(username);
-//
-//        Double totalPrice = orderItemRequest.getQuantity() * product.getPrice();
-
-        OrderItem orderItem = OrderItem.builder()
-                .quantity(orderItemRequest.getQuantity())
-                .product(product)
-                .totalPrice(totalPrice)
-                .cart(cart)
-                .customer(customer)
-                .build();
-
-        return orderItemRepository.save(orderItem);
-
-
     }
 }

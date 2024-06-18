@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class OrderItemController {
 
-    private OrderItemService orderItemService;
+    private final OrderItemService orderItemService;
 
     @PostMapping("/save")
     public ResponseEntity<OrderItem> createOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
