@@ -17,6 +17,7 @@ import com.project.ecommerce.service.helper.MethodHelper;
 import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,10 @@ public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
     private final OrderItemMapper orderItemMapper;
-    private final MethodHelper methodHelper;
     private final CartService cartService;
     private final ProductService productService;
+    @Autowired
     private final UserService userService;
-    private final OrderService orderService;
     private final PageableHelper pageableHelper;
 
 
@@ -63,37 +63,31 @@ public class OrderItemService {
             throw new ResourceNotFoundException("Insufficient stock for product: " + product.getProductName());
         }
 
+        // Müşteri belirleme - Kullanıcı adı null değilse müşteriyi getir
+        User customer = null;
         if (username != null) {
-            User customer = userService.getUserByUserNameReturnsUser(username);
+            customer = userService.getUserByUserNameReturnsUser(username);
+        }
+
+        // Sepeti alma - Kullanıcı adı yoksa session'dan sepeti getir
+        if (username != null) {
             cart = cartService.getCartByUsername(username);
-
-            // Sipariş öğesini oluşturun ve kaydedin
-            OrderItem orderItem = OrderItem.builder()
-                    .quantity(orderItemRequest.getQuantity())
-                    .product(product)
-                    .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
-                    .cart(cart) //orderItem carta eklenmiş oluyor mu? yoksa ekstra orderItem.getcart vs mi lazım?
-                    .customer(customer)
-                    .build();
-
-            OrderItem savedOrderItem = orderItemRepository.save(orderItem);
-            return orderItemMapper.mapOrderItemToOrderItemResponse(savedOrderItem);
-
         } else {
             HttpSession session = httpServletRequest.getSession();
             cart = cartService.getCartBySession(session);
-
-            // Sipariş öğesini oluşturun ve kaydedin (anonim kullanıcı için müşteri olmadan)
-            OrderItem orderItem = OrderItem.builder()
-                    .quantity(orderItemRequest.getQuantity())
-                    .product(product)
-                    .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
-                    .cart(cart)
-                    .build();
-
-            OrderItem savedOrderItem = orderItemRepository.save(orderItem);
-            return orderItemMapper.mapOrderItemToOrderItemResponse(savedOrderItem);
         }
+
+        // Sipariş öğesini oluşturun ve kaydedin
+        OrderItem orderItem = OrderItem.builder()
+                .quantity(orderItemRequest.getQuantity())
+                .product(product)
+                .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
+                .cart(cart)
+                .customer(customer) // Müşteriyi burada set edin
+                .build();
+
+        OrderItem savedOrderItem = orderItemRepository.save(orderItem);
+        return orderItemMapper.mapOrderItemToOrderItemResponse(savedOrderItem);
     }
 
     public List<OrderItemResponse> getAllOrderItems() {

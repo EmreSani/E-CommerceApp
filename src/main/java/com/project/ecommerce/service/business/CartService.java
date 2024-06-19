@@ -18,7 +18,7 @@ public class CartService {
 
     public Cart getCartByUsername(String username) {
         return cartRepository.
-                findByUsername(username).
+                findByUserUsername(username).
                 orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.CART_COULDNT_FOUND, username)));
     }
 

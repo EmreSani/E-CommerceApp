@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem,Long> {
 
-    @Query(value = "SELECT o FROM OrderItem o WHERE o.user.id = :userId")
+    @Query(value = "SELECT o FROM OrderItem o WHERE o.customer.id = :userId")
     List<OrderItem> findAllByUserId(Long userId);
 
 }
