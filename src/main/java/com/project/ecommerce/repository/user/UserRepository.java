@@ -26,7 +26,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT COUNT(u) FROM User u WHERE u.userRole.roleType = ?1")
     long countAdmin(RoleType roleType);
 
-    User findByName(String name);
 
     @Query(value = "SELECT u FROM User u WHERE u.name = :name AND u.surname = :lastname")
     List<User> findByNameAndLastName(String name, String lastname);

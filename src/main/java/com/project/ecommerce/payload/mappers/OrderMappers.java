@@ -6,6 +6,8 @@ import com.project.ecommerce.payload.response.business.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class OrderMappers {
@@ -17,7 +19,7 @@ public class OrderMappers {
         orderResponse.setId(order.getId());
         orderResponse.setOrderDate(order.getOrderDate());
         orderResponse.setCustomerId(order.getCustomer().getId());
-        orderResponse.getOrderItems().addAll(order.getOrderItem().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).toList());
+        orderResponse.setOrderItems(order.getOrderItem().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList()));
         orderResponse.setCartId(order.getCart().getId());
 
         return orderResponse;
