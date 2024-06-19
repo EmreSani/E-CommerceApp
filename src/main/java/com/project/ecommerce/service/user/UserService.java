@@ -1,5 +1,6 @@
 package com.project.ecommerce.service.user;
 
+import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
@@ -68,6 +69,8 @@ public class UserService {
 
       //  user.setCart(cartService.getCartByUsername(user.getUsername())); TODO: Cartla userı ne zaman eşleştiriyoruz?
 
+        Cart cart =cartService.createCartForUser(user);
+        user.setCart(cart);
         User savedUser = userRepository.save(user);
 
         return ResponseMessage.<UserResponse>builder()

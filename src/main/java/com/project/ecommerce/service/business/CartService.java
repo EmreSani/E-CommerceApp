@@ -1,6 +1,7 @@
 package com.project.ecommerce.service.business;
 
 import com.project.ecommerce.entity.concretes.business.Cart;
+import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
@@ -40,6 +41,13 @@ public class CartService {
         Cart cart = new Cart();
         cart.setSessionId(session.getId());
         cart.setTotalPrice(0.0);
+        return cartRepository.save(cart);
+    }
+
+    public Cart createCartForUser(User user){
+        Cart cart = new Cart();
+        cart.setTotalPrice(0.0);
+
         return cartRepository.save(cart);
     }
 

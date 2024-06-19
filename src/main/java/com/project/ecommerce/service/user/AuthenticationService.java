@@ -1,5 +1,6 @@
 package com.project.ecommerce.service.user;
 
+import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.exception.BadRequestException;
@@ -9,9 +10,11 @@ import com.project.ecommerce.payload.request.authentication.LoginRequest;
 import com.project.ecommerce.payload.request.authentication.UpdatePasswordRequest;
 import com.project.ecommerce.payload.request.authentication.UserRequestForRegister;
 import com.project.ecommerce.payload.response.authentication.AuthResponse;
+import com.project.ecommerce.repository.business.CartRepository;
 import com.project.ecommerce.repository.user.UserRepository;
 import com.project.ecommerce.security.jwt.JwtUtils;
 import com.project.ecommerce.security.service.UserDetailsImpl;
+import com.project.ecommerce.service.business.CartService;
 import com.project.ecommerce.service.validator.UniquePropertyValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +42,7 @@ public class AuthenticationService {
     private final UniquePropertyValidator uniquePropertyValidator;
     private final UserMapper userMapper;
     private final UserRoleService userRoleService;
+    private final CartService cartService;
 
     // Not: Login() *************************************************
     public ResponseEntity<AuthResponse> authenticateUser(LoginRequest loginRequest){
@@ -111,6 +115,8 @@ public class AuthenticationService {
         user.setIsPremium(Boolean.FALSE);
 
         //register ederken cart eklemek gerekmez mi? bkz userService userSave createCart
+        Cart cart =cartService.createCartForUser(user);
+        user.setCart(cart);
 
 
         User savedUser = userRepository.save(user);
