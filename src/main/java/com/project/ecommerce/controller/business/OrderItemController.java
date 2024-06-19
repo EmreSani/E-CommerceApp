@@ -4,8 +4,11 @@ import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.payload.request.business.OrderItemRequestForUpdate;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
+import com.project.ecommerce.payload.response.business.OrderResponse;
+import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.service.business.OrderItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +46,7 @@ public class OrderItemController {
         return ResponseEntity.ok(orderItemService.getOrderById(orderItemId));
     }
 
-    //4-Id ile sipariş miktarını update etme ->http://localhost:8080/orders/update/5 //quantity=0 ise siparişi sil //Burayı cartta mı düzenlemek lazım acaba
+    //4-Id ile sipariş ögesi miktarını update etme ->http://localhost:8080/orders/update/5 //quantity=0 ise siparişi sil //Burayı cartta mı düzenlemek lazım acaba
     @PutMapping("/update/{orderItemId}")
     public ResponseEntity<OrderItemResponse> updateOrderItem(@RequestBody @Valid OrderItemRequestForUpdate orderItemRequestForUpdate,
                                                              @PathVariable Long orderItemId,
@@ -53,9 +56,21 @@ public class OrderItemController {
     }
 
 
-//
-//            5-Id ile sipariş delete etme ->http://localhost:8080/orders/delete?id=5
-//    6-tüm siparişleri page page gösterme-> http://localhost:8080/orders/page?page=1 &size=&sort=id&direction=ASC
+// 5-Id ile sipariş ögesi delete etme ->http://localhost:8080/orders/delete?id=5
+    //order item silinince
 
+//
+
+
+//    6-tüm sipariş ögelerini page page gösterme-> http://localhost:8080/orders/page?page=1 &size=&sort=id&direction=ASC
+@GetMapping("/page")
+public ResponseMessage<Page<OrderItemResponse>> getAllOrderItemsByPage (
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size,
+        @RequestParam(value = "sort", defaultValue = "name") String sort,
+        @RequestParam(value = "type", defaultValue = "desc") String type
+){
+    return orderItemService.getAllOrderItemsByPage(page,size,sort,type);
+}
 
 }

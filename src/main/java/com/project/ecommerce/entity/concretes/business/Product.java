@@ -3,6 +3,7 @@ package com.project.ecommerce.entity.concretes.business;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "t_product")
@@ -28,4 +29,7 @@ public class Product {
 
     @Column(nullable = false)
     private Double stock;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItemList;
 }

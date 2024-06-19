@@ -7,13 +7,20 @@ import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderItemMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
+import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.payload.request.business.OrderItemRequestForUpdate;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
+import com.project.ecommerce.payload.response.business.OrderResponse;
+import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.repository.business.OrderItemRepository;
 import com.project.ecommerce.service.helper.MethodHelper;
+import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +39,7 @@ public class OrderItemService {
     private final ProductService productService;
     private final UserService userService;
     private final OrderService orderService;
+    private final PageableHelper pageableHelper;
 
 
     public List<OrderItemResponse> getOrderItemsByUserId(Long userId) {
@@ -65,7 +73,7 @@ public class OrderItemService {
                     .quantity(orderItemRequest.getQuantity())
                     .product(product)
                     .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
-                    .cart(cart)
+                    .cart(cart) //orderItem carta eklenmiş oluyor mu? yoksa ekstra orderItem.getcart vs mi lazım?
                     .customer(customer)
                     .build();
 
@@ -119,28 +127,61 @@ public class OrderItemService {
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
+        if (orderItemRequestForUpdate.getQuantity() > 0) {
 
-        if (username != null) {
-            User customer = userService.getUserByUserNameReturnsUser(username);
-            cart = cartService.getCartByUsername(username);
+            if (username != null) {
 
-            orderItem.setProduct(product);
-            orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
+                cart = cartService.getCartByUsername(username);
 
-            OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
-            return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+                orderItem.setProduct(product);
+                orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
+                orderItem.setCart(cart); //Gerekli mi ? iki kere setlemesin
+
+                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+
+            } else {
+                HttpSession session = httpServletRequest.getSession();
+                cart = cartService.getCartBySession(session);
+
+                orderItem.setProduct(product);
+                orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
+                orderItem.setCart(cart); //Gerekli mi ?
+                // Sipariş öğesini oluşturun ve kaydedin (anonim kullanıcı için müşteri olmadan)
+
+                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+            }
 
         } else {
-            HttpSession session = httpServletRequest.getSession();
-            cart = cartService.getCartBySession(session);
 
-            orderItem.setProduct(product);
-            orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
-            // Sipariş öğesini oluşturun ve kaydedin (anonim kullanıcı için müşteri olmadan)
+            if (username != null) {
 
-            OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
-            return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+                cart = cartService.getCartByUsername(username);
+                cart.getOrderItemList().remove(orderItem);
+
+
+            } else {
+                HttpSession session = httpServletRequest.getSession();
+                cart = cartService.getCartBySession(session);
+                cart.getOrderItemList().remove(orderItem);
+
+                // Sipariş öğesini oluşturun ve kaydedin (anonim kullanıcı için müşteri olmadan)
+
+            }
+            orderItemRepository.delete(orderItem);
+            return orderItemMapper.mapOrderItemToOrderItemResponse(orderItem);
         }
+    }
 
+    public ResponseMessage<Page<OrderItemResponse>> getAllOrderItemsByPage(int page, int size, String sort, String
+            type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+
+        return ResponseMessage.<Page<OrderItemResponse>>builder()
+                .message(SuccessMessages.PRODUCTS_FOUND)
+                .httpStatus(HttpStatus.OK)
+                .object(orderItemRepository.findAll(pageable).map(orderItemMapper::mapOrderItemToOrderItemResponse))
+                .build();
     }
 }
