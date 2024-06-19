@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.ecommerce.entity.concretes.business.Cart;
+import com.project.ecommerce.entity.concretes.business.Order;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.enums.Gender;
 import lombok.*;
@@ -65,5 +66,13 @@ public class User {
     private Gender gender;
 
     private Boolean isPremium;
+
+    @OneToMany(mappedBy = "customer")
+    @JsonManagedReference
+    private Set<Order> orders;
+
+    //User Role: Associated with UserRole to manage user permissions and roles.
+    //Cart: One-to-one relationship with Cart, reflecting the user's shopping cart.
+    //Order Items: Managed through a one-to-many relationship with OrderItem, representing all orders placed by this user.
 
 }

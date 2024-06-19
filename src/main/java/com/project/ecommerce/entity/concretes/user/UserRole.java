@@ -26,4 +26,7 @@ public class UserRole {
     private RoleType roleType;
 
     String roleName;
+
+//    Role Type: Enumerated type RoleType specifies the role assigned to the user.
+//    Role Name: Optional field to provide a descriptive name for the role.
 }

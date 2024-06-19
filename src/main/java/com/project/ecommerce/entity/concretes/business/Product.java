@@ -32,4 +32,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItemList;
+
+    //Order Item List: Maintained through a one-to-many relationship
+    // with OrderItem, reflecting all instances where this product has been ordered.
 }
