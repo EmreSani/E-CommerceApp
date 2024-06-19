@@ -1263,4 +1263,217 @@ Action:
 
 Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
 
+""2024-06-19 16:56:46,824 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 73361 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-19 16:56:46,828 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-19 16:56:48,000 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-19 16:56:48,123 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 117 ms. Found 7 JPA repository interfaces.
+""2024-06-19 16:56:48,991 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+""2024-06-19 16:56:49,001 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-19 16:56:49,002 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-19 16:56:49,133 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-19 16:56:49,134 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2215 ms
+""2024-06-19 16:56:49,377 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-19 16:56:49,409 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-19 16:56:49,484 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-19 16:56:49,596 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-19 16:56:49,744 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-19 16:56:49,758 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-19 16:56:50,625 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-19 16:56:50,632 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 16:56:51,472 WARN  [main] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ecommerceApplication': Unsatisfied dependency expressed through constructor parameter 2; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'userService' defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/user/UserService.class]: Unsatisfied dependency expressed through constructor parameter 6; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'orderItemService' defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/business/OrderItemService.class]: Unsatisfied dependency expressed through constructor parameter 4; nested exception is org.springframework.beans.factory.BeanCurrentlyInCreationException: Error creating bean with name 'userService': Requested bean is currently in creation: Is there an unresolvable circular reference?
+""2024-06-19 16:56:51,473 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 16:56:51,475 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-19 16:56:51,479 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-19 16:56:51,481 INFO  [main] org.apache.catalina.core.StandardService:Stopping service [Tomcat]
+""2024-06-19 16:56:51,499 INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener:
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+""2024-06-19 16:56:51,550 ERROR [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter:
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   ecommerceApplication
+┌─────┐
+|  userService defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/user/UserService.class]
+↑     ↓
+|  orderItemService defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/business/OrderItemService.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+""2024-06-19 17:01:49,330 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 73506 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-19 17:01:49,332 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-19 17:01:50,536 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-19 17:01:50,674 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 128 ms. Found 7 JPA repository interfaces.
+""2024-06-19 17:01:51,408 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+""2024-06-19 17:01:51,415 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-19 17:01:51,415 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-19 17:01:51,521 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-19 17:01:51,521 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2085 ms
+""2024-06-19 17:01:51,752 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-19 17:01:51,778 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-19 17:01:51,848 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-19 17:01:51,956 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-19 17:01:52,093 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-19 17:01:52,105 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-19 17:01:52,941 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-19 17:01:52,947 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 17:01:53,881 WARN  [main] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ecommerceApplication': Unsatisfied dependency expressed through constructor parameter 2; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'userService' defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/user/UserService.class]: Unsatisfied dependency expressed through constructor parameter 7; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'cartService' defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/business/CartService.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'orderItemService' defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/business/OrderItemService.class]: Unsatisfied dependency expressed through constructor parameter 2; nested exception is org.springframework.beans.factory.BeanCurrentlyInCreationException: Error creating bean with name 'cartService': Requested bean is currently in creation: Is there an unresolvable circular reference?
+""2024-06-19 17:01:53,883 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 17:01:53,885 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-19 17:01:53,890 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-19 17:01:53,892 INFO  [main] org.apache.catalina.core.StandardService:Stopping service [Tomcat]
+""2024-06-19 17:01:53,907 INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener:
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+""2024-06-19 17:01:53,924 ERROR [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter:
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   ecommerceApplication
+      ↓
+   userService defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/user/UserService.class]
+┌─────┐
+|  cartService defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/business/CartService.class]
+↑     ↓
+|  orderItemService defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/service/business/OrderItemService.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+""2024-06-19 17:06:28,245 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 73638 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-19 17:06:28,250 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-19 17:06:29,414 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-19 17:06:29,539 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 117 ms. Found 7 JPA repository interfaces.
+""2024-06-19 17:06:30,300 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+""2024-06-19 17:06:30,307 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-19 17:06:30,307 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-19 17:06:30,418 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-19 17:06:30,419 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2076 ms
+""2024-06-19 17:06:30,618 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-19 17:06:30,640 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-19 17:06:30,701 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-19 17:06:30,806 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-19 17:06:30,937 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-19 17:06:30,946 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-19 17:06:31,736 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-19 17:06:31,741 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 17:06:32,959 WARN  [main] org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userController' defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/controller/user/UserController.class]: Initialization of bean failed; nested exception is org.springframework.aop.framework.AopConfigException: Could not generate CGLIB subclass of class com.project.ecommerce.controller.user.UserController: Common causes of this problem include using a final class or a non-visible class; nested exception is java.lang.IllegalArgumentException: Failed to parse expression 'hasAnyAuthority('ADMIN)'
+""2024-06-19 17:06:32,961 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 17:06:32,963 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-19 17:06:32,967 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-19 17:06:32,969 INFO  [main] org.apache.catalina.core.StandardService:Stopping service [Tomcat]
+""2024-06-19 17:06:32,980 INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener:
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+""2024-06-19 17:06:32,993 ERROR [main] org.springframework.boot.SpringApplication:Application run failed
+"org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userController' defined in file [/Users/emresani/IdeaProjects/ecommerce/target/classes/com/project/ecommerce/controller/user/UserController.class]: Initialization of bean failed; nested exception is org.springframework.aop.framework.AopConfigException: Could not generate CGLIB subclass of class com.project.ecommerce.controller.user.UserController: Common causes of this problem include using a final class or a non-visible class; nested exception is java.lang.IllegalArgumentException: Failed to parse expression 'hasAnyAuthority('ADMIN)'
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:628)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at com.project.ecommerce.EcommerceApplication.main(EcommerceApplication.java:27)
+Caused by: org.springframework.aop.framework.AopConfigException: Could not generate CGLIB subclass of class com.project.ecommerce.controller.user.UserController: Common causes of this problem include using a final class or a non-visible class; nested exception is java.lang.IllegalArgumentException: Failed to parse expression 'hasAnyAuthority('ADMIN)'
+	at org.springframework.aop.framework.CglibAopProxy.getProxy(CglibAopProxy.java:209)
+	at org.springframework.aop.framework.ProxyFactory.getProxy(ProxyFactory.java:110)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.createProxy(AbstractAutoProxyCreator.java:480)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:344)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:293)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:455)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620)
+	... 15 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Failed to parse expression 'hasAnyAuthority('ADMIN)'
+	at org.springframework.security.access.expression.method.ExpressionBasedAnnotationAttributeFactory.createPreInvocationAttribute(ExpressionBasedAnnotationAttributeFactory.java:59)
+	at org.springframework.security.access.prepost.PrePostAnnotationSecurityMetadataSource.getAttributes(PrePostAnnotationSecurityMetadataSource.java:80)
+	at org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource.getAttributes(DelegatingMethodSecurityMetadataSource.java:66)
+	at org.springframework.security.access.intercept.aopalliance.MethodSecurityMetadataSourceAdvisor$MethodSecurityMetadataSourcePointcut.matches(MethodSecurityMetadataSourceAdvisor.java:127)
+	at org.springframework.aop.framework.DefaultAdvisorChainFactory.getInterceptorsAndDynamicInterceptionAdvice(DefaultAdvisorChainFactory.java:76)
+	at org.springframework.aop.framework.AdvisedSupport.getInterceptorsAndDynamicInterceptionAdvice(AdvisedSupport.java:470)
+	at org.springframework.aop.framework.CglibAopProxy$ProxyCallbackFilter.accept(CglibAopProxy.java:900)
+	at org.springframework.cglib.proxy.Enhancer.emitMethods(Enhancer.java:1217)
+	at org.springframework.cglib.proxy.Enhancer.generateClass(Enhancer.java:726)
+	at org.springframework.cglib.core.DefaultGeneratorStrategy.generate(DefaultGeneratorStrategy.java:25)
+	at org.springframework.cglib.core.ClassLoaderAwareGeneratorStrategy.generate(ClassLoaderAwareGeneratorStrategy.java:57)
+	at org.springframework.cglib.core.AbstractClassGenerator.generate(AbstractClassGenerator.java:358)
+	at org.springframework.cglib.proxy.Enhancer.generate(Enhancer.java:585)
+	at org.springframework.cglib.core.AbstractClassGenerator$ClassLoaderData$3.apply(AbstractClassGenerator.java:110)
+	at org.springframework.cglib.core.AbstractClassGenerator$ClassLoaderData$3.apply(AbstractClassGenerator.java:108)
+	at org.springframework.cglib.core.internal.LoadingCache$2.call(LoadingCache.java:54)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.springframework.cglib.core.internal.LoadingCache.createEntry(LoadingCache.java:61)
+	at org.springframework.cglib.core.internal.LoadingCache.get(LoadingCache.java:34)
+	at org.springframework.cglib.core.AbstractClassGenerator$ClassLoaderData.get(AbstractClassGenerator.java:134)
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:319)
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:572)
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:419)
+	at org.springframework.aop.framework.ObjenesisCglibAopProxy.createProxyClassAndInstance(ObjenesisCglibAopProxy.java:57)
+	at org.springframework.aop.framework.CglibAopProxy.getProxy(CglibAopProxy.java:206)
+	... 22 common frames omitted
+Caused by: org.springframework.expression.spel.SpelParseException: Expression [hasAnyAuthority('ADMIN)] @16: EL1046E: Cannot find terminating ' for string
+	at org.springframework.expression.spel.standard.Tokenizer.raiseParseException(Tokenizer.java:588)
+	at org.springframework.expression.spel.standard.Tokenizer.lexQuotedStringLiteral(Tokenizer.java:293)
+	at org.springframework.expression.spel.standard.Tokenizer.process(Tokenizer.java:255)
+	at org.springframework.expression.spel.standard.InternalSpelExpressionParser.doParseExpression(InternalSpelExpressionParser.java:127)
+	at org.springframework.expression.spel.standard.SpelExpressionParser.doParseExpression(SpelExpressionParser.java:61)
+	at org.springframework.expression.spel.standard.SpelExpressionParser.doParseExpression(SpelExpressionParser.java:33)
+	at org.springframework.expression.common.TemplateAwareExpressionParser.parseExpression(TemplateAwareExpressionParser.java:52)
+	at org.springframework.expression.common.TemplateAwareExpressionParser.parseExpression(TemplateAwareExpressionParser.java:43)
+	at org.springframework.security.access.expression.method.ExpressionBasedAnnotationAttributeFactory.createPreInvocationAttribute(ExpressionBasedAnnotationAttributeFactory.java:53)
+	... 46 common frames omitted
+"2024-06-19 17:07:33,371 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 73676 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-19 17:07:33,374 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-19 17:07:34,500 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-19 17:07:34,623 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 116 ms. Found 7 JPA repository interfaces.
+""2024-06-19 17:07:35,383 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+""2024-06-19 17:07:35,391 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-19 17:07:35,391 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-19 17:07:35,505 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-19 17:07:35,506 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2036 ms
+""2024-06-19 17:07:35,726 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-19 17:07:35,751 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-19 17:07:35,819 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-19 17:07:35,930 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-19 17:07:36,059 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-19 17:07:36,069 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-19 17:07:36,923 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-19 17:07:36,930 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 17:07:38,279 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-19 17:07:39,226 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@63ede2a0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@57df93c1, org.springframework.security.web.context.SecurityContextPersistenceFilter@27234b7c, org.springframework.security.web.header.HeaderWriterFilter@637c8632, org.springframework.web.filter.CorsFilter@72998021, org.springframework.security.web.authentication.logout.LogoutFilter@68fc636a, com.project.ecommerce.security.jwt.AuthTokenFilter@3ba8ef4e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@792b9dd3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@cbc3bf3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@761a0bbd, org.springframework.security.web.session.SessionManagementFilter@38c1b1a7, org.springframework.security.web.access.ExceptionTranslationFilter@57fec63f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7e1953f7]
+""2024-06-19 17:07:39,508 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8080 (http) with context path ''
+""2024-06-19 17:07:39,519 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.7 seconds (JVM running for 7.151)
+""2024-06-19 17:07:59,870 INFO  [http-nio-8080-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2024-06-19 17:08:01,502 INFO  [http-nio-8080-exec-10] org.springdoc.api.AbstractOpenApiResource:Init duration for springdoc-openapi is: 1360 ms
+""2024-06-19 17:08:44,102 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-19 17:08:44,107 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-19 17:08:44,111 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
 "

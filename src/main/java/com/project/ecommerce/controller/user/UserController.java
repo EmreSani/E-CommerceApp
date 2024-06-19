@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}") //http://localhost:8080/user/custom?id=1
-    @PreAuthorize("hasAnyAuthority('ADMIN)")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<UserResponse> getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
@@ -70,7 +70,7 @@ public class UserController {
 
 
     @GetMapping("/query")
-    @PreAuthorize("hasAnyAuthority('ADMIN)")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<UserResponse> getUserByUserName(@RequestParam(value = "userName") String userName) {
         return userService.getUserByUserName(userName);
     }
@@ -95,15 +95,7 @@ public class UserController {
 
     }
 
-    //10-Idsi verilen müşterinin tüm siparişlerini getirme -> http://localhost:8080/customers/allorder/1
-    @GetMapping("/allorder/{userId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(
-            @PathVariable Long id
-    ) {
-        return userService.getUsersOrderItemsById(id);
 
-    }
 
     //11-ÖDEV:Requestle gelen "harf dizisi" name veya lastname inde geçen customerları döndür. -> http://localhost:8080/customers/search?word=pa
     @GetMapping("/search")

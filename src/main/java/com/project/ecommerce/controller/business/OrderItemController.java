@@ -78,4 +78,14 @@ public ResponseMessage<Page<OrderItemResponse>> getAllOrderItemsByPage (
     return orderItemService.getAllOrderItemsByPage(page,size,sort,type);
 }
 
+    //10-Idsi verilen müşterinin tüm siparişlerini getirme -> http://localhost:8080/customers/allorder/1 //düzelt
+    @GetMapping("/allorder/{userId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(
+            @PathVariable Long id
+    ) {
+        return orderItemService.getUsersOrderItemsById(id);
+
+    }
+
 }

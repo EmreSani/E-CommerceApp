@@ -194,4 +194,16 @@ public class OrderItemService {
         return orderItemMapper.mapOrderItemToOrderItemResponse(orderItem);
 
     }
+
+    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
+
+       List<OrderItemResponse> orderItemList= getOrderItemsByUserId(userId);
+
+
+      return ResponseMessage.<List<OrderItemResponse>>builder()
+              .message(SuccessMessages.ORDER_ITEMS_FOUND)
+             .httpStatus(HttpStatus.OK)
+              .object(orderItemList)
+              .build();
+    }
 }

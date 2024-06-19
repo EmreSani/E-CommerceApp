@@ -1,5 +1,6 @@
 package com.project.ecommerce.service.user;
 
+import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.exception.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.repository.user.UserRepository;
+import com.project.ecommerce.service.business.CartService;
 import com.project.ecommerce.service.business.OrderItemService;
 import com.project.ecommerce.service.helper.MethodHelper;
 import com.project.ecommerce.service.helper.PageableHelper;
@@ -36,8 +38,9 @@ public class UserService {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
     private final PageableHelper pageableHelper;
-    private final OrderItemService orderItemService;
+//    private final OrderItemService orderItemService;
     private final MethodHelper methodHelper;
+    private final CartService cartService;
 
 
     public ResponseMessage<UserResponse> saveUser(UserRequest userRequest, String userRole) {
@@ -161,16 +164,17 @@ public class UserService {
                 build();
     }
 
-    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
-
-      List<OrderItemResponse> orderItemList = orderItemService.getOrderItemsByUserId(userId);
-
-      return ResponseMessage.<List<OrderItemResponse>>builder()
-              .message(SuccessMessages.ORDER_ITEMS_FOUND)
-              .httpStatus(HttpStatus.OK)
-              .object(orderItemList)
-              .build();
-    }
+//    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
+//
+//        List<OrderItemResponse> orderItemList= cartService.getOrderItemsByUserId(userId);
+//
+//
+//      return ResponseMessage.<List<OrderItemResponse>>builder()
+//              .message(SuccessMessages.ORDER_ITEMS_FOUND)
+//              .httpStatus(HttpStatus.OK)
+//              .object(orderItemList)
+//              .build();
+//    }
 
     public ResponseMessage<List<UserResponse>> getUserByFullNameContainsTheseLetters(String letters) {
         List<User> userList = userRepository.findByNameOrLastNameContains(letters);
