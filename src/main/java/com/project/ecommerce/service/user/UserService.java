@@ -66,6 +66,8 @@ public class UserService {
         // encoding the plain text password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+      //  user.setCart(cartService.getCartByUsername(user.getUsername())); TODO: Cartla userı ne zaman eşleştiriyoruz?
+
         User savedUser = userRepository.save(user);
 
         return ResponseMessage.<UserResponse>builder()

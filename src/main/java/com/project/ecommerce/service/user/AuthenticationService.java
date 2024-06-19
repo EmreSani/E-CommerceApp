@@ -1,14 +1,18 @@
 package com.project.ecommerce.service.user;
 
 import com.project.ecommerce.entity.concretes.user.User;
+import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.exception.BadRequestException;
+import com.project.ecommerce.payload.mappers.UserMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.request.authentication.LoginRequest;
 import com.project.ecommerce.payload.request.authentication.UpdatePasswordRequest;
+import com.project.ecommerce.payload.request.authentication.UserRequestForRegister;
 import com.project.ecommerce.payload.response.authentication.AuthResponse;
 import com.project.ecommerce.repository.user.UserRepository;
 import com.project.ecommerce.security.jwt.JwtUtils;
 import com.project.ecommerce.security.service.UserDetailsImpl;
+import com.project.ecommerce.service.validator.UniquePropertyValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +36,9 @@ public class AuthenticationService {
     public final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UniquePropertyValidator uniquePropertyValidator;
+    private final UserMapper userMapper;
+    private final UserRoleService userRoleService;
 
     // Not: Login() *************************************************
     public ResponseEntity<AuthResponse> authenticateUser(LoginRequest loginRequest){
@@ -85,5 +92,34 @@ public class AuthenticationService {
 
         user.setPassword(hashedPassword);
         userRepository.save(user);
+    }
+
+    public ResponseEntity<AuthResponse> register(UserRequestForRegister userRequestForRegister) {
+
+        // is username - phoneNumber - email unique?
+        uniquePropertyValidator.checkDuplicate(userRequestForRegister.getUsername(),
+                userRequestForRegister.getPhone(), userRequestForRegister.getEmail());
+        //!!! DTO --> POJO
+        User user = userMapper.mapUserRequestToUser(userRequestForRegister);
+
+        // !!! Rol bilgisi setleniyor
+        user.setUserRole(userRoleService.getUserRole(RoleType.CUSTOMER));
+
+        // !!! password encode ediliyor
+        user.setPassword(passwordEncoder.encode(userRequestForRegister.getPassword()));
+        //Diğer fieldlar default olarak setleniyor
+        user.setIsPremium(Boolean.FALSE);
+
+        //register ederken cart eklemek gerekmez mi? bkz userService userSave createCart
+
+
+        User savedUser = userRepository.save(user);
+
+        return ResponseEntity.ok(AuthResponse.builder()
+                .role(savedUser.getUserRole().getRoleName())
+                .username(savedUser.getUsername())
+                .name(savedUser.getName()).build());
+
+
     }
 }

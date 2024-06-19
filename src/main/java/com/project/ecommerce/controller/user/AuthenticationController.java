@@ -4,6 +4,7 @@ package com.project.ecommerce.controller.user;
 import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.authentication.LoginRequest;
 import com.project.ecommerce.payload.request.authentication.UpdatePasswordRequest;
+import com.project.ecommerce.payload.request.authentication.UserRequestForRegister;
 import com.project.ecommerce.payload.response.authentication.AuthResponse;
 import com.project.ecommerce.service.user.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,11 @@ public class AuthenticationController {
         authenticationService.updatePassword(updatePasswordRequest , request);
         String response = SuccessMessages.PASSWORD_CHANGED_RESPONSE_MESSAGE; // paylod.messages
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid UserRequestForRegister userRequestForRegister) {
+        return authenticationService.register(userRequestForRegister);
     }
 
 }

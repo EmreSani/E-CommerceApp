@@ -1,6 +1,7 @@
 package com.project.ecommerce.payload.mappers;
 
 import com.project.ecommerce.entity.concretes.user.User;
+import com.project.ecommerce.payload.request.authentication.UserRequestForRegister;
 import com.project.ecommerce.payload.request.user.UserRequest;
 import com.project.ecommerce.payload.response.user.UserResponse;
 import lombok.Data;
@@ -56,5 +57,15 @@ public class UserMapper {
                 .gender(userRequest.getGender())
                 .email(userRequest.getEmail())
                 .build() ;
+    }
+
+    public User mapUserRequestToUser(UserRequestForRegister userRequestForRegister) {
+        return User.builder().email(userRequestForRegister.getEmail())
+                .name(userRequestForRegister.getFirstName())
+                .surname(userRequestForRegister.getLastName())
+                .phoneNumber(userRequestForRegister.getPhone())
+                .birthDay(userRequestForRegister.getBirthDate())
+                .username(userRequestForRegister.getUsername())
+                .build();
     }
 }
