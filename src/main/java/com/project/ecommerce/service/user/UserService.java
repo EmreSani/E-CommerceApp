@@ -13,6 +13,7 @@ import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.repository.user.UserRepository;
+import com.project.ecommerce.security.service.UserDetailsImpl;
 import com.project.ecommerce.service.business.CartService;
 import com.project.ecommerce.service.business.OrderItemService;
 import com.project.ecommerce.service.helper.MethodHelper;
@@ -22,8 +23,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +48,7 @@ public class UserService {
     private final CartService cartService;
 
 
+    @Transactional
     public ResponseMessage<UserResponse> saveUser(UserRequest userRequest, String userRole) {
 
         // is username - phoneNumber - email unique?
@@ -100,9 +105,7 @@ public class UserService {
 
     }
 
-
-
-
+    @Transactional
     public String deleteUserById(Long userId) {
         userRepository.delete(methodHelper.isUserExist(userId));
 
@@ -111,6 +114,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public ResponseMessage<UserResponse> getUserByUserName(String userName) {
 
         return ResponseMessage.<UserResponse>builder().
@@ -124,6 +128,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public User getUserByUserNameReturnsUser(String userName) {
 
         return userRepository.findByUsername(userName).
@@ -134,6 +139,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public ResponseMessage<List<UserResponse>> getUserByFullName(String name, String lastname) {
 
         List<User> userList = userRepository.findByNameAndLastName(name, lastname);
@@ -152,6 +158,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public ResponseMessage<List<UserResponse>> getUserByContains(String name) {
 
         List<User> userList = userRepository.findByNameContains(name);
@@ -169,18 +176,7 @@ public class UserService {
                 build();
     }
 
-//    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
-//
-//        List<OrderItemResponse> orderItemList= cartService.getOrderItemsByUserId(userId);
-//
-//
-//      return ResponseMessage.<List<OrderItemResponse>>builder()
-//              .message(SuccessMessages.ORDER_ITEMS_FOUND)
-//              .httpStatus(HttpStatus.OK)
-//              .object(orderItemList)
-//              .build();
-//    }
-
+    @Transactional
     public ResponseMessage<List<UserResponse>> getUserByFullNameContainsTheseLetters(String letters) {
         List<User> userList = userRepository.findByNameOrLastNameContains(letters);
 
@@ -197,6 +193,7 @@ public class UserService {
                 build();
     }
 
+    @Transactional
     public ResponseMessage<UserResponse> updateUser(UserRequest userRequest, Long userId) {
 
         User foundUser = methodHelper.isUserExist(userId);
@@ -209,6 +206,7 @@ public class UserService {
         User updatedUser = userMapper.mapUserRequestToUpdatedUser(userRequest, userId);
 
         updatedUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        updatedUser.setCart(foundUser.getCart());
         updatedUser.setUserRole(foundUser.getUserRole());
 
         User savedUser = userRepository.save(updatedUser);
@@ -218,6 +216,43 @@ public class UserService {
                 .httpStatus(HttpStatus.OK)
                 .object(userMapper.mapUserToUserResponse(savedUser))
                 .build() ;
+    }
+
+    @Transactional
+    public ResponseMessage<UserResponse> updateSelf(UserRequest userRequest) {
+        // Retrieve the authenticated user's ID from the SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
+
+        // Retrieve the existing user entity
+        User existingUser = methodHelper.isUserExist(userId);
+
+        // Map userRequest to existing User entity
+        User updatedUser = userMapper.mapUserRequestToUpdatedUser(userRequest, userId);
+
+        // Encode password if it's included in the request
+        if (userRequest.getPassword() != null) {
+            updatedUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        } else {
+            // Preserve existing password if password is not included in the request
+            updatedUser.setPassword(existingUser.getPassword());
+        }
+
+        // Preserve the existing user role
+        updatedUser.setUserRole(existingUser.getUserRole());
+
+        // Preserve the existing cart
+        updatedUser.setCart(existingUser.getCart());
+
+        // Save the updated user
+        User savedUser = userRepository.save(updatedUser);
+
+        // Return ResponseMessage with success message and updated user response
+        return ResponseMessage.<UserResponse>builder()
+                .message(SuccessMessages.USER_UPDATE_MESSAGE)
+                .httpStatus(HttpStatus.OK)
+                .object(userMapper.mapUserToUserResponse(savedUser))
+                .build();
     }
 }
 

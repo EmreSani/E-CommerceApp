@@ -46,4 +46,8 @@ public class OrderItem {
     @JoinColumn(name = "customer_id")
     private User customer;
 
+//Product Relationship: Linked to Product through a many-to-one association, indicating the product included in the order item.
+//Total Price Calculation: Handled by calculateTotalPrice method, ensuring totalPrice reflects the quantity and price of the associated product.
+
+
 }

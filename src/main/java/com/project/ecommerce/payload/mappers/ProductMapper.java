@@ -4,7 +4,6 @@ import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.payload.request.business.ProductRequest;
 import com.project.ecommerce.payload.response.business.ProductResponse;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Data

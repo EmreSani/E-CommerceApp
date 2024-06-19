@@ -27,9 +27,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItem = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cart_id")
-    private Cart cart;  // Sepet ilişkisi
+    private Cart cart;
 
     @Column(nullable = false)
     private LocalDateTime orderDate;
