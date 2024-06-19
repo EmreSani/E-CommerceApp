@@ -199,8 +199,7 @@ public class OrderItemService {
 
        List<OrderItemResponse> orderItemList= getOrderItemsByUserId(userId);
 
-
-      return ResponseMessage.<List<OrderItemResponse>>builder()
+       return ResponseMessage.<List<OrderItemResponse>>builder()
               .message(SuccessMessages.ORDER_ITEMS_FOUND)
              .httpStatus(HttpStatus.OK)
               .object(orderItemList)

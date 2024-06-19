@@ -18,7 +18,7 @@ public class CartController {
 
    private final CartService cartService;
 
-    @GetMapping
+    @GetMapping // GET http://localhost:8080/cart - Endpoint to retrieve cart details
     public Cart getCart(@RequestParam(required = false) String username, HttpSession session) {
         if (username != null) {
             return cartService.getCartByUsername(username);

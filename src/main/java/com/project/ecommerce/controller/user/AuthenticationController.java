@@ -22,12 +22,16 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    // POST http://localhost:8080/auth/login - Endpoint to authenticate a user
+// PATCH http://localhost:8080/auth/updatePassword - Endpoint to update user password (requires ADMIN or CUSTOMER role)
+// POST http://localhost:8080/auth/register - Endpoint to register a new user
+
+
     @PostMapping("/login") // http://localhost:8080/auth/login + POST + JSON
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
         return authenticationService.authenticateUser(loginRequest);
     }
 
-    //Not: ODEV : updatePassword() --> Controller ve Service
     @PatchMapping("/updatePassword") // http://localhost:8080/auth/updatePassword
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
@@ -37,7 +41,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register") // POST http://localhost:8080/auth/register - Endpoint to register a new user
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid UserRequestForRegister userRequestForRegister) {
         return authenticationService.register(userRequestForRegister);
     }

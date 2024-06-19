@@ -17,10 +17,11 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RequestMapping("/orders")
 public class OrderController {
-
     private final OrderService orderService;
 
     @PostMapping("/create")
+    //1- Order oluşturma. Binevi fiş.
+    // POST http://localhost:8080/orders/create - Endpoint to create a new order from the authenticated user's cart
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<OrderResponse> createOrder(@AuthenticationPrincipal Principal principal) {
 
@@ -30,25 +31,29 @@ public class OrderController {
 
     }
 
-   // 5-Id ile order delete etme ->http://localhost:8080/orders/delete?id=5
+    // 2-Id ile order delete etme ->http://localhost:8080/orders/delete?id=5
     //order silinince içerisindeki order itemlar da silinir
+    // DELETE http://localhost:8080/orders/delete/{orderItemId} - Endpoint to delete an order by its ID, including its order items
+
     @DeleteMapping("/delete/{orderItemId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<OrderResponse> deleteOrderItem(@PathVariable Long orderId){
+    public ResponseEntity<OrderResponse> deleteOrderItem(@PathVariable Long orderId) {
 
         return ResponseEntity.ok(orderService.deleteOrderById(orderId));
 
     }
 
-    // 6-tüm siparişleri page page gösterme-> http://localhost:8080/orders/page?page=1 &size=&sort=id&direction=ASC
+    // 3-tüm siparişleri page page gösterme-> http://localhost:8080/orders/page?page=1 &size=&sort=id&direction=ASC
+    // GET http://localhost:8080/orders/page - Endpoint to retrieve all orders paginated and sorted by specified parameters
+
     @GetMapping("/page")
-    public ResponseMessage<Page<OrderResponse>> getAllOrdersByPage (
+    public ResponseMessage<Page<OrderResponse>> getAllOrdersByPage(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sort", defaultValue = "name") String sort,
             @RequestParam(value = "type", defaultValue = "desc") String type
-    ){
-        return orderService.getAllOrdersByPage(page,size,sort,type);
+    ) {
+        return orderService.getAllOrdersByPage(page, size, sort, type);
     }
 
 

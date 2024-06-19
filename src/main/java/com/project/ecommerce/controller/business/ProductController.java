@@ -19,6 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    // POST http://localhost:8080/products/add - Endpoint to add a new product (requires ADMIN authority)
     //1-product ekleme ->http://localhost:8080/products/add
     @PostMapping("/add")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -26,12 +27,14 @@ public class ProductController {
         return productService.addProduct(productRequest);
     }
 
+    // GET http://localhost:8080/products - Endpoint to retrieve all products
     //2-Tüm productları getirme ->http://localhost:8080/products
     @GetMapping
     public ResponseMessage<List<ProductResponse>> getAllProducts (){
         return productService.getAllProducts();
     }
 
+    // GET http://localhost:8080/products/{productId} - Endpoint to retrieve a product by its ID (requires ADMIN or CUSTOMER authority)
     //3-Id ile product getirme ->http://localhost:8080/products/5
     @GetMapping("/{productId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
@@ -39,6 +42,7 @@ public class ProductController {
         return productService.getProductById(productId);
     }
 
+    // GET http://localhost:8080/products/page - Endpoint to retrieve all products paginated and sorted by specified parameters
     //4-tüm productları page page gösterme ->http://localhost:8080/products/page?page=1&size=2 &sort=id&direction=ASC
     @GetMapping("/page")
     public ResponseMessage<Page<ProductResponse>> gelAllProductsByPage (
