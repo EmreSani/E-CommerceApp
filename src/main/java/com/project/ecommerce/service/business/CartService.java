@@ -6,6 +6,7 @@ import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.repository.business.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +22,7 @@ public class CartService {
                 orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.CART_COULDNT_FOUND, username)));
     }
 
+    @Transactional
     public void clearCart(Cart cart) {
         cart.getOrderItemList().clear();
         cart.recalculateTotalPrice();

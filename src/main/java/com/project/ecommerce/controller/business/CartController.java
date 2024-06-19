@@ -27,6 +27,5 @@ public class CartController {
         }
     }
 
-    //updateCart
-    //
+    //updateCart ortemItem methodları içerisinde sağlandı.
 }

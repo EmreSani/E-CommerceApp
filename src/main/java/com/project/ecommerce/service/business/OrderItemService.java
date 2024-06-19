@@ -11,7 +11,6 @@ import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.payload.request.business.OrderItemRequestForUpdate;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
-import com.project.ecommerce.payload.response.business.OrderResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.repository.business.OrderItemRepository;
 import com.project.ecommerce.service.helper.MethodHelper;
@@ -111,7 +110,7 @@ public class OrderItemService {
     }
 
 
-    public OrderItemResponse updateOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, HttpServletRequest httpServletRequest, Long orderItemId) {
+    public OrderItemResponse updateOrDeleteOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, HttpServletRequest httpServletRequest, Long orderItemId) {
         String username = (String) httpServletRequest.getAttribute("username");
 
         Cart cart;  //TODO:cartı da controllerda cartid olarak almayı düşün
@@ -155,22 +154,7 @@ public class OrderItemService {
 
         } else {
 
-            if (username != null) {
-
-                cart = cartService.getCartByUsername(username);
-                cart.getOrderItemList().remove(orderItem);
-
-
-            } else {
-                HttpSession session = httpServletRequest.getSession();
-                cart = cartService.getCartBySession(session);
-                cart.getOrderItemList().remove(orderItem);
-
-                // Sipariş öğesini oluşturun ve kaydedin (anonim kullanıcı için müşteri olmadan)
-
-            }
-            orderItemRepository.delete(orderItem);
-            return orderItemMapper.mapOrderItemToOrderItemResponse(orderItem);
+            return deleteOrderItem(orderItemRequestForUpdate, orderItemId, httpServletRequest);
         }
     }
 
@@ -183,5 +167,37 @@ public class OrderItemService {
                 .httpStatus(HttpStatus.OK)
                 .object(orderItemRepository.findAll(pageable).map(orderItemMapper::mapOrderItemToOrderItemResponse))
                 .build();
+    }
+
+    public OrderItemResponse deleteOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, Long orderItemId, HttpServletRequest httpServletRequest) {
+        String username = (String) httpServletRequest.getAttribute("username");
+
+        Cart cart;  //TODO:cartı da controllerda cartid olarak almayı düşün
+
+        // Ürünü alın
+        Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId());
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
+                new ResourceNotFoundException
+                        (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
+
+
+        if (username != null) {
+
+            cart = cartService.getCartByUsername(username);
+            cart.getOrderItemList().remove(orderItem);
+
+
+        } else {
+            HttpSession session = httpServletRequest.getSession();
+            cart = cartService.getCartBySession(session);
+            cart.getOrderItemList().remove(orderItem);
+
+            // Sipariş öğesini silin (anonim kullanıcı için müşteri olmadan)
+
+        }
+        orderItemRepository.delete(orderItem);
+        return orderItemMapper.mapOrderItemToOrderItemResponse(orderItem);
+
     }
 }

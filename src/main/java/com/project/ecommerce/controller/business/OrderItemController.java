@@ -1,10 +1,8 @@
 package com.project.ecommerce.controller.business;
 
-import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.payload.request.business.OrderItemRequestForUpdate;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
-import com.project.ecommerce.payload.response.business.OrderResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.service.business.OrderItemService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,7 @@ public class OrderItemController {
 
     private final OrderItemService orderItemService;
 
-    //1-sipariş oluşturma ->http://localhost:8080/orders/save/filter?cid=1&prod=1&quant=3 //bir productı istediğimiz sayıda alıp carta ekliyoruz.
+    //1-sipariş ögesi oluşturma ->http://localhost:8080/orders/save/filter?cid=1&prod=1&quant=3 //bir productı istediğimiz sayıda alıp carta ekliyoruz.
 
     @PostMapping("/save")
     public ResponseEntity<OrderItemResponse> createOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
@@ -46,18 +44,25 @@ public class OrderItemController {
         return ResponseEntity.ok(orderItemService.getOrderById(orderItemId));
     }
 
-    //4-Id ile sipariş ögesi miktarını update etme ->http://localhost:8080/orders/update/5 //quantity=0 ise siparişi sil //Burayı cartta mı düzenlemek lazım acaba
+    //4-Id ile sipariş ögesi miktarını update etme, carttan silme veya carttaki sayısını arttırıp azaltma ->http://localhost:8080/orders/update/5 //quantity=0 ise siparişi sil //Burayı cartta mı düzenlemek lazım acaba
     @PutMapping("/update/{orderItemId}")
     public ResponseEntity<OrderItemResponse> updateOrderItem(@RequestBody @Valid OrderItemRequestForUpdate orderItemRequestForUpdate,
                                                              @PathVariable Long orderItemId,
                                                              HttpServletRequest httpServletRequest
                                                              ) {
-        return ResponseEntity.ok(orderItemService.updateOrderItem(orderItemRequestForUpdate, httpServletRequest, orderItemId));
+        return ResponseEntity.ok(orderItemService.updateOrDeleteOrderItem(orderItemRequestForUpdate, httpServletRequest, orderItemId));
     }
 
 
 // 5-Id ile sipariş ögesi delete etme ->http://localhost:8080/orders/delete?id=5
     //order item silinince
+    @DeleteMapping("/delete/{orderItemId}")
+    public ResponseEntity<OrderItemResponse> deleteOrderItem (@RequestBody @Valid OrderItemRequestForUpdate orderItemRequestForUpdate,
+                                                              @PathVariable Long orderItemId,
+                                                              HttpServletRequest httpServletRequest
+    ){
+        return ResponseEntity.ok(orderItemService.deleteOrderItem(orderItemRequestForUpdate,orderItemId,httpServletRequest));
+    }
 
 //
 
