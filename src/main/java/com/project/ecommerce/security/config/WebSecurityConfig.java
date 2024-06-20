@@ -104,8 +104,7 @@ public class WebSecurityConfig {
             "/css/**",
             "/js/**",
             "/contactMessages/save",
-            "/auth/login",
-            "/orderItem/save"
+            "/auth/login"
             //TODO show products
     };
 
