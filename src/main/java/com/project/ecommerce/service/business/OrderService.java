@@ -62,6 +62,7 @@ public class OrderService {
         OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(order);
 
         cartService.clearCart(cart);
+        cart.recalculateTotalPrice();
 
         return ResponseMessage.<OrderResponse>builder()
                 .message(String.format(SuccessMessages.USER_CREATE, order.getId()))

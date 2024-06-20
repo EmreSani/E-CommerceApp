@@ -14,7 +14,6 @@ import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.repository.business.CartRepository;
 import com.project.ecommerce.repository.business.OrderItemRepository;
-import com.project.ecommerce.service.helper.MethodHelper;
 import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -112,10 +111,9 @@ public class OrderItemService {
     }
 
 
+    @Transactional
     public OrderItemResponse updateOrDeleteOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, HttpServletRequest httpServletRequest, Long orderItemId) {
         String username = (String) httpServletRequest.getAttribute("username");
-
-        Cart cart;  //TODO:cartı da controllerda cartid olarak almayı düşün
 
         // Ürünü alın
         Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId());
@@ -131,32 +129,50 @@ public class OrderItemService {
         if (orderItemRequestForUpdate.getQuantity() > 0) {
 
             if (username != null) {
+                User user = userService.getUserByUserNameReturnsUser(username);
+                Cart customersCart = user.getCart();
 
-                cart = cartService.getCartByUsername(username);
-
+                // Sipariş öğesini güncelle
                 orderItem.setProduct(product);
                 orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
-                orderItem.setCart(cart); //Gerekli mi ? iki kere setlemesin
 
+                // Cart ilişkisini güncelle ve orderItem'ı cart'a ekle
+                orderItem.setCart(customersCart);
+                customersCart.getOrderItemList().add(orderItem);
+
+                // Cart'ın toplam fiyatını güncelle
+                customersCart.recalculateTotalPrice();
+
+                // Ürün stokunu güncelle
+                Double newStock = product.getStock() - orderItemRequestForUpdate.getQuantity();
+                product.setStock(newStock);
+
+                // OrderItem'ı kaydet (Bu CascadeType.ALL sayesinde Cart da otomatik olarak kaydedilir)
                 OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+
                 return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
 
             } else {
+                // Anonim kullanıcı işlemi //TODO: Anonimler için test lazım
                 HttpSession session = httpServletRequest.getSession();
-                cart = cartService.getCartBySession(session);
+                Cart cart = cartService.getCartBySession(session);
 
+                // Sipariş öğesini güncelle
                 orderItem.setProduct(product);
                 orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
-                orderItem.setCart(cart); //Gerekli mi ?
-                // Sipariş öğesini oluşturun ve kaydedin (anonim kullanıcı için müşteri olmadan)
 
+                // Cart ilişkisini güncelle
+                orderItem.setCart(cart);
+
+                // OrderItem'ı kaydet
                 OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+
                 return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
             }
 
         } else {
 
-            return deleteOrderItem(orderItemRequestForUpdate, orderItemId, httpServletRequest);
+            return deleteOrderItemById(orderItemId, httpServletRequest);
         }
     }
 
@@ -171,29 +187,34 @@ public class OrderItemService {
                 .build();
     }
 
-    public OrderItemResponse deleteOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, Long orderItemId, HttpServletRequest httpServletRequest) {
+    @Transactional
+    public OrderItemResponse deleteOrderItemById(Long orderItemId, HttpServletRequest httpServletRequest) {
         String username = (String) httpServletRequest.getAttribute("username");
 
         Cart cart;  //TODO:cartı da controllerda cartid olarak almayı düşün
 
         // Ürünü alın
-        Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId());
+    //    Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId()); bu kontrole gerek yok
 
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
 
+        Product product = orderItem.getProduct();
+        product.setStock(product.getStock()+orderItem.getQuantity());
 
         if (username != null) {
 
             cart = cartService.getCartByUsername(username);
             cart.getOrderItemList().remove(orderItem);
+            cart.recalculateTotalPrice();
 
 
         } else {
             HttpSession session = httpServletRequest.getSession();
             cart = cartService.getCartBySession(session);
             cart.getOrderItemList().remove(orderItem);
+            cart.recalculateTotalPrice();
 
             // Sipariş öğesini silin (anonim kullanıcı için müşteri olmadan)
 

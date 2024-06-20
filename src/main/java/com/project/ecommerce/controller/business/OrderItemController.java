@@ -41,7 +41,6 @@ public class OrderItemController {
 
     //3-Id ile sipariş ögesi getirme ->http://localhost:8080/orders/5
     // GET http://localhost:8080/orderItem/{orderItemId} - Endpoint to retrieve an order item by its ID (requires ADMIN authority)
-
     @GetMapping("/{orderItemId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<OrderItemResponse> getOrderById(@PathVariable Long orderItemId) {
@@ -50,7 +49,6 @@ public class OrderItemController {
 
     //4-Id ile sipariş ögesi miktarını update etme, carttan silme veya carttaki sayısını arttırıp azaltma ->http://localhost:8080/orderItem/update/5 //quantity=0 ise siparişi sil //Burayı cartta mı düzenlemek lazım acaba
     // PUT http://localhost:8080/orderItem/update/{orderItemId} - Endpoint to update an order item's quantity or delete it from the cart based on provided parameters
-
     @PutMapping("/update/{orderItemId}")
     public ResponseEntity<OrderItemResponse> updateOrderItem(@RequestBody @Valid OrderItemRequestForUpdate orderItemRequestForUpdate,
                                                              @PathVariable Long orderItemId,
@@ -63,11 +61,10 @@ public class OrderItemController {
 
     //order item silinince
     @DeleteMapping("/delete/{orderItemId}")
-    public ResponseEntity<OrderItemResponse> deleteOrderItem(@RequestBody @Valid OrderItemRequestForUpdate orderItemRequestForUpdate,
-                                                             @PathVariable Long orderItemId,
-                                                             HttpServletRequest httpServletRequest
+    public ResponseEntity<OrderItemResponse> deleteOrderItemById(@PathVariable Long orderItemId,
+                                                                 HttpServletRequest httpServletRequest
     ) {
-        return ResponseEntity.ok(orderItemService.deleteOrderItem(orderItemRequestForUpdate, orderItemId, httpServletRequest));
+        return ResponseEntity.ok(orderItemService.deleteOrderItemById(orderItemId, httpServletRequest));
     }
 
 //
@@ -88,9 +85,9 @@ public class OrderItemController {
     @GetMapping("/allorder/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(
-            @PathVariable Long id
+            @PathVariable Long userId
     ) {
-        return orderItemService.getUsersOrderItemsById(id);
+        return orderItemService.getUsersOrderItemsById(userId);
 
     }
 
