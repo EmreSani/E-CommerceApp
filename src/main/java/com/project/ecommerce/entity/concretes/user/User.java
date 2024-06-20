@@ -1,6 +1,7 @@
 package com.project.ecommerce.entity.concretes.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.ecommerce.entity.concretes.business.Cart;
@@ -52,9 +53,11 @@ public class User {
     private String phoneNumber;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
     private Cart cart;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
     private Set<OrderItem> orderItemResponses;
 
     @OneToOne

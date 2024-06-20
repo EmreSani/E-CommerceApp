@@ -1,6 +1,7 @@
 package com.project.ecommerce.entity.concretes.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.ecommerce.entity.concretes.user.User;
 import lombok.*;
@@ -24,24 +25,29 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<OrderItem> orderItemList = new ArrayList<>();
+    private List<OrderItem> orderItemList;
 
     private Double totalPrice;
 
     @OneToOne
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
+    @JsonManagedReference
+    private List<Order> orders;
 
     private String sessionId; // Anonim kullanıcılar için sessionId
 
-    @PreUpdate
-    @PostUpdate
+    // Method to recalculate total price based on order items
     public void recalculateTotalPrice() {
-        totalPrice = orderItemList.stream()
-                .mapToDouble(OrderItem::getTotalPrice)
-                .sum();
+        if (orderItemList != null && !orderItemList.isEmpty()) {
+            this.totalPrice = orderItemList.stream()
+                    .mapToDouble(OrderItem::getTotalPrice)
+                    .sum();
+        } else {
+            this.totalPrice = 0.0; // Set to 0 if no items in cart
+        }
     }
 
 //    Order Items: Managed through a one-to-many relationship with OrderItem, reflecting items added to the cart.

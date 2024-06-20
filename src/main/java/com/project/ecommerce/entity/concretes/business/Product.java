@@ -1,5 +1,8 @@
 package com.project.ecommerce.entity.concretes.business;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,6 +34,7 @@ public class Product {
     private Double stock;
 
     @OneToMany(mappedBy = "product")
+    @JsonManagedReference
     private List<OrderItem> orderItemList;
 
     //Order Item List: Maintained through a one-to-many relationship

@@ -1,5 +1,7 @@
 package com.project.ecommerce.entity.concretes.business;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.ecommerce.entity.concretes.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,13 +24,16 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private User customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<OrderItem> orderItem = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonBackReference
     private Cart cart;
 
     @Column(nullable = false)

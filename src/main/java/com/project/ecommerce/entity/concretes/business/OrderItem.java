@@ -1,5 +1,7 @@
 package com.project.ecommerce.entity.concretes.business;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.ecommerce.entity.concretes.user.User;
 import lombok.*;
 
@@ -21,6 +23,7 @@ public class OrderItem {
     private Integer quantity;
 
     @ManyToOne
+    @JsonBackReference
     private Product product;
 
     @Column(nullable = false)
@@ -36,14 +39,17 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonBackReference
     private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private User customer;
 
 //Product Relationship: Linked to Product through a many-to-one association, indicating the product included in the order item.

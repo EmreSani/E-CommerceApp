@@ -21,7 +21,7 @@ public class OrderItemRequest {
     @NotNull(message = "Product ID cannot be null")
     private Long productId;
 
-    @NotNull(message = "Cart ID cannot be null")
-    private Long cartId;
+//    @NotNull(message = "Cart ID cannot be null")
+//    private Long cartId;
 
 }

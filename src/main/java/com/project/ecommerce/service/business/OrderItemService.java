@@ -12,6 +12,7 @@ import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.payload.request.business.OrderItemRequestForUpdate;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
+import com.project.ecommerce.repository.business.CartRepository;
 import com.project.ecommerce.repository.business.OrderItemRepository;
 import com.project.ecommerce.service.helper.MethodHelper;
 import com.project.ecommerce.service.helper.PageableHelper;
@@ -21,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,6 +42,7 @@ public class OrderItemService {
     @Autowired
     private final UserService userService;
     private final PageableHelper pageableHelper;
+    private final CartRepository cartRepository;
 
 
     public List<OrderItemResponse> getOrderItemsByUserId(Long userId) {
@@ -49,46 +53,50 @@ public class OrderItemService {
 
     }
 
-    public OrderItemResponse createOrderItem(OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
+
+    @Transactional
+    public ResponseEntity<OrderItemResponse> createOrderItem(OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
 
         String username = (String) httpServletRequest.getAttribute("username");
 
-        Cart cart;
-
-        // Ürünü alın
+        // Find the product by ID
         Product product = productService.isProductExistsById(orderItemRequest.getProductId());
 
-        // Stok kontrolü
+        // Check if there is sufficient stock
         if (product.getStock() < orderItemRequest.getQuantity()) {
             throw new ResourceNotFoundException("Insufficient stock for product: " + product.getProductName());
         }
 
-        // Müşteri belirleme - Kullanıcı adı null değilse müşteriyi getir
-        User customer = null;
-        if (username != null) {
-            customer = userService.getUserByUserNameReturnsUser(username);
-        }
+        // Retrieve the customer by username
+        User customer = userService.getUserByUserNameReturnsUser(username);
+        Cart customersCart = customer.getCart();
 
-        // Sepeti alma - Kullanıcı adı yoksa session'dan sepeti getir
-        if (username != null) {
-            cart = cartService.getCartByUsername(username);
-        } else {
-            HttpSession session = httpServletRequest.getSession();
-            cart = cartService.getCartBySession(session);
-        }
-
-        // Sipariş öğesini oluşturun ve kaydedin
+        // Create the OrderItem
         OrderItem orderItem = OrderItem.builder()
                 .quantity(orderItemRequest.getQuantity())
                 .product(product)
                 .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
-                .cart(cart)
-                .customer(customer) // Müşteriyi burada set edin
+                .cart(customersCart)
+                .customer(customer)
                 .build();
 
+        // Add the OrderItem to the Cart's orderItemList
+        customersCart.getOrderItemList().add(orderItem);
+
+        // Recalculate the Cart's total price
+        customersCart.recalculateTotalPrice();
+
+        // Update the product's stock
+        Double newStock = product.getStock() - orderItemRequest.getQuantity();
+        product.setStock(newStock);
+
+        // Save the OrderItem (This will cascade save to Cart as well due to CascadeType.ALL)
         OrderItem savedOrderItem = orderItemRepository.save(orderItem);
-        return orderItemMapper.mapOrderItemToOrderItemResponse(savedOrderItem);
+
+        // Map and return the response
+        return ResponseEntity.ok(orderItemMapper.mapOrderItemToOrderItemResponse(savedOrderItem));
     }
+
 
     public List<OrderItemResponse> getAllOrderItems() {
         return orderItemRepository.findAll().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList());
@@ -197,12 +205,12 @@ public class OrderItemService {
 
     public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
 
-       List<OrderItemResponse> orderItemList= getOrderItemsByUserId(userId);
+        List<OrderItemResponse> orderItemList = getOrderItemsByUserId(userId);
 
-       return ResponseMessage.<List<OrderItemResponse>>builder()
-              .message(SuccessMessages.ORDER_ITEMS_FOUND)
-             .httpStatus(HttpStatus.OK)
-              .object(orderItemList)
-              .build();
+        return ResponseMessage.<List<OrderItemResponse>>builder()
+                .message(SuccessMessages.ORDER_ITEMS_FOUND)
+                .httpStatus(HttpStatus.OK)
+                .object(orderItemList)
+                .build();
     }
 }

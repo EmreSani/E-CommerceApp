@@ -26,7 +26,7 @@ public class OrderItemController {
 
     @PostMapping("/save")
     public ResponseEntity<OrderItemResponse> createOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(orderItemService.createOrderItem(orderItemRequest, httpServletRequest));
+        return orderItemService.createOrderItem(orderItemRequest, httpServletRequest);
     }
 
     //2-tüm sipariş ögelerini getirme ->http://localhost:8080/orders
