@@ -1,6 +1,6 @@
 package com.project.ecommerce.service.user;
 
-import com.project.ecommerce.entity.concretes.business.Cart;
+
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.exception.BadRequestException;
@@ -10,7 +10,6 @@ import com.project.ecommerce.payload.request.authentication.LoginRequest;
 import com.project.ecommerce.payload.request.authentication.UpdatePasswordRequest;
 import com.project.ecommerce.payload.request.authentication.UserRequestForRegister;
 import com.project.ecommerce.payload.response.authentication.AuthResponse;
-import com.project.ecommerce.repository.business.CartRepository;
 import com.project.ecommerce.repository.user.UserRepository;
 import com.project.ecommerce.security.jwt.JwtUtils;
 import com.project.ecommerce.security.service.UserDetailsImpl;
@@ -25,6 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -98,6 +98,7 @@ public class AuthenticationService {
         userRepository.save(user);
     }
 
+    @Transactional
     public ResponseEntity<AuthResponse> register(UserRequestForRegister userRequestForRegister) {
 
         // is username - phoneNumber - email unique?
@@ -114,12 +115,21 @@ public class AuthenticationService {
         //Diğer fieldlar default olarak setleniyor
         user.setIsPremium(Boolean.FALSE);
 
-        //register ederken cart eklemek gerekmez mi? bkz userService userSave createCart
-        Cart cart =cartService.createCartForUser(user);
-        user.setCart(cart);
+       User savedUser = userRepository.save(user);
+       savedUser.setCart(cartService.createCartForUser(savedUser));
 
 
-        User savedUser = userRepository.save(user);
+
+//        Cart cart =cartService.createCartForUser(user);
+//
+//        User savedUser = userRepository.save(user);
+//        //register ederken cart eklemek gerekmez mi? bkz userService userSave createCart
+//
+//        savedUser.setCart(cart);
+
+
+
+
 
         return ResponseEntity.ok(AuthResponse.builder()
                 .role(savedUser.getUserRole().getRoleName())

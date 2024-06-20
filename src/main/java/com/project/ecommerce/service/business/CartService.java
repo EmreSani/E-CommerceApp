@@ -6,6 +6,7 @@ import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.repository.business.CartRepository;
+import com.project.ecommerce.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.List;
 public class CartService {
 
     private final CartRepository cartRepository;
+    private final UserRepository userRepository;
 
     public Cart getCartByUsername(String username) {
         return cartRepository.
@@ -48,6 +50,7 @@ public class CartService {
         Cart cart = new Cart();
         cart.setTotalPrice(0.0);
         cart.setUser(user);
+
         return cartRepository.save(cart);
     }
 

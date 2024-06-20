@@ -51,7 +51,7 @@ public class User {
     @Column(unique = true)
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Cart cart;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)

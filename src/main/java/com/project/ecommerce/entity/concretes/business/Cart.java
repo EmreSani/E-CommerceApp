@@ -29,7 +29,6 @@ public class Cart {
     private Double totalPrice;
 
     @OneToOne
-    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
