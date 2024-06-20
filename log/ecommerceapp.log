@@ -9971,4 +9971,56 @@
 ""2024-06-20 19:39:59,228 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.732 seconds (JVM running for 7.184)
 ""2024-06-20 19:40:09,434 INFO  [http-nio-8080-exec-3] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
 ""2024-06-20 19:40:59,466 ERROR [http-nio-8080-exec-5] com.project.ecommerce.security.jwt.JwtUtils:Jwt token is expired : JWT expired at 2024-06-20T09:27:24Z. Current time: 2024-06-20T19:40:59Z, a difference of 36815464 milliseconds.  Allowed clock skew: 0 milliseconds.
+""2024-06-20 19:54:41,457 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-20 19:54:41,464 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-20 19:54:41,469 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-20 19:55:18,965 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 98366 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-20 19:55:18,970 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-20 19:55:20,192 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-20 19:55:20,309 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 110 ms. Found 7 JPA repository interfaces.
+""2024-06-20 19:55:21,126 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+""2024-06-20 19:55:21,133 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-20 19:55:21,133 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-20 19:55:21,272 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-20 19:55:21,273 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2197 ms
+""2024-06-20 19:55:21,723 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-20 19:55:21,749 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-20 19:55:21,824 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-20 19:55:21,930 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-20 19:55:22,080 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-20 19:55:22,093 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-20 19:55:22,960 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-20 19:55:22,968 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-20 19:55:24,284 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-20 19:55:25,298 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@256aabbe, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6b7a0f18, org.springframework.security.web.context.SecurityContextPersistenceFilter@2175d53f, org.springframework.security.web.header.HeaderWriterFilter@44e7c06b, org.springframework.web.filter.CorsFilter@188058fb, org.springframework.security.web.authentication.logout.LogoutFilter@5b5a89d1, com.project.ecommerce.security.jwt.AuthTokenFilter@2ba08f26, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a78d2aa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@254d8ef6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@914ab92, org.springframework.security.web.session.SessionManagementFilter@79ae3fb1, org.springframework.security.web.access.ExceptionTranslationFilter@573f2e67, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@69c6e5]
+""2024-06-20 19:55:25,592 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8080 (http) with context path ''
+""2024-06-20 19:55:25,606 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 7.227 seconds (JVM running for 7.699)
+""2024-06-20 19:55:34,746 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-20 19:55:34,752 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-20 19:55:34,754 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-20 19:55:36,674 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 98396 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-20 19:55:36,680 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-20 19:55:37,897 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-20 19:55:38,013 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 109 ms. Found 7 JPA repository interfaces.
+""2024-06-20 19:55:38,775 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8080 (http)
+""2024-06-20 19:55:38,781 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-20 19:55:38,781 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-20 19:55:38,912 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-20 19:55:38,912 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2117 ms
+""2024-06-20 19:55:39,131 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-20 19:55:39,155 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-20 19:55:39,218 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-20 19:55:39,326 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-20 19:55:39,453 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-20 19:55:39,462 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-20 19:55:40,172 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-20 19:55:40,177 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-20 19:55:41,590 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-20 19:55:42,599 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7ead0b51, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2f7d8a7c, org.springframework.security.web.context.SecurityContextPersistenceFilter@37ab1b10, org.springframework.security.web.header.HeaderWriterFilter@1be12e05, org.springframework.web.filter.CorsFilter@14745c3c, org.springframework.security.web.authentication.logout.LogoutFilter@4542af89, com.project.ecommerce.security.jwt.AuthTokenFilter@f287a4e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@618e7761, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5b643d6e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6bbb3280, org.springframework.security.web.session.SessionManagementFilter@156eeff1, org.springframework.security.web.access.ExceptionTranslationFilter@57ed8f95, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@43aa767]
+""2024-06-20 19:55:42,990 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8080 (http) with context path ''
+""2024-06-20 19:55:43,007 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.915 seconds (JVM running for 7.372)
+""2024-06-20 20:49:58,649 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool:HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m18s641ms).
+""2024-06-20 20:51:38,193 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool:HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m39s548ms).
+""2024-06-20 21:07:50,617 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool:HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m12s301ms).
+""2024-06-20 21:09:03,046 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool:HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m12s424ms).
 "

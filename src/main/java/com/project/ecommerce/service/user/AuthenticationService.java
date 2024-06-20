@@ -119,20 +119,7 @@ public class AuthenticationService {
        User savedUser = userRepository.save(user);
        savedUser.setCart(cartService.createCartForUser(savedUser));
 
-
-
-//        Cart cart =cartService.createCartForUser(user);
-//
-//        User savedUser = userRepository.save(user);
-//        //register ederken cart eklemek gerekmez mi? bkz userService userSave createCart
-//
-//        savedUser.setCart(cart);
-
-
-
-
-
-        return ResponseEntity.ok(AuthResponse.builder()
+       return ResponseEntity.ok(AuthResponse.builder()
                 .role(savedUser.getUserRole().getRoleName())
                 .username(savedUser.getUsername())
                 .name(savedUser.getName()).build());

@@ -43,7 +43,7 @@ public class AuthenticationController {
 
     @PostMapping("/register") // POST http://localhost:8080/auth/register - Endpoint to register a new user
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid UserRequestForRegister userRequestForRegister) {
-        return authenticationService.register(userRequestForRegister); //TODO: Add more fields to this dto class and make sure about customers cart
+        return authenticationService.register(userRequestForRegister);
     }
 
 }

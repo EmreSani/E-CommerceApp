@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers(AUTH_WHITE_LIST).permitAll()
+                .antMatchers("/products/add").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
         http.headers().frameOptions().sameOrigin(); // ClickJacking tarzi saldirilari onlemek icin yazildi
@@ -93,9 +94,12 @@ public class WebSecurityConfig {
     private static final String[] AUTH_WHITE_LIST = {
             "/",
             "/auth/register",
+            "/auth/login",
             "/cart",
             "/orderItem/save",
-            "/products",
+            "/orderItem/update/**", //check this maybe
+            "/orderItem/delete/**",
+            "/products/**", // Tüm ürün URL'lerini kapsayacak şekilde wildcard kullanıldı
             "/v3/api-docs/**",
             "swagger-ui.html",
             "/swagger-ui/**",
@@ -104,7 +108,6 @@ public class WebSecurityConfig {
             "/css/**",
             "/js/**",
             "/contactMessages/save",
-            "/auth/login"
             //TODO show products
     };
 

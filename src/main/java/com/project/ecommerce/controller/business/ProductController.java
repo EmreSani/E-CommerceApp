@@ -39,7 +39,7 @@ public class ProductController {
     // GET http://localhost:8080/products/{productId} - Endpoint to retrieve a product by its ID (requires ADMIN or CUSTOMER authority)
     //3-Id ile product getirme ->http://localhost:8080/products/5
     @GetMapping("/{productId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+ //   @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')") anonimler de yapabilsin.
     public ResponseMessage<ProductResponse> getProductById (@PathVariable Long productId){
         return productService.getProductById(productId);
     }

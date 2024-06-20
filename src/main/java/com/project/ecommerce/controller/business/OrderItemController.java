@@ -59,7 +59,7 @@ public class OrderItemController {
 
 // DELETE http://localhost:8080/orderItem/delete/{orderItemId} - Endpoint to delete an order item by its ID (requires ADMIN authority)
 
-    //order item silinince
+    //order item silinince karttan da silinir
     @DeleteMapping("/delete/{orderItemId}")
     public ResponseEntity<OrderItemResponse> deleteOrderItemById(@PathVariable Long orderItemId,
                                                                  HttpServletRequest httpServletRequest
@@ -71,6 +71,7 @@ public class OrderItemController {
 
     // GET http://localhost:8080/orderItem/page?page=1 &size=&sort=id&direction=ASC - Endpoint to retrieve all order items paginated and sorted by specified parameters
     @GetMapping("/page")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<Page<OrderItemResponse>> getAllOrderItemsByPage(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,

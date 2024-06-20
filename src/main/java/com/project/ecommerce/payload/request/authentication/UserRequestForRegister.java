@@ -47,7 +47,8 @@ public class UserRequestForRegister {
     @Email
     private String email;
 
-    @NotNull
+    @NotNull(message = "Please enter your password")
+    @Size(min = 8, max = 60,message = "Your password should be at least 8 chars or maximum 60 characters")
     private String password;
 
     @NotNull(message = "Please enter your birthplace")
@@ -57,5 +58,7 @@ public class UserRequestForRegister {
 
     @NotNull(message = "Please enter your gender")
     private Gender gender;
+
+    private Boolean builtIn = false;
 
 }

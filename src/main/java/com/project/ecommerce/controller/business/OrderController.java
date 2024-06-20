@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     // 2-Id ile order delete etme ->http://localhost:8080/orders/delete/5
-    //order silinince içerisindeki order itemlar da silinir
+    //order silinince içerisindeki order itemlar da silinir, sipariş iptali gibi düşünebiliriz. sipariş iptali için yöneticiyle iletişime geçmek gerekiyor.
     // DELETE http://localhost:8080/orders/delete/{orderId} - Endpoint to delete an order by its ID, including its order items
     @DeleteMapping("/delete/{orderId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -46,6 +46,7 @@ public class OrderController {
     // GET http://localhost:8080/orders/page - Endpoint to retrieve all orders paginated and sorted by specified parameters
 
     @GetMapping("/page")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<Page<OrderResponse>> getAllOrdersByPage(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -53,6 +54,20 @@ public class OrderController {
             @RequestParam(value = "type", defaultValue = "desc") String type
     ) {
         return orderService.getAllOrdersByPage(page, size, sort, type);
+    }
+
+    //TODO: Kullanıcıya ait tüm siparişleri getiren method
+    // 4-http://localhost:8080/orders/page?page=1&size=&sort=id&direction=ASC
+
+    @GetMapping("/page/{userId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+    public ResponseMessage<Page<OrderResponse>> getAllOrdersByUserIdByPage(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "name") String sort,
+            @RequestParam(value = "type", defaultValue = "desc") String type
+    ) {
+        return orderService.getAllOrdersByUserIdByPage(page, size, sort, type);
     }
 
 

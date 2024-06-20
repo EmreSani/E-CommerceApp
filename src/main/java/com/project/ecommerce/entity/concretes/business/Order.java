@@ -31,8 +31,6 @@ public class Order {
     @JsonManagedReference
     private List<OrderItem> orderItem = new ArrayList<>();
 
-
-
     @ManyToOne
     @JoinColumn(name = "cart_id")
     @JsonBackReference

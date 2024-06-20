@@ -73,8 +73,4 @@ public class User {
     @JsonManagedReference
     private Set<Order> orders;
 
-    //User Role: Associated with UserRole to manage user permissions and roles.
-    //Cart: One-to-one relationship with Cart, reflecting the user's shopping cart.
-    //Order Items: Managed through a one-to-many relationship with OrderItem, representing all orders placed by this user.
-
 }
