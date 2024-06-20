@@ -8,19 +8,22 @@ import com.project.ecommerce.payload.mappers.OrderMappers;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.response.business.OrderResponse;
-import com.project.ecommerce.payload.response.business.ProductResponse;
+
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.repository.business.OrderRepository;
 import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -56,14 +59,14 @@ public class OrderService {
             orderItem.getProduct().setStock(newStock);
         }
 
-        orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
 
 
         OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(order);
 
         cartService.clearCart(cart);
         cart.recalculateTotalPrice();
-
+        savedOrder.setCart(null);
         return ResponseMessage.<OrderResponse>builder()
                 .message(String.format(SuccessMessages.USER_CREATE, order.getId()))
                 .httpStatus(HttpStatus.OK)
@@ -79,13 +82,14 @@ public class OrderService {
     }
 
 
-    public OrderResponse deleteOrderById(Long orderId) {
-
+    public void deleteOrderById(Long orderId) {
         Order order = isOrderExistsById(orderId);
 
-        orderRepository.delete(order);
+        // Removing the order from the customer's list of orders
+        order.getCustomer().getOrders().remove(order);
 
-        return orderMapper.mapOrderToOrderResponse(order);
+        // The orphanRemoval = true annotation on Order ensures that OrderItems will be deleted
+        orderRepository.delete(order);
 
     }
 

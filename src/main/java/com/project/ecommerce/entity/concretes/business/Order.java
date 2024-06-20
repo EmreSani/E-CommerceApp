@@ -27,9 +27,11 @@ public class Order {
     @JsonBackReference
     private User customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
     private List<OrderItem> orderItem = new ArrayList<>();
+
+
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
