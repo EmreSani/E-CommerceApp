@@ -49,24 +49,21 @@ public class OrderService {
         Order order = new Order();
         order.setCustomer(userService.getUserByUserNameReturnsUser(username));
         order.setOrderDate(LocalDateTime.now());
-        order.setCart(cart);  // Sepeti siparişe bağla
 
         for (OrderItem orderItem : cart.getOrderItemList()) {
             order.addOrderItem(orderItem);   // Order entity'sine orderItemList ekleniyor
             orderItem.setOrder(order);       // OrderItem entity'sinin order alanı set ediliyor
-            Double stock = orderItem.getProduct().getStock();
-            Double newStock = stock - orderItem.getQuantity();
-            orderItem.getProduct().setStock(newStock);
+            orderItem.setCart(null);
         }
 
         Order savedOrder = orderRepository.save(order);
 
 
-        OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(order);
+        OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(savedOrder);
 
         cartService.clearCart(cart);
         cart.recalculateTotalPrice();
-        savedOrder.setCart(null);
+
         return ResponseMessage.<OrderResponse>builder()
                 .message(String.format(SuccessMessages.USER_CREATE, order.getId()))
                 .httpStatus(HttpStatus.OK)
@@ -82,7 +79,7 @@ public class OrderService {
     }
 
 
-    public void deleteOrderById(Long orderId) {
+    public OrderResponse deleteOrderById(Long orderId) {
         Order order = isOrderExistsById(orderId);
 
         // Removing the order from the customer's list of orders
@@ -90,6 +87,7 @@ public class OrderService {
 
         // The orphanRemoval = true annotation on Order ensures that OrderItems will be deleted
         orderRepository.delete(order);
+        return orderMapper.mapOrderToOrderResponse(order);
 
     }
 

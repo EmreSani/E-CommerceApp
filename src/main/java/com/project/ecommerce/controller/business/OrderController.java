@@ -37,9 +37,9 @@ public class OrderController {
     // DELETE http://localhost:8080/orders/delete/{orderId} - Endpoint to delete an order by its ID, including its order items
     @DeleteMapping("/delete/{orderId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<Void> deleteOrderItem(@PathVariable Long orderId) {
-        orderService.deleteOrderById(orderId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<OrderResponse> deleteOrderItem(@PathVariable Long orderId) {
+
+        return ResponseEntity.ok(orderService.deleteOrderById(orderId));
     }
 
     // 3-tüm siparişleri page page gösterme-> http://localhost:8080/orders/page?page=1 &size=&sort=id&direction=ASC
