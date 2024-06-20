@@ -28,7 +28,7 @@ public class Cart {
 
     private Double totalPrice;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JsonBackReference
     private User user;
 
