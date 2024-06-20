@@ -19,7 +19,6 @@ import java.util.List;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final UserRepository userRepository;
 
     public Cart getCartByUsername(String username) {
         return cartRepository.

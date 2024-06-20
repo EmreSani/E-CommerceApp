@@ -21,7 +21,7 @@ public class ErrorMessages {
     public static final String NOT_FOUND_PRODUCT_MESSAGE = "Error: Product not found with id %s";
 
     public static final String CART_IS_EMPTY ="Error: Cart is empty now, please add your products to your cart first.";
-    public static final String CART_COULDNT_FOUND ="Error: Cart count found with username: %s.";
+    public static final String CART_COULDNT_FOUND ="Error: Cart couldnt found with username: %s.";
 
     public static final String ORDER_NOT_FOUND_USER_MESSAGE = "Error: Order not found with id %s";
 

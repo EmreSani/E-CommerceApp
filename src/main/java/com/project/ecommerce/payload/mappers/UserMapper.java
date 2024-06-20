@@ -66,6 +66,8 @@ public class UserMapper {
                 .phoneNumber(userRequestForRegister.getPhone())
                 .birthDay(userRequestForRegister.getBirthDate())
                 .username(userRequestForRegister.getUsername())
+                .gender(userRequestForRegister.getGender())
+                .birthPlace(userRequestForRegister.getBirthPlace())
                 .build();
     }
 }

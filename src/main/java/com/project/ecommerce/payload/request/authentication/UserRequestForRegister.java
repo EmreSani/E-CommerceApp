@@ -1,6 +1,7 @@
 package com.project.ecommerce.payload.request.authentication;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.ecommerce.entity.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,5 +49,13 @@ public class UserRequestForRegister {
 
     @NotNull
     private String password;
+
+    @NotNull(message = "Please enter your birthplace")
+    @Size(min = 2, max = 16, message = "Your birthplace should be at least 2 chars")
+    @Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "Your birthplace must consist of the characters .")
+    private String birthPlace;
+
+    @NotNull(message = "Please enter your gender")
+    private Gender gender;
 
 }

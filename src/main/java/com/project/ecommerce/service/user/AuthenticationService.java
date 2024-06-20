@@ -114,6 +114,7 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(userRequestForRegister.getPassword()));
         //Diğer fieldlar default olarak setleniyor
         user.setIsPremium(Boolean.FALSE);
+        user.setBuilt_in(Boolean.FALSE);
 
        User savedUser = userRepository.save(user);
        savedUser.setCart(cartService.createCartForUser(savedUser));
