@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -26,5 +27,9 @@ public class ProductRequest {
 
     @NotNull(message = "Please enter the price of the product")
     private Double price;
+
+    @NotNull(message = "Please enter the quantity of the product")
+    @Positive(message = "Quantity must be positive")
+    private Double quantity;
 
 }

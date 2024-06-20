@@ -27,6 +27,8 @@ public class ProductController {
         return productService.addProduct(productRequest);
     }
 
+    //TODO: updateProduct
+
     // GET http://localhost:8080/products - Endpoint to retrieve all products
     //2-Tüm productları getirme ->http://localhost:8080/products
     @GetMapping

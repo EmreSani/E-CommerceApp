@@ -14,6 +14,7 @@ public class ProductMapper {
         return Product.builder().productName(productRequest.getProductName())
                 .brand(productRequest.getBrand())
                 .price(productRequest.getPrice())
+                .stock(productRequest.getQuantity())
                 .build();
     }
 

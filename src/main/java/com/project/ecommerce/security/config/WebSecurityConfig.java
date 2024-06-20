@@ -94,6 +94,7 @@ public class WebSecurityConfig {
             "/",
             "/auth/register",
             "/cart",
+            "/products",
             "/v3/api-docs/**",
             "swagger-ui.html",
             "/swagger-ui/**",

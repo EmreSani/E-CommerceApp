@@ -18,6 +18,7 @@ public class CartController {
 
    private final CartService cartService;
 
+   //TODO: Doesnt work especially for anonyms
     @GetMapping // GET http://localhost:8080/cart?username=user2 - Endpoint to retrieve cart details
     public Cart getCart(@RequestParam(required = false) String username, HttpSession session) {
         if (username != null) {
