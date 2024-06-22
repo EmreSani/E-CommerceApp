@@ -39,6 +39,8 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime orderDate;
 
+    private String status; // "active", "cancelled", etc.
+
     public void addOrderItem(OrderItem orderItemResponse) {
         orderItem.add(orderItemResponse);
         orderItemResponse.setOrder(this);

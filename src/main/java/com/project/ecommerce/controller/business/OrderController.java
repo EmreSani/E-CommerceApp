@@ -56,18 +56,46 @@ public class OrderController {
         return orderService.getAllOrdersByPage(page, size, sort, type);
     }
 
-    //TODO: Kullanıcıya ait tüm siparişleri getiren method
+
+    //Idsi verilmiş kullanıcının tüm siparişlerini getir
     // 4-http://localhost:8080/orders/page?page=1&size=&sort=id&direction=ASC
 
     @GetMapping("/page/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<Page<OrderResponse>> getAllOrdersByUserIdByPage(
+            @PathVariable Long userId,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sort", defaultValue = "name") String sort,
             @RequestParam(value = "type", defaultValue = "desc") String type
     ) {
-        return orderService.getAllOrdersByUserIdByPage(page, size, sort, type);
+        return orderService.getAllOrdersByUserIdByPage(userId, page, size, sort, type);
+    }
+
+    @PostMapping("/cancel/{orderId}")// http://localhost:8080/orders/cancel/{orderId}
+    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId, HttpServletRequest request) {
+
+        String username = (String) request.getAttribute("username");
+
+        // Siparişi iptal et
+        OrderResponse orderResponse = orderService.cancelOrderById(orderId, username);
+
+        return ResponseEntity.ok(orderResponse);
+    }
+
+    // Implement method to get all orders of the logged-in user
+    @GetMapping("/my-orders")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public ResponseMessage<Page<OrderResponse>> getMyOrdersByPage(
+            HttpServletRequest request,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "name") String sort,
+            @RequestParam(value = "type", defaultValue = "desc") String type
+    ) {
+        //TODO: Get the username from the request and fetch orders for the logged-in user
+        String username = request.getUserPrincipal().getName();
+        return orderService.getOrdersByUsername(username, page, size, sort, type);
     }
 
 

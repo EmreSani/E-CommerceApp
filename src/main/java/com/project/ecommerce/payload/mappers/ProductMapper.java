@@ -26,4 +26,13 @@ public class ProductMapper {
                 .build();
     }
 
+    public Product mapProductRequestToUpdatedProduct(ProductRequest productRequest, Long id) {
+        return Product.builder().id(id)
+                .productName(productRequest.getProductName())
+                .brand(productRequest.getBrand())
+                .price(productRequest.getPrice())
+                .stock(productRequest.getQuantity())
+                .build();
+    }
+
 }

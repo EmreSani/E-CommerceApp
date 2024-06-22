@@ -27,7 +27,13 @@ public class ProductController {
         return productService.addProduct(productRequest);
     }
 
-    //TODO: updateProduct
+    // updateProduct
+    // PUT http://localhost:8080/products/update/{productId} - Endpoint to update an existing product (requires ADMIN authority)
+    @PutMapping("/update/{productId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseMessage<ProductResponse> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductRequest productRequest) {
+        return productService.updateProduct(productId, productRequest);
+    }
 
     // GET http://localhost:8080/products - Endpoint to retrieve all products
     //2-Tüm productları getirme ->http://localhost:8080/products

@@ -28,6 +28,13 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final PageableHelper pageableHelper;
 
+    public void updateProductStock(Long productId, int quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productId));
+        product.setStock(product.getStock() + quantity);
+        productRepository.save(product);
+    }
+
     public ResponseMessage<ProductResponse> addProduct(ProductRequest productRequest) {
 
         checkProductNameDuplicate(productRequest.getProductName());
@@ -35,7 +42,7 @@ public class ProductService {
         Product product = saveProductUsingMapper(productRequest);
 
         return ResponseMessage.<ProductResponse>builder()
-                .message(String.format(SuccessMessages.USER_CREATE, product.getId()))
+                .message(String.format(SuccessMessages.PRODUCT_CREATE, product.getId()))
                 .httpStatus(HttpStatus.OK)
                 .object(productMapper.mapProductToProductResponse(product))
                 .build();
@@ -85,6 +92,25 @@ public class ProductService {
                 .message(SuccessMessages.PRODUCTS_FOUND)
                 .httpStatus(HttpStatus.OK)
                 .object(productRepository.findAll(pageable).map(productMapper::mapProductToProductResponse))
+                .build();
+    }
+
+
+    public ResponseMessage<ProductResponse> updateProduct(Long productId, ProductRequest productRequest) {
+        Product existingProduct = isProductExistsById(productId);
+
+        if (!existingProduct.getProductName().equals(productRequest.getProductName())) {
+            checkProductNameDuplicate(productRequest.getProductName());
+        }
+
+        Product updatedProduct = productMapper.mapProductRequestToUpdatedProduct(productRequest, productId);
+        updatedProduct.setId(productId);
+        updatedProduct = productRepository.save(updatedProduct);
+
+        return ResponseMessage.<ProductResponse>builder()
+                .message(SuccessMessages.PRODUCT_UPDATE)
+                .httpStatus(HttpStatus.OK)
+                .object(productMapper.mapProductToProductResponse(updatedProduct))
                 .build();
     }
 }

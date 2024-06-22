@@ -24,6 +24,7 @@ public class ErrorMessages {
     public static final String CART_COULDNT_FOUND ="Error: Cart couldnt found with username: %s.";
 
     public static final String ORDER_NOT_FOUND_USER_MESSAGE = "Error: Order not found with id %s";
+    public static final String ORDER_CAN_NOT_BE_DELETED = "Order cannot be deleted due to business rules";
 
     public static final String ORDER_ITEM_NOT_FOUND_MESSAGE = "Error: Order Item not found with id %s";
 }
