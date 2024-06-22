@@ -91,11 +91,11 @@ public class UserController {
 
     /**
      * Retrieves a user by their username.
-     * Example URL: GET http://localhost:8080/users/username?userName=johndoe
+     * Example URL: GET http://localhost:8080/users/username?username=johndoe
      */
     @GetMapping("/username")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseMessage<UserResponse> getUserByUserName(@RequestParam(value = "userName") String userName) {
+    public ResponseMessage<UserResponse> getUserByUserName(@RequestParam(value = "username") String userName) {
         return userService.getUserByUserName(userName);
     }
 

@@ -19,7 +19,8 @@ public class ProductMapper {
     }
 
     public ProductResponse mapProductToProductResponse(Product product) {
-        return ProductResponse.builder().productName(product.getProductName())
+        return ProductResponse.builder().id(product.getId())
+                .productName(product.getProductName())
                 .price(product.getPrice())
                 .brand(product.getBrand())
                 .id(product.getId())

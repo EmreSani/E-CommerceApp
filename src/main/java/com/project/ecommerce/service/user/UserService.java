@@ -225,6 +225,7 @@ public class UserService {
         // Retrieve the existing user entity
         User existingUser = methodHelper.isUserExist(userId);
 
+        uniquePropertyValidator.checkUniqueProperties(existingUser,userRequest);
         // Map userRequest to existing User entity
         User updatedUser = userMapper.mapUserRequestToUpdatedUser(userRequest, userId);
 
