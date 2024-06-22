@@ -33,7 +33,7 @@ public class Product {
     @Column(nullable = false)
     private Double stock;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<OrderItem> orderItemList;
 

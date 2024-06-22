@@ -104,8 +104,8 @@ public class ProductService {
         }
 
         Product updatedProduct = productMapper.mapProductRequestToUpdatedProduct(productRequest, productId);
-        updatedProduct.setId(productId);
-        updatedProduct = productRepository.save(updatedProduct);
+
+        updatedProduct = productRepository.save(updatedProduct); //ok?
 
         return ResponseMessage.<ProductResponse>builder()
                 .message(SuccessMessages.PRODUCT_UPDATE)

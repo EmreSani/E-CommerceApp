@@ -32,7 +32,6 @@ public class OrderItemController {
     //2-tüm sipariş ögelerini getirme ->http://localhost:8080/orders
     // GET http://localhost:8080/orderItem - Endpoint to retrieve all order items (requires ADMIN authority)
 
-    //TODO: pageable döndürsün
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<OrderItemResponse>> getAllOrderItems() {

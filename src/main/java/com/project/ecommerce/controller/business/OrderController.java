@@ -93,7 +93,7 @@ public class OrderController {
             @RequestParam(value = "sort", defaultValue = "name") String sort,
             @RequestParam(value = "type", defaultValue = "desc") String type
     ) {
-        //TODO: Get the username from the request and fetch orders for the logged-in user
+        //we get the username from the request and fetch orders for the logged-in user
         String username = request.getUserPrincipal().getName();
         return orderService.getOrdersByUsername(username, page, size, sort, type);
     }

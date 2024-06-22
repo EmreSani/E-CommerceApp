@@ -69,7 +69,7 @@ public class User {
 
     private Boolean isPremium;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer" , cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private Set<Order> orders;
 
