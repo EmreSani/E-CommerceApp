@@ -43,6 +43,8 @@ public class Order {
 
     private String status; // "active", "cancelled", etc.
 
+    private String anonymousIdentifier; // New field for anonymous users
+
     public void addOrderItem(OrderItem orderItemResponse) {
         orderItems.add(orderItemResponse);
         orderItemResponse.setOrder(this);

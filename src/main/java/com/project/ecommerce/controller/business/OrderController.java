@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @RestController
@@ -23,12 +24,11 @@ public class OrderController {
     @PostMapping("/create")
 //1- Order oluşturma. Binevi fiş.
 // POST http://localhost:8080/orders/create - Endpoint to create a new order from the authenticated user's cart
-    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')") //TODO: anonymler de yapabilsin
-    public ResponseMessage<OrderResponse> createOrder(HttpServletRequest request) {
+//    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+    public ResponseMessage<OrderResponse> createOrder(HttpServletRequest HttpServletrequest) {
 
-        String username = (String) request.getAttribute("username");
+        return orderService.createOrderFromCart(HttpServletrequest);
 
-        return orderService.createOrderFromCart(username);
     }
 
     // 2-Id ile order delete etme ->http://localhost:8080/orders/delete/5
@@ -43,7 +43,6 @@ public class OrderController {
 
     // 3-tüm siparişleri page page gösterme-> http://localhost:8080/orders/page?page=1 &size=&sort=id&direction=ASC
     // GET http://localhost:8080/orders/page - Endpoint to retrieve all orders paginated and sorted by specified parameters
-
     @GetMapping("/page")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<Page<OrderResponse>> getAllOrdersByPage(
@@ -58,7 +57,6 @@ public class OrderController {
 
     //Idsi verilmiş kullanıcının tüm siparişlerini getir
     // 4-http://localhost:8080/orders/page?page=1&size=&sort=id&direction=ASC
-
     @GetMapping("/page/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<Page<OrderResponse>> getAllOrdersByUserIdByPage(
@@ -72,15 +70,15 @@ public class OrderController {
     }
 
     @PostMapping("/cancel/{orderId}")// http://localhost:8080/orders/cancel/{orderId}
-    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId, HttpServletRequest request) {
+    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId, HttpServletRequest httpServletRequest) {
 
-        String username = (String) request.getAttribute("username");
-
-        // Siparişi iptal et
-        OrderResponse orderResponse = orderService.cancelOrderById(orderId, username);
+        OrderResponse orderResponse = orderService.cancelOrderById(orderId, httpServletRequest);
 
         return ResponseEntity.ok(orderResponse);
     }
+
+    //todo: write a cancelation method that anonymous users can also cancel their order.
 
     // Implement method to get all orders of the logged-in user
     @GetMapping("/my-orders")

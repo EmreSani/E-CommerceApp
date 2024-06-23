@@ -18,7 +18,9 @@ public class OrderMappers {
         OrderResponse orderResponse = new OrderResponse();
         orderResponse.setId(order.getId());
         orderResponse.setOrderDate(order.getOrderDate());
-        orderResponse.setCustomerId(order.getCustomer().getId());
+//        if (order.getCustomer().getId()!=null){ //anonimler de order oluşturabilsin. diye yazıldı
+//            orderResponse.setCustomerId(order.getCustomer().getId());
+//        }
         orderResponse.setOrderStatus(orderResponse.getOrderStatus());
         orderResponse.setOrderItems(order.getOrderItems().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList()));
      //   orderResponse.setCartId(order.getCart().getId());

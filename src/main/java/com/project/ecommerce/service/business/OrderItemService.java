@@ -17,6 +17,8 @@ import com.project.ecommerce.repository.business.OrderItemRepository;
 import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +44,8 @@ public class OrderItemService {
     private final UserService userService;
     private final PageableHelper pageableHelper;
     private final CartRepository cartRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderItemService.class);
 
 
     public List<OrderItemResponse> getOrderItemsByUserId(Long userId) {
@@ -95,6 +99,7 @@ public class OrderItemService {
         customersCart.recalculateTotalPrice();
 
         // Save the OrderItem (This will cascade save to Cart as well due to CascadeType.ALL)
+        logger.info("Saving OrderItem: {}", orderItem);
         OrderItem savedOrderItem = orderItemRepository.save(orderItem);
 
         // Map and return the response
@@ -132,8 +137,10 @@ public class OrderItemService {
 
         // Update order item quantity
         orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
+        logger.info("Updating quantity of OrderItem name: {} to {}", orderItem.getId(), orderItem.getQuantity());
 
         // Save the updated OrderItem
+      //  logger.info("Updating OrderItem: {}", orderItem);
         OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
 
         // Retrieve or create the Cart based on user authentication
@@ -144,6 +151,9 @@ public class OrderItemService {
             HttpSession session = httpServletRequest.getSession();
             cart = cartService.getCartBySession(session);
         }
+
+//        // Add the OrderItem to the Cart's orderItemList
+//        cart.getOrderItemList().add(orderItem);
 
         // Recalculate total price of the Cart
         cart.recalculateTotalPrice();
@@ -171,7 +181,7 @@ public class OrderItemService {
     public OrderItemResponse deleteOrderItemById(Long orderItemId, HttpServletRequest httpServletRequest) {
         String username = (String) httpServletRequest.getAttribute("username");
 
-        Cart cart;
+
 
         // Ürünü alın
         //    Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId()); bu kontrole gerek yok
@@ -183,24 +193,23 @@ public class OrderItemService {
         Product product = orderItem.getProduct();
         product.setStock(product.getStock() + orderItem.getQuantity());
 
+        Cart customersCart;
         if (username != null) {
-
-            cart = cartService.getCartByUsername(username);
-            cart.getOrderItemList().remove(orderItem);
-            cart.recalculateTotalPrice();
-            cartService.saveCart(cart);
-
-
+            // Authenticated user, retrieve cart by username
+            customersCart = cartService.getCartByUsername(username);
         } else {
+            // Anonymous user, retrieve cart by session
             HttpSession session = httpServletRequest.getSession();
-            cart = cartService.getCartBySession(session);
-            cart.getOrderItemList().remove(orderItem);
-            cart.recalculateTotalPrice();
-
-            // Sipariş öğesini silin (anonim kullanıcı için müşteri olmadan)
-
+            customersCart = cartService.getCartBySession(session);
         }
 
+
+        customersCart.getOrderItemList().remove(orderItem);
+        customersCart.recalculateTotalPrice();
+        if (username!=null) {
+            cartService.saveCart(customersCart);
+        }
+        logger.info("Deleting OrderItem: {}", orderItem);
         orderItemRepository.delete(orderItem);
         return orderItemMapper.mapOrderItemToOrderItemResponse(orderItem);
 
@@ -214,6 +223,7 @@ public class OrderItemService {
 
         Product product = orderItem.getProduct();
         product.setStock(product.getStock() + orderItem.getQuantity());
+        logger.info("Deleting OrderItems: {}", orderItem);
         orderItemRepository.delete(orderItem);
 
     }

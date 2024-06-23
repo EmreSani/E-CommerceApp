@@ -18,12 +18,6 @@ public class CartController {
 
     private final CartService cartService;
 
-    //TODO: Userın yapabildiği "/orders/cancel/**",
-    //            "/orderItem/save",
-    //            "/orderItem/update/**", //check this maybe
-    //            "/orderItem/delete/**",
-    // ve orderCreate methoduna anonimlerin de ulaşabileceği şeklide dizayn et.
-    // 23.06.2024 itibariyle sadece sessiondan cart oluşturabiliyor anonim kullanıcı, siparişle alakalı konularda.
     @GetMapping // GET http://localhost:8080/cart?username=user2 - Endpoint to retrieve cart details
     public Cart getCart(@RequestParam(required = false) String username, HttpSession session) {
         if (username != null) {

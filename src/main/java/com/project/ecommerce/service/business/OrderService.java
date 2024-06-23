@@ -23,6 +23,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +44,20 @@ public class OrderService {
 
 
     @Transactional
-    public ResponseMessage<OrderResponse> createOrderFromCart(String username) {
+    public ResponseMessage<OrderResponse> createOrderFromCart(HttpServletRequest httpServletRequest) {
 
-        Cart cart = cartService.getCartByUsername(username);
+        String username = (String) httpServletRequest.getAttribute("username");
+        Cart cart;
+        if (username != null) {
+            // Authenticated user, retrieve cart by username
+            cart = cartService.getCartByUsername(username);
+        } else {
+            // Anonymous user, retrieve cart by session
+            HttpSession session = httpServletRequest.getSession();
+            cart = cartService.getCartBySession(session);
+        }
 
-        if (cart.getOrderItemList().isEmpty()) {
+        if (cart == null || cart.getOrderItemList().isEmpty()) {
             throw new ResourceNotFoundException(ErrorMessages.CART_IS_EMPTY);
         }
 
@@ -65,12 +76,15 @@ public class OrderService {
         Order order = Order.builder()
                 .orderItems(new ArrayList<>(orderItems)) // Create a new list to avoid shared references
                 .totalPrice(cart.getTotalPrice())
-                .customer(cart.getUser())
                 .orderDate(LocalDateTime.now())
                 .status("Order is being prepared to shipping")
                 .build();
 
-
+        if (cart.getUser() != null) {
+            order.setCustomer(cart.getUser());
+        } else {
+            order.setAnonymousIdentifier(httpServletRequest.getSession().getId()); // Set the session ID for anonymous users
+        }
 
         Order savedOrder = orderRepository.save(order);
 
@@ -144,7 +158,8 @@ public class OrderService {
     }
 
 
-    public OrderResponse cancelOrderById(Long orderId, String username) {
+    public OrderResponse cancelOrderById(Long orderId, HttpServletRequest httpServletRequest) {
+        String username = (String) httpServletRequest.getAttribute("username");
         Order order = isOrderExistsById(orderId);
 
         // Kullanıcının siparişini iptal etmesine izin ver
