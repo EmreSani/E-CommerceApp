@@ -82,7 +82,12 @@ public class OrderService {
                         id)));
     }
 
+
+
+    @Transactional
     public OrderResponse deleteOrderById(Long orderId) {
+
+
         // Check if the order exists by its ID
         Order order = isOrderExistsById(orderId);
 
@@ -96,6 +101,7 @@ public class OrderService {
         // Update stock quantities if necessary
         for (OrderItem item : order.getOrderItem()) {
             productService.updateProductStock(item.getProduct().getId(), item.getQuantity());
+            orderItemService.deleteOrderItemByIdBeforeDeleteOrder(item.getId());
         }
 
         // The orphanRemoval = true annotation on Order ensures that OrderItems will be deleted
@@ -118,7 +124,7 @@ public class OrderService {
 
         // Kullanıcının siparişini iptal etmesine izin ver
         if (!order.getCustomer().getUsername().equals(username)) {
-            throw new AccessDeniedException("Bu siparişi iptal etme yetkiniz yok."); //TODO: Create a custom exception class
+            throw new AccessDeniedException("Bu siparişi iptal etme yetkiniz yok.");
         }
 
         //TODO: canCancelOrder methoduyla yeni kontroller eklenebilir.
@@ -168,7 +174,6 @@ public class OrderService {
     public ResponseMessage<Page<OrderResponse>> getOrdersByUsername(String username, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
 
-        //TODO: Add repository method to find orders by username
         Page<Order> orderPage = orderRepository.findByUsername(username, pageable);
 
         Page<OrderResponse> orderResponsePage = orderPage.map(orderMapper::mapOrderToOrderResponse);

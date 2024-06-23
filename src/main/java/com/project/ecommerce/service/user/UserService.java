@@ -4,6 +4,7 @@ import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
+import com.project.ecommerce.exception.BadRequestException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.UserMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -107,7 +108,7 @@ public class UserService {
     public String deleteUserById(Long userId) {
         userRepository.delete(methodHelper.isUserExist(userId));
 
-        return String.format(SuccessMessages.USER_DELETE, userId); //TODO: need to control roles
+        return String.format(SuccessMessages.USER_DELETE, userId);
 
     }
 
@@ -224,6 +225,10 @@ public class UserService {
 
         // Retrieve the existing user entity
         User existingUser = methodHelper.isUserExist(userId);
+
+        if(Boolean.TRUE.equals(existingUser.getBuilt_in())) { // null değerleriyle çalışırken güvenli bir yöntemdir. Boolean.TRUE.equals
+            throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+        }
 
         uniquePropertyValidator.checkUniqueProperties(existingUser,userRequest);
         // Map userRequest to existing User entity

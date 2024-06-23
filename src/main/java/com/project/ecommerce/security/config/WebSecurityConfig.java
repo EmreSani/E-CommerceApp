@@ -96,10 +96,13 @@ public class WebSecurityConfig {
             "/auth/register",
             "/auth/login",
             "/cart",
+            "/orders/cancel/**",
             "/orderItem/save",
             "/orderItem/update/**", //check this maybe
             "/orderItem/delete/**",
-            "/products/**", // Tüm ürün URL'lerini kapsayacak şekilde wildcard kullanıldı
+            "/products",
+            "/products/{productId}",
+            "/products/page",
             "/v3/api-docs/**",
             "swagger-ui.html",
             "/swagger-ui/**",
@@ -108,7 +111,6 @@ public class WebSecurityConfig {
             "/css/**",
             "/js/**",
             "/contactMessages/save",
-            //TODO show products
     };
 
 }

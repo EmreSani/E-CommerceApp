@@ -43,7 +43,7 @@ public class OrderItemController {
     @GetMapping("/{orderItemId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<OrderItemResponse> getOrderById(@PathVariable Long orderItemId) {
-        return ResponseEntity.ok(orderItemService.getOrderById(orderItemId));
+        return ResponseEntity.ok(orderItemService.getOrderItemById(orderItemId));
     }
 
     //4-Id ile sipariş ögesi miktarını update etme, carttan silme veya carttaki sayısını arttırıp azaltma ->http://localhost:8080/orderItem/update/5 //quantity=0 ise siparişi sil //Burayı cartta mı düzenlemek lazım acaba

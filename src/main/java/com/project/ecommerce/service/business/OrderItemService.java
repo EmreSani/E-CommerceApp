@@ -101,7 +101,7 @@ public class OrderItemService {
         return orderItemRepository.findAll().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList());
     }
 
-    public OrderItemResponse getOrderById(Long orderItemId) {
+    public OrderItemResponse getOrderItemById(Long orderItemId) {
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
@@ -191,17 +191,17 @@ public class OrderItemService {
     public OrderItemResponse deleteOrderItemById(Long orderItemId, HttpServletRequest httpServletRequest) {
         String username = (String) httpServletRequest.getAttribute("username");
 
-        Cart cart;  //TODO:cartı da controllerda cartid olarak almayı düşün
+        Cart cart;
 
         // Ürünü alın
-    //    Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId()); bu kontrole gerek yok
+        //    Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId()); bu kontrole gerek yok
 
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
 
         Product product = orderItem.getProduct();
-        product.setStock(product.getStock()+orderItem.getQuantity());
+        product.setStock(product.getStock() + orderItem.getQuantity());
 
         if (username != null) {
 
@@ -219,21 +219,20 @@ public class OrderItemService {
             // Sipariş öğesini silin (anonim kullanıcı için müşteri olmadan)
 
         }
+
         orderItemRepository.delete(orderItem);
         return orderItemMapper.mapOrderItemToOrderItemResponse(orderItem);
 
     }
 
-    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId){
-        Cart cart;  //TODO:cartı da controllerda cartid olarak almayı düşün
+    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId) {
 
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
 
-       String username = orderItem.getCustomer().getUsername();
         Product product = orderItem.getProduct();
-        product.setStock(product.getStock()+orderItem.getQuantity());
+        product.setStock(product.getStock() + orderItem.getQuantity());
         orderItemRepository.delete(orderItem);
 
     }
