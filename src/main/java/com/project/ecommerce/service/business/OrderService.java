@@ -5,6 +5,7 @@ import com.project.ecommerce.entity.concretes.business.Order;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.exception.BadRequestException;
+import com.project.ecommerce.exception.ConflictException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderMappers;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -59,6 +60,8 @@ public class OrderService {
             orderItem.setOrder(order);       // OrderItem entity'sinin order alanı set ediliyor
             orderItem.setCart(null);
         }
+
+        order.setStatus("Order is being prepared to shipping");
 
         Order savedOrder = orderRepository.save(order);
 
@@ -118,6 +121,15 @@ public class OrderService {
 
     }
 
+    private void canCancelOrder(Order order) {
+        // Implement business rules for order cancelation, can add more rules.
+
+        if (!order.getStatus().equals("shipped") && !order.getStatus().equals("delivered")){
+            throw new BadRequestException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
+        }
+
+    }
+
 
     public OrderResponse cancelOrderById(Long orderId, String username) {
         Order order = isOrderExistsById(orderId);
@@ -127,7 +139,8 @@ public class OrderService {
             throw new AccessDeniedException("Bu siparişi iptal etme yetkiniz yok.");
         }
 
-        //TODO: canCancelOrder methoduyla yeni kontroller eklenebilir.
+        // Siparişin durumuna göre iptal kontrolü
+        canCancelOrder(order);
 
         // Sipariş durumunu iptal edilmiş olarak güncelle
         order.setStatus("cancelled");

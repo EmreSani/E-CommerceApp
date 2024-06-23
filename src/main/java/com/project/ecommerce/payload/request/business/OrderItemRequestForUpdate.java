@@ -18,7 +18,9 @@ public class OrderItemRequestForUpdate {
     @Min(value = 1, message = "Quantity must be at least 1")
     private Integer quantity;
 
-    @NotNull(message = "Product ID cannot be null")
-    private Long productId;
+//    @NotNull(message = "Product ID cannot be null")
+//    private Long productId;
+    //kaldırıldı çünkü güncelleme yaparken product değişsin istemiyoruz.
+    //product değiştirmek için önce orderItem silinir sonra istediği productı barındıran orderItem eklenir.
 
 }

@@ -16,13 +16,10 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderItemResponse {
     private Long id;
-
     private Integer quantity;
-
-    private Product product;
+    private Long productId;
     private Double totalPrice;
-    private UserResponse userResponse;
-    private Cart cart;
+    private Long userId;
+    private Long cartId;
 
-    //TODO: burda çok fazla bilgi tekrar tekrar dönüyor. bunu kırpabiliriz
 }

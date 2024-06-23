@@ -4,6 +4,7 @@ import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.entity.concretes.user.User;
+import com.project.ecommerce.exception.BadRequestException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderItemMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -110,22 +111,22 @@ public class OrderItemService {
 
     }
 
-
     @Transactional
     public OrderItemResponse updateOrDeleteOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, HttpServletRequest httpServletRequest, Long orderItemId) {
         String username = (String) httpServletRequest.getAttribute("username");
-//TODO: Update ederken farklı bi product Idsi girememeli. ve ilgili productın stock sayılarını incele.
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
+                new ResourceNotFoundException
+                        (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
         // Ürünü alın
-        Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId());
+        Product product = productService.isProductExistsById(orderItem.getProduct().getId());
 
         // Stok kontrolü
         if (product.getStock() < orderItemRequestForUpdate.getQuantity()) {
             throw new ResourceNotFoundException("Insufficient stock for product: " + product.getProductName());
         }
 
-        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
-                new ResourceNotFoundException
-                        (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
+
         if (orderItemRequestForUpdate.getQuantity() > 0) {
 
             if (username != null) {
@@ -225,7 +226,7 @@ public class OrderItemService {
 
     }
 
-    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId) {
+    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId) { //without httpservlet
 
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
                 new ResourceNotFoundException

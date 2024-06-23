@@ -18,9 +18,9 @@ public class OrderItemMapper {
                 .totalPrice(orderItemResponse.getTotalPrice())
                 .id(orderItemResponse.getId())
                 .quantity(orderItemResponse.getQuantity())
-                .userResponse(userMapper.mapUserToUserResponse(orderItemResponse.getCustomer()))
-                .product(orderItemResponse.getProduct())
-                .cart(orderItemResponse.getCart())
+                .userId(orderItemResponse.getCustomer().getId())
+                .productId(orderItemResponse.getProduct().getId())
+                .cartId(orderItemResponse.getCart().getId())
                 .build();
     }
 

@@ -25,6 +25,9 @@ public class ErrorMessages {
 
     public static final String ORDER_NOT_FOUND_USER_MESSAGE = "Error: Order not found with id %s";
     public static final String ORDER_CAN_NOT_BE_DELETED = "Order cannot be deleted due to business rules";
+    public static final String ORDER_CAN_NOT_BE_CANCELED = "Order cannot be canceled due to business rules, please contact with customer support.";
 
     public static final String ORDER_ITEM_NOT_FOUND_MESSAGE = "Error: Order Item not found with id %s";
+
+    public static final String ORDER_ITEM_CAN_NOT_BE_UPDATED_MESSAGE = "Error: You cannot update the order item using a different product ID.";
 }
