@@ -23,11 +23,8 @@ public class OrderController {
     @PostMapping("/create")
 //1- Order oluşturma. Binevi fiş.
 // POST http://localhost:8080/orders/create - Endpoint to create a new order from the authenticated user's cart
-    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')") //TODO: anonymler de yapabilsin
     public ResponseMessage<OrderResponse> createOrder(HttpServletRequest request) {
-
-//        Principal principal = request.getUserPrincipal();
-//        String username = principal.getName();
 
         String username = (String) request.getAttribute("username");
 

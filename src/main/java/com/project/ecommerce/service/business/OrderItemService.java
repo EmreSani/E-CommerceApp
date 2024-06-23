@@ -76,7 +76,7 @@ public class OrderItemService {
             customersCart = cartService.getCartBySession(session);
         }
 
-//        User customer = userService.getUserByUserNameReturnsUser(username);
+        //       User customer = userService.getUserByUserNameReturnsUser(username);
 //        Cart customersCart = customer.getCart();
 
         // Create the OrderItem
@@ -85,7 +85,7 @@ public class OrderItemService {
                 .product(product)
                 .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
                 .cart(customersCart)
-                .customer(customer)
+             //   .customer(customer) //if customer doesnt exists?
                 .build();
 
         // Add the OrderItem to the Cart's orderItemList
@@ -130,29 +130,29 @@ public class OrderItemService {
             throw new ResourceNotFoundException("Insufficient stock for product: " + product.getProductName());
         }
 
-            // Update order item quantity
-            orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
+        // Update order item quantity
+        orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
 
-            // Save the updated OrderItem
-            OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+        // Save the updated OrderItem
+        OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
 
-            // Retrieve or create the Cart based on user authentication
-            Cart cart;
-            if (username != null) {
-                cart = cartService.getCartByUsername(username);
-            } else {
-                HttpSession session = httpServletRequest.getSession();
-                cart = cartService.getCartBySession(session);
-            }
+        // Retrieve or create the Cart based on user authentication
+        Cart cart;
+        if (username != null) {
+            cart = cartService.getCartByUsername(username);
+        } else {
+            HttpSession session = httpServletRequest.getSession();
+            cart = cartService.getCartBySession(session);
+        }
 
-            // Recalculate total price of the Cart
-            cart.recalculateTotalPrice();
+        // Recalculate total price of the Cart
+        cart.recalculateTotalPrice();
 
-            // Save the updated Cart
-            cartService.saveCart(cart);
+        // Save the updated Cart
+        cartService.saveCart(cart);
 
-            // Return mapped response for the updated OrderItem
-            return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+        // Return mapped response for the updated OrderItem
+        return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
 
     }
 
