@@ -24,7 +24,7 @@ import java.util.Set;
 @Builder(toBuilder = true)
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)

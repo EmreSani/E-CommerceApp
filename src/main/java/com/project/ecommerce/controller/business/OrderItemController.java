@@ -53,7 +53,7 @@ public class OrderItemController {
                                                              @PathVariable Long orderItemId,
                                                              HttpServletRequest httpServletRequest
     ) {
-        return ResponseEntity.ok(orderItemService.updateOrDeleteOrderItem(orderItemRequestForUpdate, httpServletRequest, orderItemId));
+        return ResponseEntity.ok(orderItemService.updateOrderItem(orderItemRequestForUpdate, httpServletRequest, orderItemId));
     }
 
 // DELETE http://localhost:8080/orderItem/delete/{orderItemId} - Endpoint to delete an order item by its ID (requires ADMIN authority)

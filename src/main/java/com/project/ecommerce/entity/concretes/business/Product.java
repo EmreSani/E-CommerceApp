@@ -18,7 +18,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)

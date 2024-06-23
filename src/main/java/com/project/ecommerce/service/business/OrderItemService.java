@@ -4,7 +4,6 @@ import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.entity.concretes.user.User;
-import com.project.ecommerce.exception.BadRequestException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderItemMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -112,7 +111,7 @@ public class OrderItemService {
     }
 
     @Transactional
-    public OrderItemResponse updateOrDeleteOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, HttpServletRequest httpServletRequest, Long orderItemId) {
+    public OrderItemResponse updateOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, HttpServletRequest httpServletRequest, Long orderItemId) {
         String username = (String) httpServletRequest.getAttribute("username");
 
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
@@ -126,8 +125,6 @@ public class OrderItemService {
             throw new ResourceNotFoundException("Insufficient stock for product: " + product.getProductName());
         }
 
-
-        if (orderItemRequestForUpdate.getQuantity() > 0) {
             // Update order item quantity
             orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
 
@@ -152,10 +149,6 @@ public class OrderItemService {
             // Return mapped response for the updated OrderItem
             return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
 
-        } else {
-            // If quantity is 0 or less, delete the OrderItem
-            return deleteOrderItemById(orderItemId, httpServletRequest);
-        }
     }
 
     public ResponseMessage<Page<OrderItemResponse>> getAllOrderItemsByPage(int page, int size, String sort, String
