@@ -66,9 +66,18 @@ public class OrderItemService {
             throw new ResourceNotFoundException("Insufficient stock for product: " + product.getProductName());
         }
 
-        // Retrieve the customer by username
-        User customer = userService.getUserByUserNameReturnsUser(username);
-        Cart customersCart = customer.getCart();
+        Cart customersCart;
+        if (username != null) {
+            // Authenticated user, retrieve cart by username
+            customersCart = cartService.getCartByUsername(username);
+        } else {
+            // Anonymous user, retrieve cart by session
+            HttpSession session = httpServletRequest.getSession();
+            customersCart = cartService.getCartBySession(session);
+        }
+
+//        User customer = userService.getUserByUserNameReturnsUser(username);
+//        Cart customersCart = customer.getCart();
 
         // Create the OrderItem
         OrderItem orderItem = OrderItem.builder()
@@ -84,10 +93,6 @@ public class OrderItemService {
 
         // Recalculate the Cart's total price
         customersCart.recalculateTotalPrice();
-
-//        // Update the product's stock //yoruma aldım. order create edilirse stoktan düşsün sepete atılınca değil.
-//        Double newStock = product.getStock() - orderItemRequest.getQuantity();
-//        product.setStock(newStock);
 
         // Save the OrderItem (This will cascade save to Cart as well due to CascadeType.ALL)
         OrderItem savedOrderItem = orderItemRepository.save(orderItem);
