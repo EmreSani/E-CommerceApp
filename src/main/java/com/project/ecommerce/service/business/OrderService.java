@@ -5,7 +5,6 @@ import com.project.ecommerce.entity.concretes.business.Order;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.exception.BadRequestException;
-import com.project.ecommerce.exception.ConflictException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderMappers;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -15,9 +14,7 @@ import com.project.ecommerce.payload.response.business.OrderResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.repository.business.OrderRepository;
 import com.project.ecommerce.service.helper.PageableHelper;
-import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -35,7 +34,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final CartService cartService;
-    private final UserService userService;
+
     private final OrderMappers orderMapper;
     private final OrderItemService orderItemService;
     private final PageableHelper pageableHelper;
@@ -51,25 +50,39 @@ public class OrderService {
             throw new ResourceNotFoundException(ErrorMessages.CART_IS_EMPTY);
         }
 
-        Order order = new Order();
-        order.setCustomer(userService.getUserByUserNameReturnsUser(username));
-        order.setOrderDate(LocalDateTime.now());
+        // Detach orderItems from cart to avoid shared references issue
+        List<OrderItem> orderItems = new ArrayList<>(cart.getOrderItemList());
 
-        for (OrderItem orderItem : cart.getOrderItemList()) {
-            order.addOrderItem(orderItem);   // Order entity'sine orderItemList ekleniyor
-            orderItem.setOrder(order);       // OrderItem entity'sinin order alanı set ediliyor
+        for (OrderItem orderItem : orderItems) {
+            Product product = orderItem.getProduct();
+            productService.updateProductStockForCreatingOrder(product.getId(), orderItem.getQuantity());
             orderItem.setCart(null);
+//            order.addOrderItem(orderItem);   // Order entity'sine orderItemList ekleniyor
+//            orderItem.setOrder(order);       // OrderItem entity'sinin order alanı set ediliyor
+//            orderItem.setCart(null);
         }
 
-        order.setStatus("Order is being prepared to shipping");
+        Order order = Order.builder()
+                .orderItems(new ArrayList<>(orderItems)) // Create a new list to avoid shared references
+                .totalPrice(cart.getTotalPrice())
+                .customer(cart.getUser())
+                .orderDate(LocalDateTime.now())
+                .status("Order is being prepared to shipping")
+                .build();
+
+
 
         Order savedOrder = orderRepository.save(order);
 
+        // Clear cart items and recalculate total price
+        cart.getOrderItemList().clear();
+        cart.recalculateTotalPrice();
+
+        // Save updated cart
+        cartService.saveCart(cart);
+
 
         OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(savedOrder);
-
-        cartService.clearCart(cart);
-        cart.recalculateTotalPrice();
 
         return ResponseMessage.<OrderResponse>builder()
                 .message(String.format(SuccessMessages.USER_CREATE, order.getId()))
@@ -102,8 +115,8 @@ public class OrderService {
         order.getCustomer().getOrders().remove(order);
 
         // Update stock quantities if necessary
-        for (OrderItem item : order.getOrderItem()) {
-            productService.updateProductStock(item.getProduct().getId(), item.getQuantity());
+        for (OrderItem item : order.getOrderItems()) {
+            productService.updateProductStockForCancellingOrder(item.getProduct().getId(), item.getQuantity());
             orderItemService.deleteOrderItemByIdBeforeDeleteOrder(item.getId());
         }
 
@@ -146,8 +159,8 @@ public class OrderService {
         order.setStatus("cancelled");
 
         // Sipariş içerisindeki her bir ürünün stok miktarını güncelle
-        for (OrderItem item : order.getOrderItem()) { // Corrected to getOrderItems() method
-            productService.updateProductStock(item.getProduct().getId(), item.getQuantity());
+        for (OrderItem item : order.getOrderItems()) { // Corrected to getOrderItems() method
+            productService.updateProductStockForCancellingOrder(item.getProduct().getId(), item.getQuantity());
         }
 
         // Siparişi güncelle

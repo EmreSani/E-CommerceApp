@@ -1,10 +1,14 @@
 package com.project.ecommerce;
 
+import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.entity.concretes.user.UserRole;
 import com.project.ecommerce.entity.enums.Gender;
 import com.project.ecommerce.entity.enums.RoleType;
+import com.project.ecommerce.payload.request.business.ProductRequest;
 import com.project.ecommerce.payload.request.user.UserRequest;
+import com.project.ecommerce.repository.business.ProductRepository;
 import com.project.ecommerce.repository.user.UserRoleRepository;
+import com.project.ecommerce.service.business.ProductService;
 import com.project.ecommerce.service.user.UserRoleService;
 import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,7 @@ public class EcommerceApplication implements CommandLineRunner {
 	private final UserRoleService userRoleService;
 	private final UserRoleRepository userRoleRepository;
 	private final UserService userService;
+	private final ProductService productService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcommerceApplication.class, args);
@@ -58,6 +63,26 @@ public class EcommerceApplication implements CommandLineRunner {
 			adminRequest.setBirthDay(LocalDate.of(1980,2,2));
 			adminRequest.setBirthPlace("Ankara");
 			userService.saveUser(adminRequest,"Admin");
+		}
+
+		if (productService.findAllProductsForMainClass().isEmpty()){
+
+			ProductRequest productRequest = new ProductRequest();
+			productRequest.setBrand("ExampleProduct");
+			productRequest.setProductName("ExampleProduct");
+			productRequest.setPrice(100.0);
+			productRequest.setQuantity(1000.0);
+
+			productService.addProduct(productRequest);
+
+			ProductRequest productRequest2 = new ProductRequest();
+			productRequest2.setBrand("ExampleProduct2");
+			productRequest2.setProductName("ExampleProduct2");
+			productRequest2.setPrice(100.0);
+			productRequest2.setQuantity(1000.0);
+
+			productService.addProduct(productRequest2);
+
 		}
 
 	}

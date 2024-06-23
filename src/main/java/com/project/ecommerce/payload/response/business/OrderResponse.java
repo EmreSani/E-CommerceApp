@@ -24,5 +24,6 @@ public class OrderResponse {
     private Long cartId;  // cart yerine cartId kullanabilirsiniz
     private LocalDateTime orderDate;
     private String orderStatus;
+    private Double totalPrice;
     //orderStatus added
 }

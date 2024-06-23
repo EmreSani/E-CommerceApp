@@ -3,9 +3,7 @@ package com.project.ecommerce.entity.concretes.business;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.ecommerce.entity.concretes.user.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,6 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order {
 
     @Id
@@ -29,7 +29,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
-    private List<OrderItem> orderItem = new ArrayList<>();
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
@@ -39,15 +39,17 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime orderDate;
 
+    private Double totalPrice;
+
     private String status; // "active", "cancelled", etc.
 
     public void addOrderItem(OrderItem orderItemResponse) {
-        orderItem.add(orderItemResponse);
+        orderItems.add(orderItemResponse);
         orderItemResponse.setOrder(this);
     }
 
     public void removeOrderItem(OrderItem orderItemResponse) {
-        orderItem.remove(orderItemResponse);
+        orderItems.remove(orderItemResponse);
         orderItemResponse.setOrder(null);
     }
 }

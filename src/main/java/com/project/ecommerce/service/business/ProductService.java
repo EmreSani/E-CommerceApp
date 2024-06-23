@@ -28,10 +28,17 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final PageableHelper pageableHelper;
 
-    public void updateProductStock(Long productId, int quantity) {
+    public void updateProductStockForCancellingOrder(Long productId, int quantity) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productId));
         product.setStock(product.getStock() + quantity);
+        productRepository.save(product);
+    }
+
+    public void updateProductStockForCreatingOrder(Long productId, int quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productId));
+        product.setStock(product.getStock() - quantity);
         productRepository.save(product);
     }
 
@@ -112,5 +119,10 @@ public class ProductService {
                 .httpStatus(HttpStatus.OK)
                 .object(productMapper.mapProductToProductResponse(updatedProduct))
                 .build();
+    }
+
+    public List<Product> findAllProductsForMainClass (){
+
+       return productRepository.findAll();
     }
 }

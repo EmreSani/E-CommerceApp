@@ -86,9 +86,9 @@ public class OrderItemService {
         // Recalculate the Cart's total price
         customersCart.recalculateTotalPrice();
 
-        // Update the product's stock
-        Double newStock = product.getStock() - orderItemRequest.getQuantity();
-        product.setStock(newStock);
+//        // Update the product's stock //yoruma aldım. order create edilirse stoktan düşsün sepete atılınca değil.
+//        Double newStock = product.getStock() - orderItemRequest.getQuantity();
+//        product.setStock(newStock);
 
         // Save the OrderItem (This will cascade save to Cart as well due to CascadeType.ALL)
         OrderItem savedOrderItem = orderItemRepository.save(orderItem);
@@ -128,30 +128,27 @@ public class OrderItemService {
 
 
         if (orderItemRequestForUpdate.getQuantity() > 0) {
-
             if (username != null) {
-                User user = userService.getUserByUserNameReturnsUser(username);
-                Cart customersCart = user.getCart();
+                Cart customersCart = cartService.getCartByUsername(username);
+//                Cart customersCart = user.getCart();
 
                 // Sipariş öğesini güncelle
-                orderItem.setProduct(product);
                 orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
 
                 // Cart ilişkisini güncelle ve orderItem'ı cart'a ekle
                 orderItem.setCart(customersCart);
+
+                // Add the OrderItem to the Cart's orderItemList
                 customersCart.getOrderItemList().add(orderItem);
 
                 // Cart'ın toplam fiyatını güncelle
                 customersCart.recalculateTotalPrice();
+                cartService.saveCart(customersCart);
 
-                // Ürün stokunu güncelle
-                Double newStock = product.getStock() - orderItemRequestForUpdate.getQuantity();
-                product.setStock(newStock);
+//                // OrderItem'ı kaydet (Bu CascadeType.ALL sayesinde Cart da otomatik olarak kaydedilir)
+//                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
 
-                // OrderItem'ı kaydet (Bu CascadeType.ALL sayesinde Cart da otomatik olarak kaydedilir)
-                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
-
-                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+//                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
 
             } else {
                 // Anonim kullanıcı işlemi //TODO: Anonimler için test lazım
@@ -164,16 +161,19 @@ public class OrderItemService {
 
                 // Cart ilişkisini güncelle
                 orderItem.setCart(cart);
+//
+//                // OrderItem'ı kaydet
+//                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
 
-                // OrderItem'ı kaydet
-                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
-
-                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+//                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
             }
+
+            OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+            return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
 
         } else {
 
-            return deleteOrderItemById(orderItemId, httpServletRequest);
+            throw new BadRequestException("You cant update your products quantity as zero or below zero");
         }
     }
 
@@ -209,6 +209,7 @@ public class OrderItemService {
             cart = cartService.getCartByUsername(username);
             cart.getOrderItemList().remove(orderItem);
             cart.recalculateTotalPrice();
+            cartService.saveCart(cart);
 
 
         } else {
@@ -226,17 +227,17 @@ public class OrderItemService {
 
     }
 
-    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId) { //without httpservlet
-
-        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
-                new ResourceNotFoundException
-                        (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
-
-        Product product = orderItem.getProduct();
-        product.setStock(product.getStock() + orderItem.getQuantity());
-        orderItemRepository.delete(orderItem);
-
-    }
+//    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId) { //without httpservlet
+//
+//        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
+//                new ResourceNotFoundException
+//                        (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
+//
+//        Product product = orderItem.getProduct();
+//        product.setStock(product.getStock() + orderItem.getQuantity());
+//        orderItemRepository.delete(orderItem);
+//
+//    }
 
     public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
 

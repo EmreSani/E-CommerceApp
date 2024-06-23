@@ -53,5 +53,9 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+    public void saveCart (Cart cart){
+        cartRepository.save(cart);
+    }
+
 }
 
