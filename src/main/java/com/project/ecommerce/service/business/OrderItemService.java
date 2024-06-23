@@ -128,52 +128,33 @@ public class OrderItemService {
 
 
         if (orderItemRequestForUpdate.getQuantity() > 0) {
+            // Update order item quantity
+            orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
+
+            // Save the updated OrderItem
+            OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+
+            // Retrieve or create the Cart based on user authentication
+            Cart cart;
             if (username != null) {
-                Cart customersCart = cartService.getCartByUsername(username);
-//                Cart customersCart = user.getCart();
-
-                // Sipariş öğesini güncelle
-                orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
-
-                // Cart ilişkisini güncelle ve orderItem'ı cart'a ekle
-                orderItem.setCart(customersCart);
-
-                // Add the OrderItem to the Cart's orderItemList
-                customersCart.getOrderItemList().add(orderItem);
-
-                // Cart'ın toplam fiyatını güncelle
-                customersCart.recalculateTotalPrice();
-                cartService.saveCart(customersCart);
-
-//                // OrderItem'ı kaydet (Bu CascadeType.ALL sayesinde Cart da otomatik olarak kaydedilir)
-//                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
-
-//                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
-
+                cart = cartService.getCartByUsername(username);
             } else {
-                // Anonim kullanıcı işlemi //TODO: Anonimler için test lazım
                 HttpSession session = httpServletRequest.getSession();
-                Cart cart = cartService.getCartBySession(session);
-
-                // Sipariş öğesini güncelle
-                orderItem.setProduct(product);
-                orderItem.setQuantity(orderItemRequestForUpdate.getQuantity());
-
-                // Cart ilişkisini güncelle
-                orderItem.setCart(cart);
-//
-//                // OrderItem'ı kaydet
-//                OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
-
-//                return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
+                cart = cartService.getCartBySession(session);
             }
 
-            OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
+            // Recalculate total price of the Cart
+            cart.recalculateTotalPrice();
+
+            // Save the updated Cart
+            cartService.saveCart(cart);
+
+            // Return mapped response for the updated OrderItem
             return orderItemMapper.mapOrderItemToOrderItemResponse(updatedOrderItem);
 
         } else {
-
-            throw new BadRequestException("You cant update your products quantity as zero or below zero");
+            // If quantity is 0 or less, delete the OrderItem
+            return deleteOrderItemById(orderItemId, httpServletRequest);
         }
     }
 
@@ -227,17 +208,17 @@ public class OrderItemService {
 
     }
 
-//    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId) { //without httpservlet
-//
-//        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
-//                new ResourceNotFoundException
-//                        (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
-//
-//        Product product = orderItem.getProduct();
-//        product.setStock(product.getStock() + orderItem.getQuantity());
-//        orderItemRepository.delete(orderItem);
-//
-//    }
+    public void deleteOrderItemByIdBeforeDeleteOrder(Long orderItemId) { //without httpservlet
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
+                new ResourceNotFoundException
+                        (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
+
+        Product product = orderItem.getProduct();
+        product.setStock(product.getStock() + orderItem.getQuantity());
+        orderItemRepository.delete(orderItem);
+
+    }
 
     public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
 
