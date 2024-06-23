@@ -23,4 +23,6 @@ public class OrderItemResponse {
     private Double totalPrice;
     private UserResponse userResponse;
     private Cart cart;
+
+    //TODO: burda çok fazla bilgi tekrar tekrar dönüyor. bunu kırpabiliriz
 }

@@ -23,4 +23,5 @@ public class OrderResponse {
     private List<OrderItemResponse> orderItems = new ArrayList<>();
     private Long cartId;  // cart yerine cartId kullanabilirsiniz
     private LocalDateTime orderDate;
+    //TODO: Order status döndür
 }

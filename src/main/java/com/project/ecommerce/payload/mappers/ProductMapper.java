@@ -23,7 +23,7 @@ public class ProductMapper {
                 .productName(product.getProductName())
                 .price(product.getPrice())
                 .brand(product.getBrand())
-                .id(product.getId())
+                .id(product.getId()) //TODO: stock bilgisini ekle
                 .build();
     }
 

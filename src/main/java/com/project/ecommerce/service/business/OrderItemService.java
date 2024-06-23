@@ -114,7 +114,7 @@ public class OrderItemService {
     @Transactional
     public OrderItemResponse updateOrDeleteOrderItem(OrderItemRequestForUpdate orderItemRequestForUpdate, HttpServletRequest httpServletRequest, Long orderItemId) {
         String username = (String) httpServletRequest.getAttribute("username");
-
+//TODO: Update ederken farklı bi product Idsi girememeli. ve ilgili productın stock sayılarını incele.
         // Ürünü alın
         Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId());
 

@@ -26,8 +26,10 @@ public class OrderController {
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<OrderResponse> createOrder(HttpServletRequest request) {
 
-        Principal principal = request.getUserPrincipal();
-        String username = principal.getName();
+//        Principal principal = request.getUserPrincipal();
+//        String username = principal.getName();
+
+        String username = (String) request.getAttribute("username");
 
         return orderService.createOrderFromCart(username);
     }

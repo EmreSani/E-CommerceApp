@@ -20,7 +20,7 @@ public class OrderMappers {
         orderResponse.setOrderDate(order.getOrderDate());
         orderResponse.setCustomerId(order.getCustomer().getId());
         orderResponse.setOrderItems(order.getOrderItem().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList()));
-        orderResponse.setCartId(order.getCart().getId());
+     //   orderResponse.setCartId(order.getCart().getId());
 
         return orderResponse;
     }
