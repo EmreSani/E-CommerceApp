@@ -39,6 +39,9 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productId));
         product.setStock(product.getStock() - quantity);
+        if (product.getStock()<0){
+            throw new ResourceNotFoundException(ErrorMessages.NOT_ENOUGH_STOCK_PRODUCT_MESSAGE);
+        }
         productRepository.save(product);
     }
 

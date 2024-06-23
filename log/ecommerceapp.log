@@ -942,4 +942,285 @@
 ""2024-06-24 01:44:41,354 ERROR [http-nio-8083-exec-3] com.project.ecommerce.security.jwt.JwtUtils:Jwt token is expired : JWT expired at 2024-06-23T21:19:58Z. Current time: 2024-06-24T01:44:41Z, a difference of 15883354 milliseconds.  Allowed clock skew: 0 milliseconds.
 ""2024-06-24 01:44:41,381 INFO  [http-nio-8083-exec-3] com.project.ecommerce.service.business.OrderItemService:Updating quantity of OrderItem name: 2 to 900
 ""2024-06-24 01:45:40,183 INFO  [http-nio-8083-exec-7] com.project.ecommerce.service.business.OrderItemService:Deleting OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@561fa6b0
+""2024-06-24 02:05:44,697 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:05:44,707 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-24 02:05:44,712 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-24 02:05:49,068 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 44834 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-24 02:05:49,070 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-24 02:05:50,258 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-24 02:05:50,398 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 127 ms. Found 7 JPA repository interfaces.
+""2024-06-24 02:05:51,156 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8083 (http)
+""2024-06-24 02:05:51,165 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-24 02:05:51,166 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-24 02:05:51,291 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-24 02:05:51,292 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2122 ms
+""2024-06-24 02:05:51,518 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-24 02:05:51,545 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-24 02:05:51,620 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-24 02:05:51,738 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-24 02:05:51,903 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-24 02:05:51,916 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-24 02:05:52,869 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-24 02:05:52,877 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:05:54,268 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-24 02:05:55,628 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@141eb85b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7d432bc0, org.springframework.security.web.context.SecurityContextPersistenceFilter@16c1d11, org.springframework.security.web.header.HeaderWriterFilter@ed1d2cf, org.springframework.web.filter.CorsFilter@6b04689e, org.springframework.security.web.authentication.logout.LogoutFilter@4abfa2ff, com.project.ecommerce.security.jwt.AuthTokenFilter@6cbb6c41, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4601a148, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4e210016, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4be5b9b1, org.springframework.security.web.session.SessionManagementFilter@5eb9bf7d, org.springframework.security.web.access.ExceptionTranslationFilter@a0bdbe2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7ddcd3d]
+""2024-06-24 02:05:55,939 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8083 (http) with context path ''
+""2024-06-24 02:05:55,952 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 7.443 seconds (JVM running for 7.904)
+""2024-06-24 02:08:56,272 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:08:56,278 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-24 02:08:56,281 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-24 02:09:00,161 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 44928 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-24 02:09:00,163 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-24 02:09:01,342 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-24 02:09:01,459 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 111 ms. Found 7 JPA repository interfaces.
+""2024-06-24 02:09:02,245 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8083 (http)
+""2024-06-24 02:09:02,252 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-24 02:09:02,252 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-24 02:09:02,355 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-24 02:09:02,356 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2079 ms
+""2024-06-24 02:09:02,541 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-24 02:09:02,568 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-24 02:09:02,635 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-24 02:09:02,738 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-24 02:09:02,885 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-24 02:09:02,896 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-24 02:09:03,677 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-24 02:09:03,688 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:09:05,002 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-24 02:09:05,958 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@15ea0ca3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7f3a92fd, org.springframework.security.web.context.SecurityContextPersistenceFilter@575fe6da, org.springframework.security.web.header.HeaderWriterFilter@263e512e, org.springframework.web.filter.CorsFilter@4e111e08, org.springframework.security.web.authentication.logout.LogoutFilter@6fe337a5, com.project.ecommerce.security.jwt.AuthTokenFilter@6e489bb8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@a0bdbe2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@261099e1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3e0e3048, org.springframework.security.web.session.SessionManagementFilter@309e7215, org.springframework.security.web.access.ExceptionTranslationFilter@25dc2c0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2e488e45]
+""2024-06-24 02:09:06,212 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8083 (http) with context path ''
+""2024-06-24 02:09:06,231 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.639 seconds (JVM running for 7.094)
+""2024-06-24 02:09:17,988 INFO  [http-nio-8083-exec-5] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2024-06-24 02:09:18,216 ERROR [http-nio-8083-exec-5] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]:Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException: Cannot invoke "java.util.List.add(Object)" because the return value of "com.project.ecommerce.entity.concretes.business.Cart.getOrderItemList()" is null] with root cause
+"java.lang.NullPointerException: Cannot invoke "java.util.List.add(Object)" because the return value of "com.project.ecommerce.entity.concretes.business.Cart.getOrderItemList()" is null
+	at com.project.ecommerce.service.business.OrderItemService.createOrderItem(OrderItemService.java:93)
+	at com.project.ecommerce.service.business.OrderItemService$$FastClassBySpringCGLIB$$a1153719.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.project.ecommerce.service.business.OrderItemService$$EnhancerBySpringCGLIB$$e203383e.createOrderItem(<generated>)
+	at com.project.ecommerce.controller.business.OrderItemController.createOrderItem(OrderItemController.java:29)
+	at com.project.ecommerce.controller.business.OrderItemController$$FastClassBySpringCGLIB$$daef2051.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy.invokeMethod(CglibAopProxy.java:386)
+	at org.springframework.aop.framework.CglibAopProxy.access$000(CglibAopProxy.java:85)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:704)
+	at com.project.ecommerce.controller.business.OrderItemController$$EnhancerBySpringCGLIB$$9414644d.createOrderItem(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:696)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:111)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at com.project.ecommerce.security.jwt.AuthTokenFilter.doFilterInternal(AuthTokenFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:337)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at com.project.ecommerce.security.jwt.AuthTokenFilter.doFilterInternal(AuthTokenFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1789)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+"2024-06-24 02:10:15,672 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:10:15,679 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-24 02:10:15,683 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-24 02:10:19,262 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 44971 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-24 02:10:19,266 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-24 02:10:20,402 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-24 02:10:20,531 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 121 ms. Found 7 JPA repository interfaces.
+""2024-06-24 02:10:21,293 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8083 (http)
+""2024-06-24 02:10:21,301 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-24 02:10:21,301 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-24 02:10:21,412 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-24 02:10:21,413 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2048 ms
+""2024-06-24 02:10:21,614 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-24 02:10:21,640 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-24 02:10:21,708 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-24 02:10:21,817 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-24 02:10:21,961 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-24 02:10:21,972 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-24 02:10:22,704 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-24 02:10:22,711 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:10:24,046 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-24 02:10:24,962 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2a15bbf3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@46c19350, org.springframework.security.web.context.SecurityContextPersistenceFilter@7d7c05fa, org.springframework.security.web.header.HeaderWriterFilter@4419cd6e, org.springframework.web.filter.CorsFilter@5b4b6f3b, org.springframework.security.web.authentication.logout.LogoutFilter@7a2fd94c, com.project.ecommerce.security.jwt.AuthTokenFilter@6e489bb8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7c4a5ef2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@299dd381, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@32d46229, org.springframework.security.web.session.SessionManagementFilter@ed1d2cf, org.springframework.security.web.access.ExceptionTranslationFilter@4cd6f08b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@551725e4]
+""2024-06-24 02:10:25,242 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8083 (http) with context path ''
+""2024-06-24 02:10:25,255 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.542 seconds (JVM running for 7.004)
+""2024-06-24 02:10:39,145 INFO  [http-nio-8083-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2024-06-24 02:10:39,378 INFO  [http-nio-8083-exec-1] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@13681bb3
+""2024-06-24 02:10:47,038 INFO  [http-nio-8083-exec-2] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@66474c03
+""2024-06-24 02:10:54,547 ERROR [http-nio-8083-exec-7] com.project.ecommerce.security.jwt.JwtUtils:Jwt token is expired : JWT expired at 2024-06-23T21:19:58Z. Current time: 2024-06-24T02:10:54Z, a difference of 17456546 milliseconds.  Allowed clock skew: 0 milliseconds.
+""2024-06-24 02:10:54,555 ERROR [http-nio-8083-exec-7] com.project.ecommerce.security.jwt.JwtUtils:Jwt token is expired : JWT expired at 2024-06-23T21:19:58Z. Current time: 2024-06-24T02:10:54Z, a difference of 17456555 milliseconds.  Allowed clock skew: 0 milliseconds.
+""2024-06-24 02:10:54,621 INFO  [http-nio-8083-exec-7] com.project.ecommerce.service.business.OrderItemService:Updating quantity of OrderItem name: 2 to 955
+""2024-06-24 02:10:59,378 INFO  [http-nio-8083-exec-5] com.project.ecommerce.service.business.OrderItemService:Deleting OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@60fdd384
+""2024-06-24 02:11:29,789 INFO  [http-nio-8083-exec-6] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@2b829873
+""2024-06-24 02:13:00,962 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:13:00,969 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-24 02:13:00,975 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-24 02:13:05,022 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 45035 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-24 02:13:05,025 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-24 02:13:06,172 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-24 02:13:06,292 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 110 ms. Found 7 JPA repository interfaces.
+""2024-06-24 02:13:07,027 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8083 (http)
+""2024-06-24 02:13:07,033 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-24 02:13:07,033 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-24 02:13:07,131 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-24 02:13:07,132 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2005 ms
+""2024-06-24 02:13:07,330 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-24 02:13:07,357 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-24 02:13:07,428 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-24 02:13:07,533 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-24 02:13:07,674 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-24 02:13:07,685 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-24 02:13:08,427 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-24 02:13:08,437 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:13:09,796 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-24 02:13:10,924 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2f7d8a7c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@14745c3c, org.springframework.security.web.context.SecurityContextPersistenceFilter@618e7761, org.springframework.security.web.header.HeaderWriterFilter@5d01a2eb, org.springframework.web.filter.CorsFilter@6bbb3280, org.springframework.security.web.authentication.logout.LogoutFilter@6aa18912, com.project.ecommerce.security.jwt.AuthTokenFilter@44c2e8a8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@34f8ce89, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@22ed2886, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7dda5b25, org.springframework.security.web.session.SessionManagementFilter@30e15628, org.springframework.security.web.access.ExceptionTranslationFilter@1be12e05, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5b3c11ce]
+""2024-06-24 02:13:11,194 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8083 (http) with context path ''
+""2024-06-24 02:13:11,211 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.752 seconds (JVM running for 7.246)
+""2024-06-24 02:13:17,444 INFO  [http-nio-8083-exec-9] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2024-06-24 02:13:17,782 INFO  [http-nio-8083-exec-9] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@36a8ceb
+""2024-06-24 02:13:21,446 INFO  [http-nio-8083-exec-10] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@770cb939
+""2024-06-24 02:13:27,292 INFO  [http-nio-8083-exec-7] com.project.ecommerce.service.business.OrderItemService:Deleting OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@728a1657
+""2024-06-24 02:14:33,564 INFO  [http-nio-8083-exec-1] com.project.ecommerce.service.business.CartService:Fetching cart for username: Admin
+""2024-06-24 02:14:42,789 INFO  [http-nio-8083-exec-10] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@2c658d0
+""2024-06-24 02:14:49,749 INFO  [http-nio-8083-exec-7] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@33996995
+""2024-06-24 02:14:51,031 INFO  [http-nio-8083-exec-5] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@4fe94e8d
+""2024-06-24 02:14:52,227 INFO  [http-nio-8083-exec-6] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@2693b44
+""2024-06-24 02:14:53,103 INFO  [http-nio-8083-exec-3] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@1e1b0401
+""2024-06-24 02:18:37,910 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:18:37,917 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-24 02:18:37,923 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-24 02:18:42,557 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 45169 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-24 02:18:42,561 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-24 02:18:43,712 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-24 02:18:43,827 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 108 ms. Found 7 JPA repository interfaces.
+""2024-06-24 02:18:44,582 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8083 (http)
+""2024-06-24 02:18:44,589 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-24 02:18:44,589 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-24 02:18:44,689 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-24 02:18:44,689 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2036 ms
+""2024-06-24 02:18:44,883 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-24 02:18:44,912 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-24 02:18:44,984 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-24 02:18:45,098 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-24 02:18:45,239 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-24 02:18:45,249 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-24 02:18:46,019 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-24 02:18:46,029 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:18:47,417 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-24 02:18:48,296 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e371088, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@8942ece, org.springframework.security.web.context.SecurityContextPersistenceFilter@34001c5d, org.springframework.security.web.header.HeaderWriterFilter@57ed8f95, org.springframework.web.filter.CorsFilter@3a89226e, org.springframework.security.web.authentication.logout.LogoutFilter@2c6efee3, com.project.ecommerce.security.jwt.AuthTokenFilter@5dd227b7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@37ab1b10, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@55d87b73, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@15254569, org.springframework.security.web.session.SessionManagementFilter@7a2fd94c, org.springframework.security.web.access.ExceptionTranslationFilter@1e033801, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@14745c3c]
+""2024-06-24 02:18:48,649 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8083 (http) with context path ''
+""2024-06-24 02:18:48,662 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.672 seconds (JVM running for 7.138)
+""2024-06-24 02:18:50,877 INFO  [http-nio-8083-exec-2] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2024-06-24 02:19:04,515 INFO  [http-nio-8083-exec-1] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@16b637ff
+""2024-06-24 02:19:05,166 INFO  [http-nio-8083-exec-10] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@6b08791
+""2024-06-24 02:19:05,774 INFO  [http-nio-8083-exec-3] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@3d2138a7
+""2024-06-24 02:19:21,028 INFO  [http-nio-8083-exec-7] com.project.ecommerce.service.business.OrderItemService:Deleting OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@7a224cfe
+""2024-06-24 02:19:32,713 INFO  [http-nio-8083-exec-6] com.project.ecommerce.service.business.CartService:Fetching cart for username: Admin
+""2024-06-24 02:19:52,389 ERROR [http-nio-8083-exec-8] com.project.ecommerce.security.jwt.JwtUtils:Jwt token is expired : JWT expired at 2024-06-23T16:11:41Z. Current time: 2024-06-24T02:19:52Z, a difference of 36491387 milliseconds.  Allowed clock skew: 0 milliseconds.
+""2024-06-24 02:20:18,727 INFO  [http-nio-8083-exec-10] com.project.ecommerce.service.business.CartService:Fetching cart for username: Admin
+""2024-06-24 02:20:25,164 INFO  [http-nio-8083-exec-3] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@52961d37
+""2024-06-24 02:20:25,801 INFO  [http-nio-8083-exec-4] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@7eed5040
+""2024-06-24 02:20:26,628 INFO  [http-nio-8083-exec-7] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@4060d237
+""2024-06-24 02:20:42,423 INFO  [http-nio-8083-exec-5] com.project.ecommerce.service.business.CartService:Fetching cart for username: Admin
+""2024-06-24 02:20:43,713 INFO  [http-nio-8083-exec-6] com.project.ecommerce.service.business.CartService:Fetching cart for username: Admin
+""2024-06-24 02:20:49,191 INFO  [http-nio-8083-exec-8] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@504f9d07
+""2024-06-24 02:21:12,621 INFO  [http-nio-8083-exec-10] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@2047b152
+""2024-06-24 02:21:49,745 INFO  [http-nio-8083-exec-6] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@56b33907
+""2024-06-24 02:21:50,584 INFO  [http-nio-8083-exec-8] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@5f0eae04
+""2024-06-24 02:21:51,329 INFO  [http-nio-8083-exec-2] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@4535c20f
+""2024-06-24 02:22:24,840 INFO  [http-nio-8083-exec-4] com.project.ecommerce.service.business.OrderItemService:Deleting OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@41ca7014
 "

@@ -80,9 +80,6 @@ public class OrderItemService {
             customersCart = cartService.getCartBySession(session);
         }
 
-        //       User customer = userService.getUserByUserNameReturnsUser(username);
-//        Cart customersCart = customer.getCart();
-
         // Create the OrderItem
         OrderItem orderItem = OrderItem.builder()
                 .quantity(orderItemRequest.getQuantity())
@@ -181,8 +178,6 @@ public class OrderItemService {
     public OrderItemResponse deleteOrderItemById(Long orderItemId, HttpServletRequest httpServletRequest) {
         String username = (String) httpServletRequest.getAttribute("username");
 
-
-
         // Ürünü alın
         //    Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId()); bu kontrole gerek yok
 
@@ -190,8 +185,8 @@ public class OrderItemService {
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
 
-        Product product = orderItem.getProduct();
-        product.setStock(product.getStock() + orderItem.getQuantity());
+//        Product product = orderItem.getProduct();
+//        product.setStock(product.getStock() + orderItem.getQuantity());
 
         Cart customersCart;
         if (username != null) {
@@ -202,7 +197,6 @@ public class OrderItemService {
             HttpSession session = httpServletRequest.getSession();
             customersCart = cartService.getCartBySession(session);
         }
-
 
         customersCart.getOrderItemList().remove(orderItem);
         customersCart.recalculateTotalPrice();

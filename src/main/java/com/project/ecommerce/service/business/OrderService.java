@@ -99,7 +99,7 @@ public class OrderService {
         OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(savedOrder);
 
         return ResponseMessage.<OrderResponse>builder()
-                .message(String.format(SuccessMessages.USER_CREATE, order.getId()))
+                .message(String.format(SuccessMessages.ORDER_CREATE, order.getId()))
                 .httpStatus(HttpStatus.OK)
                 .object(orderResponse)
                 .build();

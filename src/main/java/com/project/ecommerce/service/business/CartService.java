@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,6 +55,7 @@ public class CartService {
             throw new IllegalArgumentException("Session cannot be null");
         }
         Cart cart = new Cart();
+        cart.setOrderItemList(new ArrayList<>());
         cart.setSessionId(session.getId());
         cart.setTotalPrice(0.0);
         return cartRepository.save(cart);
