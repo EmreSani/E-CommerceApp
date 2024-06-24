@@ -297,4 +297,28 @@
 ""2024-06-24 19:37:49,838 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
 ""2024-06-24 19:37:50,715 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
 ""2024-06-24 19:37:50,739 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 19:37:51,938 WARN  [main] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration:spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2024-06-24 19:37:53,000 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@67167f8f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e5190bd, org.springframework.security.web.context.SecurityContextPersistenceFilter@2175d53f, org.springframework.security.web.header.HeaderWriterFilter@44e7c06b, org.springframework.web.filter.CorsFilter@733345f5, org.springframework.security.web.authentication.logout.LogoutFilter@630e5010, com.project.ecommerce.security.jwt.AuthTokenFilter@74919649, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7a78d2aa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7ea8224b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5add7380, org.springframework.security.web.session.SessionManagementFilter@79ae3fb1, org.springframework.security.web.access.ExceptionTranslationFilter@573f2e67, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6c92a59d]
+""2024-06-24 19:37:53,299 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8083 (http) with context path ''
+""2024-06-24 19:37:53,316 INFO  [main] com.project.ecommerce.EcommerceApplication:Started EcommerceApplication in 6.805 seconds (JVM running for 7.268)
+""2024-06-24 19:38:13,560 INFO  [http-nio-8083-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2024-06-24 19:38:14,926 INFO  [http-nio-8083-exec-9] org.springdoc.api.AbstractOpenApiResource:Init duration for springdoc-openapi is: 1154 ms
+""2024-06-24 19:38:43,996 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 19:38:44,001 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-24 19:38:44,006 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-24 19:38:47,058 INFO  [main] com.project.ecommerce.EcommerceApplication:Starting EcommerceApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 50008 (/Users/emresani/IdeaProjects/ecommerce/target/classes started by emresani in /Users/emresani/IdeaProjects/ecommerce)
+""2024-06-24 19:38:47,061 INFO  [main] com.project.ecommerce.EcommerceApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-24 19:38:48,227 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-24 19:38:48,346 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 111 ms. Found 7 JPA repository interfaces.
+""2024-06-24 19:38:49,117 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8083 (http)
+""2024-06-24 19:38:49,124 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-24 19:38:49,124 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-24 19:38:49,215 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-24 19:38:49,215 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 2053 ms
+""2024-06-24 19:38:49,401 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-24 19:38:49,427 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-24 19:38:49,494 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-24 19:38:49,598 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-24 19:38:49,737 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-24 19:38:49,747 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
 "
