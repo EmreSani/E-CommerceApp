@@ -1066,6 +1066,35 @@
 					"response": []
 				},
 				{
+					"name": "orderItemSaveAnonym",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 300,\n  \"productId\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/orderItem/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"orderItem",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getAllOrderItems",
 					"request": {
 						"auth": {
@@ -1281,6 +1310,36 @@
 			"item": [
 				{
 					"name": "orderCreate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbiIsImlhdCI6MTcxODg4NTc4OCwiZXhwIjoxNzE4ODk0NDI4fQ.551H529Ep_TXA_lz77_G2FUy9yXWdKbkfeioivW2uXy_vP40KV-vVKUoVihbW10YPJhJxGF4jwKVvRiykbt64Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/orders/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orderCreateAnonym",
 					"request": {
 						"auth": {
 							"type": "bearer",
