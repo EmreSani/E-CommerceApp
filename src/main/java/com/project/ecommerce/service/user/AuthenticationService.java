@@ -123,7 +123,5 @@ public class AuthenticationService {
                 .role(savedUser.getUserRole().getRoleName())
                 .username(savedUser.getUsername())
                 .name(savedUser.getName()).build());
-
-
     }
 }

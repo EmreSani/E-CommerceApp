@@ -12,8 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +21,7 @@ public class OrderController {
 
     @PostMapping("/create")
 //1- Order oluşturma. Binevi fiş.
-// POST http://localhost:8080/orders/create - Endpoint to create a new order from the authenticated user's cart
+// POST http://localhost:8080/orders/create - Endpoint to create a new order from the authenticated or anonymous user's cart
 //    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<OrderResponse> createOrder(HttpServletRequest HttpServletrequest) {
 
@@ -69,6 +67,7 @@ public class OrderController {
         return orderService.getAllOrdersByUserIdByPage(userId, page, size, sort, type);
     }
 
+    // cancel order, updates the product stock.
     @PostMapping("/cancel/{orderId}")// http://localhost:8080/orders/cancel/{orderId}
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId, HttpServletRequest httpServletRequest) {

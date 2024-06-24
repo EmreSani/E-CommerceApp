@@ -22,25 +22,26 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+
+
+
     // POST http://localhost:8080/auth/login - Endpoint to authenticate a user
-// PATCH http://localhost:8080/auth/updatePassword - Endpoint to update user password (requires ADMIN or CUSTOMER role)
-// POST http://localhost:8080/auth/register - Endpoint to register a new user
-
-
     @PostMapping("/login") // http://localhost:8080/auth/login + POST + JSON
-    public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest){
+    public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest) {
         return authenticationService.authenticateUser(loginRequest);
     }
 
+    // PATCH http://localhost:8080/auth/updatePassword - Endpoint to update user password (requires ADMIN or CUSTOMER role)
     @PatchMapping("/updatePassword") // http://localhost:8080/auth/updatePassword
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
-                                                 HttpServletRequest request ){
-        authenticationService.updatePassword(updatePasswordRequest , request);
+                                                 HttpServletRequest request) {
+        authenticationService.updatePassword(updatePasswordRequest, request);
         String response = SuccessMessages.PASSWORD_CHANGED_RESPONSE_MESSAGE; // paylod.messages
         return ResponseEntity.ok(response);
     }
 
+    // POST http://localhost:8080/auth/register - Endpoint to register a new user
     @PostMapping("/register") // POST http://localhost:8080/auth/register - Endpoint to register a new user
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid UserRequestForRegister userRequestForRegister) {
         return authenticationService.register(userRequestForRegister);

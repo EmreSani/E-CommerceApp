@@ -21,9 +21,10 @@ import java.util.List;
 public class OrderItemController {
     private final OrderItemService orderItemService;
 
-    //1-sipariş ögesi oluşturma ->http://localhost:8080/orders/save/filter?cid=1&prod=1&quant=3 //bir productı istediğimiz sayıda alıp carta ekliyoruz.
-    // POST http://localhost:8080/orderItem/save - Endpoint to create a new order item and add it to the cart based on provided parameters
+    //todo: order item oluşturulduğunda orderitemın statusunu "in cart" olacak şekilde, sepetteki orderitemlar ile order oluşturulduğunda ise ordered olacak şekilde ayarlanabilir
 
+    //1-sipariş ögesi oluşturma ve işlemi yapan kişinin sepetine ekleme methodu->http://localhost:8080/orders/save/filter?cid=1&prod=1&quant=3 //bir productı istediğimiz sayıda alıp carta ekliyoruz.
+    // POST http://localhost:8080/orderItem/save - Endpoint to create a new order item and add it to the cart based on provided parameters
     @PostMapping("/save")
     public ResponseEntity<OrderItemResponse> createOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
         return orderItemService.createOrderItem(orderItemRequest, httpServletRequest);
@@ -31,7 +32,7 @@ public class OrderItemController {
 
     //2-tüm sipariş ögelerini getirme ->http://localhost:8080/orders
     // GET http://localhost:8080/orderItem - Endpoint to retrieve all order items (requires ADMIN authority)
-
+    //todo: order oluşturulduğunda orderitemın statusunu ordered olacak şekilde, sepetteyken in cart olacak şekilde ayarlanabilir
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<OrderItemResponse>> getAllOrderItems() {
@@ -56,8 +57,7 @@ public class OrderItemController {
         return ResponseEntity.ok(orderItemService.updateOrderItem(orderItemRequestForUpdate, httpServletRequest, orderItemId));
     }
 
-// DELETE http://localhost:8080/orderItem/delete/{orderItemId} - Endpoint to delete an order item by its ID (requires ADMIN authority)
-
+    // DELETE http://localhost:8080/orderItem/delete/{orderItemId} - Endpoint to delete an order item by its ID (requires ADMIN authority)
     //order item silinince karttan da silinir
     @DeleteMapping("/delete/{orderItemId}")
     public ResponseEntity<OrderItemResponse> deleteOrderItemById(@PathVariable Long orderItemId,

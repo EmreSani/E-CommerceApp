@@ -77,8 +77,6 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-
-
     public boolean equals(Object o){
         if(this == o){
             return true;

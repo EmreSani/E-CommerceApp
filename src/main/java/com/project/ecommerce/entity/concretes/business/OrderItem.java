@@ -52,8 +52,6 @@ public class OrderItem {
     @JsonBackReference
     private User customer;
 
-//Product Relationship: Linked to Product through a many-to-one association, indicating the product included in the order item.
-//Total Price Calculation: Handled by calculateTotalPrice method, ensuring totalPrice reflects the quantity and price of the associated product.
-
+    private String orderItemStatus; //sipariş öğesi hangi aşamada? sepette, sipariş edildi etc.
 
 }

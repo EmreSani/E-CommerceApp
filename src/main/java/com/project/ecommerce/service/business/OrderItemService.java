@@ -3,7 +3,6 @@ package com.project.ecommerce.service.business;
 import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
-import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderItemMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -12,14 +11,11 @@ import com.project.ecommerce.payload.request.business.OrderItemRequest;
 import com.project.ecommerce.payload.request.business.OrderItemRequestForUpdate;
 import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
-import com.project.ecommerce.repository.business.CartRepository;
 import com.project.ecommerce.repository.business.OrderItemRepository;
 import com.project.ecommerce.service.helper.PageableHelper;
-import com.project.ecommerce.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -40,13 +36,9 @@ public class OrderItemService {
     private final OrderItemMapper orderItemMapper;
     private final CartService cartService;
     private final ProductService productService;
-    @Autowired
-    private final UserService userService;
     private final PageableHelper pageableHelper;
-    private final CartRepository cartRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(OrderItemService.class);
-
 
     public List<OrderItemResponse> getOrderItemsByUserId(Long userId) {
 
@@ -86,7 +78,7 @@ public class OrderItemService {
                 .product(product)
                 .totalPrice(orderItemRequest.getQuantity() * product.getPrice())
                 .cart(customersCart)
-             //   .customer(customer) //if customer doesnt exists?
+                //   .customer(customer) //if customer doesnt exists?
                 .build();
 
         // Add the OrderItem to the Cart's orderItemList
@@ -114,7 +106,6 @@ public class OrderItemService {
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
 
         return orderItemMapper.mapOrderItemToOrderItemResponse(orderItem);
-
     }
 
     @Transactional
@@ -137,7 +128,7 @@ public class OrderItemService {
         logger.info("Updating quantity of OrderItem name: {} to {}", orderItem.getId(), orderItem.getQuantity());
 
         // Save the updated OrderItem
-      //  logger.info("Updating OrderItem: {}", orderItem);
+        //  logger.info("Updating OrderItem: {}", orderItem);
         OrderItem updatedOrderItem = orderItemRepository.save(orderItem);
 
         // Retrieve or create the Cart based on user authentication
@@ -148,9 +139,6 @@ public class OrderItemService {
             HttpSession session = httpServletRequest.getSession();
             cart = cartService.getCartBySession(session);
         }
-
-//        // Add the OrderItem to the Cart's orderItemList
-//        cart.getOrderItemList().add(orderItem);
 
         // Recalculate total price of the Cart
         cart.recalculateTotalPrice();
@@ -178,15 +166,9 @@ public class OrderItemService {
     public OrderItemResponse deleteOrderItemById(Long orderItemId, HttpServletRequest httpServletRequest) {
         String username = (String) httpServletRequest.getAttribute("username");
 
-        // Ürünü alın
-        //    Product product = productService.isProductExistsById(orderItemRequestForUpdate.getProductId()); bu kontrole gerek yok
-
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
-
-//        Product product = orderItem.getProduct();
-//        product.setStock(product.getStock() + orderItem.getQuantity());
 
         Cart customersCart;
         if (username != null) {
@@ -200,7 +182,7 @@ public class OrderItemService {
 
         customersCart.getOrderItemList().remove(orderItem);
         customersCart.recalculateTotalPrice();
-        if (username!=null) {
+        if (username != null) {
             cartService.saveCart(customersCart);
         }
         logger.info("Deleting OrderItem: {}", orderItem);

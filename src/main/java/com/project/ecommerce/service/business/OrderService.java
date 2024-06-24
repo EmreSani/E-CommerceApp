@@ -29,14 +29,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final CartService cartService;
-
     private final OrderMappers orderMapper;
     private final OrderItemService orderItemService;
     private final PageableHelper pageableHelper;
@@ -95,7 +93,6 @@ public class OrderService {
         // Save updated cart
         cartService.saveCart(cart);
 
-
         OrderResponse orderResponse = orderMapper.mapOrderToOrderResponse(savedOrder);
 
         return ResponseMessage.<OrderResponse>builder()
@@ -106,7 +103,6 @@ public class OrderService {
     }
 
     public Order isOrderExistsById(Long id) {
-
         return orderRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(ErrorMessages.ORDER_NOT_FOUND_USER_MESSAGE,
                         id)));
@@ -116,14 +112,12 @@ public class OrderService {
 
     @Transactional
     public OrderResponse deleteOrderById(Long orderId) {
-
-
         // Check if the order exists by its ID
         Order order = isOrderExistsById(orderId);
 
         // Ensure business logic allows deletion
         if (!canDeleteOrder(order)) {
-            throw new BadRequestException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
+            throw new BadRequestException(ErrorMessages.ORDER_CAN_NOT_BE_DELETED);
         }
         // Removing the order from the customer's list of orders
         order.getCustomer().getOrders().remove(order);
@@ -149,7 +143,7 @@ public class OrderService {
     }
 
     private void canCancelOrder(Order order) {
-        // Implement business rules for order cancelation, can add more rules.
+        // Implement business rules for order cancelation, we can add more rules.
 
         if (!order.getStatus().equals("shipped") && !order.getStatus().equals("delivered")){
             throw new BadRequestException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
@@ -164,7 +158,7 @@ public class OrderService {
 
         // Kullanıcının siparişini iptal etmesine izin ver
         if (!order.getCustomer().getUsername().equals(username)) {
-            throw new AccessDeniedException("Bu siparişi iptal etme yetkiniz yok.");
+            throw new AccessDeniedException(ErrorMessages.ORDER_CAN_NOT_BE_CANCELED);
         }
 
         // Siparişin durumuna göre iptal kontrolü

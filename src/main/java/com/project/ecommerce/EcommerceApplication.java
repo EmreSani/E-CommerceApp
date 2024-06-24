@@ -1,12 +1,10 @@
 package com.project.ecommerce;
 
-import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.entity.concretes.user.UserRole;
 import com.project.ecommerce.entity.enums.Gender;
 import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.payload.request.business.ProductRequest;
 import com.project.ecommerce.payload.request.user.UserRequest;
-import com.project.ecommerce.repository.business.ProductRepository;
 import com.project.ecommerce.repository.user.UserRoleRepository;
 import com.project.ecommerce.service.business.ProductService;
 import com.project.ecommerce.service.user.UserRoleService;
@@ -15,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDate;
 
@@ -35,7 +32,6 @@ public class EcommerceApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		// Role tablomu dolduracagim ama once bos mu diye kontrol edecegim
 		if(userRoleService.getAllUserRole().isEmpty()){
 
 			UserRole admin = new UserRole();

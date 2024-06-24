@@ -1223,4 +1223,7 @@
 ""2024-06-24 02:21:50,584 INFO  [http-nio-8083-exec-8] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@5f0eae04
 ""2024-06-24 02:21:51,329 INFO  [http-nio-8083-exec-2] com.project.ecommerce.service.business.OrderItemService:Saving OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@4535c20f
 ""2024-06-24 02:22:24,840 INFO  [http-nio-8083-exec-4] com.project.ecommerce.service.business.OrderItemService:Deleting OrderItem: com.project.ecommerce.entity.concretes.business.OrderItem@41ca7014
+""2024-06-24 02:22:57,752 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-24 02:22:57,758 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-24 02:22:57,762 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
 "

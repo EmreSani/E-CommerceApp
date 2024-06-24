@@ -20,7 +20,8 @@ public class OrderItemRequestForUpdate {
 
 //    @NotNull(message = "Product ID cannot be null")
 //    private Long productId;
-    //kaldırıldı çünkü güncelleme yaparken product değişsin istemiyoruz.
+    //kaldırıldı çünkü sipariş öğesini güncellerken product değişsin istemiyoruz.
+    //sadece sepetindeki bu öğenin sayısını değiştirsin istiyoruz.
     //product değiştirmek için önce orderItem silinir sonra istediği productı barındıran orderItem eklenir.
 
 }

@@ -1,7 +1,6 @@
 package com.project.ecommerce.service.user;
 
 import com.project.ecommerce.entity.concretes.business.Cart;
-import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.entity.enums.RoleType;
 import com.project.ecommerce.exception.BadRequestException;
@@ -10,13 +9,11 @@ import com.project.ecommerce.payload.mappers.UserMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.user.UserRequest;
-import com.project.ecommerce.payload.response.business.OrderItemResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.repository.user.UserRepository;
 import com.project.ecommerce.security.service.UserDetailsImpl;
 import com.project.ecommerce.service.business.CartService;
-import com.project.ecommerce.service.business.OrderItemService;
 import com.project.ecommerce.service.helper.MethodHelper;
 import com.project.ecommerce.service.helper.PageableHelper;
 import com.project.ecommerce.service.validator.UniquePropertyValidator;
@@ -44,7 +41,6 @@ public class UserService {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
     private final PageableHelper pageableHelper;
-//    private final OrderItemService orderItemService;
     private final MethodHelper methodHelper;
     private final CartService cartService;
 
@@ -69,11 +65,10 @@ public class UserService {
             user.setUserRole(userRoleService.getUserRole(RoleType.CUSTOMER));
         }
 
-
         // encoding the plain text password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        Cart cart =cartService.createCartForUser(user);
+        Cart cart = cartService.createCartForUser(user);
         user.setCart(cart);
         User savedUser = userRepository.save(user);
 
@@ -81,7 +76,6 @@ public class UserService {
                 .message(String.format(SuccessMessages.USER_CREATE, user.getId()))
                 .object(userMapper.mapUserToUserResponse(savedUser))
                 .build();
-
     }
 
     public long countAllAdmins() {
@@ -101,7 +95,6 @@ public class UserService {
 
         return ResponseMessage.<UserResponse>builder().message(SuccessMessages.USER_FOUND).
                 httpStatus(HttpStatus.OK).object(userMapper.mapUserToUserResponse(methodHelper.isUserExist(userId))).build();
-
     }
 
     @Transactional
@@ -109,9 +102,7 @@ public class UserService {
         userRepository.delete(methodHelper.isUserExist(userId));
 
         return String.format(SuccessMessages.USER_DELETE, userId);
-
     }
-
 
     @Transactional
     public ResponseMessage<UserResponse> getUserByUserName(String userName) {
@@ -124,7 +115,6 @@ public class UserService {
                                 (String.format
                                         (ErrorMessages.NOT_FOUND_USER_MESSAGE_WITH_USERNAME, userName)))))
                 .build();
-
     }
 
     @Transactional
@@ -136,7 +126,6 @@ public class UserService {
                                 (ErrorMessages.NOT_FOUND_USER_MESSAGE_WITH_USERNAME, userName)));
 
     }
-
 
     @Transactional
     public ResponseMessage<List<UserResponse>> getUserByFullName(String name, String lastname) {
@@ -199,7 +188,6 @@ public class UserService {
 
         uniquePropertyValidator.checkUniqueProperties(foundUser, userRequest);
 
-
         methodHelper.checkBuiltIn(foundUser);
 
         User updatedUser = userMapper.mapUserRequestToUpdatedUser(userRequest, userId);
@@ -214,7 +202,7 @@ public class UserService {
                 .message(SuccessMessages.USER_UPDATE_MESSAGE)
                 .httpStatus(HttpStatus.OK)
                 .object(userMapper.mapUserToUserResponse(savedUser))
-                .build() ;
+                .build();
     }
 
     @Transactional
@@ -226,11 +214,11 @@ public class UserService {
         // Retrieve the existing user entity
         User existingUser = methodHelper.isUserExist(userId);
 
-        if(Boolean.TRUE.equals(existingUser.getBuilt_in())) { // null değerleriyle çalışırken güvenli bir yöntemdir. Boolean.TRUE.equals
+        if (Boolean.TRUE.equals(existingUser.getBuilt_in())) { // null değerleriyle çalışırken güvenli bir yöntemdir. Boolean.TRUE.equals
             throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
         }
 
-        uniquePropertyValidator.checkUniqueProperties(existingUser,userRequest);
+        uniquePropertyValidator.checkUniqueProperties(existingUser, userRequest);
         // Map userRequest to existing User entity
         User updatedUser = userMapper.mapUserRequestToUpdatedUser(userRequest, userId);
 

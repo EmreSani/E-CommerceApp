@@ -10,6 +10,9 @@ import java.util.List;
 
 public class OrderRequest {
 
+    //bu classı kullanmaya gerek olmuyor, OrderRequest body ile işlem yapmıyoruz
+    //işlemi yapan kişinin sepetindeki ürünleri ordera dönüştürüp dbye kaydediyoruz.
+    //farkındalık olsun diye silmedim.
     private Long id;
 
     private User customer;
