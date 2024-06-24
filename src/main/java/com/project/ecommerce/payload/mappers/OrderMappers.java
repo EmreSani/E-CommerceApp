@@ -20,7 +20,7 @@ public class OrderMappers {
         orderResponse.setOrderDate(order.getOrderDate());
         orderResponse.setOrderStatus(orderResponse.getOrderStatus());
         orderResponse.setOrderItems(order.getOrderItems().stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList()));
-
+        orderResponse.setOrderStatus(order.getStatus());
         return orderResponse;
     }
 }

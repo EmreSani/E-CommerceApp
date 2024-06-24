@@ -40,6 +40,8 @@ public class OrderService {
     private final PageableHelper pageableHelper;
     private final ProductService productService;
 
+    //todo: setOrderStatus methodu
+
 
     @Transactional
     public ResponseMessage<OrderResponse> createOrderFromCart(HttpServletRequest httpServletRequest) {
@@ -62,21 +64,23 @@ public class OrderService {
         // Detach orderItems from cart to avoid shared references issue
         List<OrderItem> orderItems = new ArrayList<>(cart.getOrderItemList());
 
-        for (OrderItem orderItem : orderItems) {
-            Product product = orderItem.getProduct();
-            productService.updateProductStockForCreatingOrder(product.getId(), orderItem.getQuantity());
-            orderItem.setCart(null);
-//            order.addOrderItem(orderItem);   // Order entity'sine orderItemList ekleniyor
-//            orderItem.setOrder(order);       // OrderItem entity'sinin order alanı set ediliyor
-//            orderItem.setCart(null);
-        }
+
 
         Order order = Order.builder()
                 .orderItems(new ArrayList<>(orderItems)) // Create a new list to avoid shared references
                 .totalPrice(cart.getTotalPrice())
                 .orderDate(LocalDateTime.now())
-                .status("Order is being prepared to shipping")
+                .status("Order is being prepared for shipping.")
                 .build();
+
+        for (OrderItem orderItem : orderItems) {
+            Product product = orderItem.getProduct();
+            productService.updateProductStockForCreatingOrder(product.getId(), orderItem.getQuantity());
+            orderItem.setCart(null);
+//            order.addOrderItem(orderItem);   // Order entity'sine orderItemList ekleniyor
+            orderItem.setOrder(order);      // OrderItem entity'sinin order alanı set ediliyor
+        }
+
 
         if (cart.getUser() != null) {
             order.setCustomer(cart.getUser());
@@ -115,7 +119,7 @@ public class OrderService {
         // Check if the order exists by its ID
         Order order = isOrderExistsById(orderId);
 
-        // Ensure business logic allows deletion
+        // Ensure business logic allows deletion. Order status canceled ise silebiliyoruz onun haricinde order kayıtlarını tutmak istiyoruz.
         if (!canDeleteOrder(order)) {
             throw new BadRequestException(ErrorMessages.ORDER_CAN_NOT_BE_DELETED);
         }
@@ -123,10 +127,10 @@ public class OrderService {
         order.getCustomer().getOrders().remove(order);
 
         // Update stock quantities if necessary
+        if (!order.getStatus().equalsIgnoreCase("canceled")){
         for (OrderItem item : order.getOrderItems()) {
-            productService.updateProductStockForCancellingOrder(item.getProduct().getId(), item.getQuantity());
             orderItemService.deleteOrderItemByIdBeforeDeleteOrder(item.getId());
-        }
+        }}
 
         // The orphanRemoval = true annotation on Order ensures that OrderItems will be deleted
         orderRepository.delete(order);
@@ -137,16 +141,18 @@ public class OrderService {
 
     private boolean canDeleteOrder(Order order) {
         // Implement business rules for order deletion
+//Todo: order statusleri enum classta belirtebiliriz. Ex: cancelled, shipped, etc.
+         return order.getStatus().equalsIgnoreCase("cancelled");
 
-         return !order.getStatus().equals("shipped") && !order.getStatus().equals("delivered");
+
 
     }
 
     private void canCancelOrder(Order order) {
         // Implement business rules for order cancelation, we can add more rules.
 
-        if (!order.getStatus().equals("shipped") && !order.getStatus().equals("delivered")){
-            throw new BadRequestException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
+        if (order.getStatus().equals("shipped") ||  order.getStatus().equals("delivered")){
+            throw new BadRequestException(ErrorMessages.ORDER_CAN_NOT_BE_CANCELED);
         }
 
     }

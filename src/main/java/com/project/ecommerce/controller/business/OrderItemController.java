@@ -79,15 +79,15 @@ public class OrderItemController {
         return orderItemService.getAllOrderItemsByPage(page, size, sort, type);
     }
 
-    //10-Idsi verilen müşterinin tüm siparişlerini getirme -> http://localhost:8080/customers/allorder/1 //düzelt
-    // GET http://localhost:8080/orderItem/allorder/{userId} - Endpoint to retrieve all order items of a user by user ID (requires ADMIN authority)
-    @GetMapping("/allorder/{userId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(
-            @PathVariable Long userId
-    ) {
-        return orderItemService.getUsersOrderItemsById(userId);
-
-    }
+//    //10-Idsi verilen müşterinin tüm siparişleri ögelerini getirme -> http://localhost:8080/customers/allorder/1 //order itemları userlarla değil cartlarla eşleştirdiğim için şuan inaktif
+//    // GET http://localhost:8080/orderItem/allorder/{userId} - Endpoint to retrieve all order items of a user by user ID (requires ADMIN authority)
+//    @GetMapping("/allorder/{userId}")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(
+//            @PathVariable Long userId
+//    ) {
+//        return orderItemService.getUsersOrderItemsById(userId);
+//
+//    }
 
 }

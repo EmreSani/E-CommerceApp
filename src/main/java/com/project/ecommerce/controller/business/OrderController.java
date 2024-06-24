@@ -30,7 +30,8 @@ public class OrderController {
     }
 
     // 2-Id ile order delete etme ->http://localhost:8080/orders/delete/5
-    //order silinince içerisindeki order itemlar da silinir, sipariş iptali gibi düşünebiliriz. sipariş iptali için yöneticiyle iletişime geçmek gerekiyor.
+    //sadece admin silebilir, ve sadece daha öncesinde cancel edilen orderları silebiliyor, geriye kalan orderları dbde record olarak tutma amacındayız.
+    //order silinince içerisindeki order itemlar da silinir, sipariş daha öncesinde zaten iptal edildiği için stock güncellenmez.
     // DELETE http://localhost:8080/orders/delete/{orderId} - Endpoint to delete an order by its ID, including its order items
     @DeleteMapping("/delete/{orderId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -81,7 +82,7 @@ public class OrderController {
 
     // Implement method to get all orders of the logged-in user
     @GetMapping("/my-orders")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<Page<OrderResponse>> getMyOrdersByPage(
             HttpServletRequest request,
             @RequestParam(value = "page", defaultValue = "0") int page,

@@ -197,21 +197,23 @@ public class OrderItemService {
                 new ResourceNotFoundException
                         (String.format(ErrorMessages.ORDER_ITEM_NOT_FOUND_MESSAGE, orderItemId)));
 
-        Product product = orderItem.getProduct();
-        product.setStock(product.getStock() + orderItem.getQuantity());
-        logger.info("Deleting OrderItems: {}", orderItem);
+//        Product product = orderItem.getProduct();
+//        product.setStock(product.getStock() + orderItem.getQuantity());
+//        logger.info("Deleting OrderItems: {}", orderItem);
+//        Bu kontrolleri Product service içerisinde updateProductStockForCancellingOrder methodunda yaptığımız için
+//        burda yapmıyoruz. yoksa order iptal edilince elimizdeki ürün stoğu 2 kez arttırılmış oluyor.
         orderItemRepository.delete(orderItem);
 
     }
 
-    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
-
-        List<OrderItemResponse> orderItemList = getOrderItemsByUserId(userId);
-
-        return ResponseMessage.<List<OrderItemResponse>>builder()
-                .message(SuccessMessages.ORDER_ITEMS_FOUND)
-                .httpStatus(HttpStatus.OK)
-                .object(orderItemList)
-                .build();
-    }
+//    public ResponseMessage<List<OrderItemResponse>> getUsersOrderItemsById(Long userId) {
+//
+//        List<OrderItemResponse> orderItemList = getOrderItemsByUserId(userId);
+//
+//        return ResponseMessage.<List<OrderItemResponse>>builder()
+//                .message(SuccessMessages.ORDER_ITEMS_FOUND)
+//                .httpStatus(HttpStatus.OK)
+//                .object(orderItemList)
+//                .build();
+//    }
 }
