@@ -13,5 +13,5 @@ import org.springframework.context.annotation.Configuration;
 @SecurityScheme(name = "Bearer", type = SecuritySchemeType.HTTP, scheme = "Bearer")
 public class OpenAPIConfig {
 
-    // http://localhost:8080/swagger-ui/index.html   --> SWAGGER API erisim adresi
+    // http://localhost:8083/swagger-ui/index.html   --> SWAGGER API erisim adresi
 }
