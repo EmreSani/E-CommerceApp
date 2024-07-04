@@ -9,6 +9,7 @@ import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderMappers;
 import com.project.ecommerce.payload.messages.ErrorMessages;
 import com.project.ecommerce.payload.messages.SuccessMessages;
+import com.project.ecommerce.payload.request.business.OrderRequestForStatus;
 import com.project.ecommerce.payload.response.business.OrderResponse;
 
 import com.project.ecommerce.payload.response.business.ResponseMessage;
@@ -65,7 +66,6 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>(cart.getOrderItemList());
 
 
-
         Order order = Order.builder()
                 .orderItems(new ArrayList<>(orderItems)) // Create a new list to avoid shared references
                 .totalPrice(cart.getTotalPrice())
@@ -113,7 +113,6 @@ public class OrderService {
     }
 
 
-
     @Transactional
     public OrderResponse deleteOrderById(Long orderId) {
         // Check if the order exists by its ID
@@ -127,10 +126,11 @@ public class OrderService {
         order.getCustomer().getOrders().remove(order);
 
         // Update stock quantities if necessary
-        if (!order.getStatus().equalsIgnoreCase("canceled")){
-        for (OrderItem item : order.getOrderItems()) {
-            orderItemService.deleteOrderItemByIdBeforeDeleteOrder(item.getId());
-        }}
+        if (!order.getStatus().equalsIgnoreCase("canceled")) {
+            for (OrderItem item : order.getOrderItems()) {
+                orderItemService.deleteOrderItemByIdBeforeDeleteOrder(item.getId());
+            }
+        }
 
         // The orphanRemoval = true annotation on Order ensures that OrderItems will be deleted
         orderRepository.delete(order);
@@ -142,8 +142,7 @@ public class OrderService {
     private boolean canDeleteOrder(Order order) {
         // Implement business rules for order deletion
 //Todo: order statusleri enum classta belirtebiliriz. Ex: cancelled, shipped, etc.
-         return order.getStatus().equalsIgnoreCase("cancelled");
-
+        return order.getStatus().equalsIgnoreCase("cancelled");
 
 
     }
@@ -151,7 +150,7 @@ public class OrderService {
     private void canCancelOrder(Order order) {
         // Implement business rules for order cancelation, we can add more rules.
 
-        if (order.getStatus().equals("shipped") ||  order.getStatus().equals("delivered")){
+        if (order.getStatus().equals("shipped") || order.getStatus().equals("delivered")) {
             throw new BadRequestException(ErrorMessages.ORDER_CAN_NOT_BE_CANCELED);
         }
 
@@ -223,5 +222,17 @@ public class OrderService {
                 .httpStatus(HttpStatus.OK)
                 .object(orderResponsePage)
                 .build();
+    }
+
+    public ResponseMessage<OrderResponse> updateOrderStatus(OrderRequestForStatus orderRequestForStatus, Long orderId) {
+
+        Order order = isOrderExistsById(orderId);
+
+        order.setStatus(orderRequestForStatus.getStatus());
+
+        Order updatedOrder = orderRepository.save(order);
+
+        return ResponseMessage.<OrderResponse>builder().message(SuccessMessages.ORDER_UPDATE).httpStatus(HttpStatus.OK)
+                .object(orderMapper.mapOrderToOrderResponse(updatedOrder)).build();
     }
 }

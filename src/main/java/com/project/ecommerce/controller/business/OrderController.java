@@ -1,5 +1,6 @@
 package com.project.ecommerce.controller.business;
 
+import com.project.ecommerce.payload.request.business.OrderRequestForStatus;
 import com.project.ecommerce.payload.response.business.OrderResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.service.business.OrderService;
@@ -93,6 +94,19 @@ public class OrderController {
         //we get the username from the request and fetch orders for the logged-in user
         String username = request.getUserPrincipal().getName();
         return orderService.getOrdersByUsername(username, page, size, sort, type);
+    }
+
+    //set order status
+    //http://localhost:8080/orders/update/{orderId}
+    @PutMapping("/update/{orderId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseMessage<OrderResponse> updateOrderStatus(
+            @RequestBody OrderRequestForStatus orderRequestForStatus,
+            @PathVariable Long orderId
+    ){
+
+        return orderService.updateOrderStatus(orderRequestForStatus, orderId);
+
     }
 
 

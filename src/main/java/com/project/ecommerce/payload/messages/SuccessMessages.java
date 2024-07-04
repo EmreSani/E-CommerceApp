@@ -23,4 +23,5 @@ public class SuccessMessages {
 
     public static final String ORDER_CREATE = "Order created successfully with id: %s";
     public static final String ORDERS_FOUND = "Order Items Found Successfully";
+    public static final String ORDER_UPDATE = "Order updated successfully with id: %s";
 }
