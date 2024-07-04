@@ -62,4 +62,5 @@ public class ProductController {
         return productService.getAllProductsByPage(page,size,sort,type);
     }
 
+    //todo: delete product
 }
