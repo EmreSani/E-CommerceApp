@@ -4,6 +4,7 @@ import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.Order;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
+import com.project.ecommerce.entity.enums.SpecialTimes;
 import com.project.ecommerce.exception.BadRequestException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderMappers;
@@ -14,6 +15,8 @@ import com.project.ecommerce.payload.response.business.OrderResponse;
 
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.repository.business.OrderRepository;
+import com.project.ecommerce.service.helper.BlackFridayCalculator;
+import com.project.ecommerce.service.helper.HappyHourCalculator;
 import com.project.ecommerce.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +46,8 @@ public class OrderService {
     private final OrderItemService orderItemService;
     private final PageableHelper pageableHelper;
     private final ProductService productService;
+    private final BlackFridayCalculator blackFridayCalculator;
+    private final HappyHourCalculator happyHourCalculator;
 
     @Transactional
     public ResponseMessage<OrderResponse> createOrderFromCart(HttpServletRequest httpServletRequest) {
@@ -68,6 +76,19 @@ public class OrderService {
                 .orderDate(LocalDateTime.now())
                 .status("Order is being prepared for shipping.")
                 .build();
+
+        // Özel zaman kontrolü
+        LocalDateTime orderDate = order.getOrderDate();
+
+        if (isSpecialTime(orderDate, SpecialTimes.BLACK_FRIDAY)) {
+            // İndirim uygula (%20)
+            double discountedPrice = blackFridayCalculator.applyDiscount(order.getTotalPrice(), 20);
+            order.setTotalPrice(discountedPrice);
+        } else if (isSpecialTime(orderDate, SpecialTimes.HAPPY_HOUR)) {
+            // İndirim uygula (%10)
+            double discountedPrice = happyHourCalculator.applyDiscount(order.getTotalPrice(), 10);
+            order.setTotalPrice(discountedPrice);
+        }
 
         for (OrderItem orderItem : orderItems) {
             Product product = orderItem.getProduct();
@@ -265,5 +286,19 @@ public class OrderService {
         orderRepository.save(order);
 
         return orderMapper.mapOrderToOrderResponse(order);
+    }
+
+    // SpecialTimes enumunu ve indirim hesaplama metodunu kullanan özel zaman kontrolü
+    private boolean isSpecialTime(LocalDateTime orderDate, SpecialTimes specialTime) {
+        switch (specialTime) {
+            case BLACK_FRIDAY:
+                LocalDate blackFriday = blackFridayCalculator.calculateBlackFriday();
+                LocalDate localDate = orderDate.toLocalDate();
+                return localDate.equals(blackFriday);
+            case HAPPY_HOUR:
+                return happyHourCalculator.isHappyHour(orderDate);
+            default:
+                return false;
+        }
     }
 }
