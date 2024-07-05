@@ -141,7 +141,9 @@ public class OrderService {
             throw new BadRequestException(ErrorMessages.ORDER_CAN_NOT_BE_DELETED);
         }
         // Removing the order from the customer's list of orders
-        order.getCustomer().getOrders().remove(order);
+       if (order.getCustomer()!=null) {
+           order.getCustomer().getOrders().remove(order);
+       }
 
         // Update stock quantities if necessary
         if (!order.getStatus().equalsIgnoreCase("canceled")) {
@@ -259,6 +261,9 @@ public class OrderService {
         HttpSession session = httpServletRequest.getSession();
         Order order = isOrderExistsById(orderId);
 
+        if (order.getCustomer()!=null){
+            throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+        }
         // Oturumdan anonim tanımlayıcıyı al
         String sessionAnonymousIdentifier = session.getId();
 
@@ -266,8 +271,14 @@ public class OrderService {
             throw new AccessDeniedException("No anonymous identifier found in session.");
         }
 
-        // Kullanıcının siparişini iptal etmesine izin ver
-        if (!order.getAnonymousIdentifier().equals(sessionAnonymousIdentifier)) {
+//        // Kullanıcının siparişini iptal etmesine izin ver
+//        if (!order.getAnonymousIdentifier().equals(sessionAnonymousIdentifier)) {
+//            throw new AccessDeniedException(ErrorMessages.ORDER_CAN_NOT_BE_CANCELED);
+//        }
+
+        // Null kontrolü ekleyin
+        String orderAnonymousIdentifier = order.getAnonymousIdentifier();
+        if (orderAnonymousIdentifier == null || !orderAnonymousIdentifier.equals(sessionAnonymousIdentifier)) {
             throw new AccessDeniedException(ErrorMessages.ORDER_CAN_NOT_BE_CANCELED);
         }
 
