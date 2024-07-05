@@ -79,7 +79,14 @@ public class OrderController {
         return ResponseEntity.ok(orderResponse);
     }
 
-    //todo: write a cancelation method that anonymous users can also cancel their order.
+    //cancelation method that anonymous users can also cancel their order.
+    @PostMapping("/cancel/{orderId}")// http://localhost:8080/orders/cancelAnonymous/{orderId} //todo: test
+    public ResponseEntity<OrderResponse> cancelAnonymousOrder(@PathVariable Long orderId, HttpServletRequest httpServletRequest) {
+
+        OrderResponse orderResponse = orderService.cancelAnonymousOrderById(orderId, httpServletRequest);
+
+        return ResponseEntity.ok(orderResponse);
+    }
 
     // Implement method to get all orders of the logged-in user
     @GetMapping("/my-orders")

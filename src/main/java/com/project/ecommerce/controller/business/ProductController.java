@@ -1,11 +1,13 @@
 package com.project.ecommerce.controller.business;
 
+import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.business.ProductRequest;
 import com.project.ecommerce.payload.response.business.ProductResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.service.business.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,5 +64,16 @@ public class ProductController {
         return productService.getAllProductsByPage(page,size,sort,type);
     }
 
-    //todo: delete product
+//    //product silme methodunu değerlendir; orderitemların ve orderların durumunu gözet.
+//    @DeleteMapping("/delete/{productId}")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    public ResponseMessage deleteProductById(@PathVariable Long productId){
+//
+//        productService.deleteProductById(productId);
+//
+//      return ResponseMessage.builder().message(SuccessMessages.PRODUCT_DELETE)
+//                .httpStatus(HttpStatus.NO_CONTENT)
+//                .build();
+//
+//    }
 }

@@ -1,5 +1,6 @@
 package com.project.ecommerce.service.business;
 
+import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
 import com.project.ecommerce.exception.ConflictException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
@@ -12,6 +13,7 @@ import com.project.ecommerce.payload.response.business.ResponseMessage;
 import com.project.ecommerce.repository.business.ProductRepository;
 import com.project.ecommerce.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,7 +41,7 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + productId));
         product.setStock(product.getStock() - quantity);
-        if (product.getStock()<0){
+        if (product.getStock() < 0) {
             throw new ResourceNotFoundException(ErrorMessages.NOT_ENOUGH_STOCK_PRODUCT_MESSAGE);
         }
         productRepository.save(product);
@@ -124,8 +126,28 @@ public class ProductService {
                 .build();
     }
 
-    public List<Product> findAllProductsForMainClass (){
+    public List<Product> findAllProductsForMainClass() {
 
-       return productRepository.findAll();
+        return productRepository.findAll();
     }
+
+//    public void deleteProductById(Long productId) {
+//
+//        Product productToDelete = isProductExistsById(productId);
+//
+//        List<OrderItem> orderItems = productToDelete.getOrderItemList();
+//
+//        for (OrderItem orderItem : orderItems) {
+//
+//            if (orderItem.getOrderItemStatus().equalsIgnoreCase("something")) {
+//
+//            }
+//
+//        }
+//        if (productToDelete.getOrderItemList() != null && !productToDelete.getOrderItemList().isEmpty()) {
+//            throw new ConflictException(ErrorMessages.PRODUCT_CAN_NOT_BE_DELETED);
+//        }
+//
+//        productRepository.delete(productToDelete);
+//    }
 }

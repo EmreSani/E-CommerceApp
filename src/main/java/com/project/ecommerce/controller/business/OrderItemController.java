@@ -21,8 +21,6 @@ import java.util.List;
 public class OrderItemController {
     private final OrderItemService orderItemService;
 
-    //todo: order item oluşturulduğunda orderitemın statusunu "in cart" olacak şekilde, sepetteki orderitemlar ile order oluşturulduğunda ise ordered olacak şekilde ayarlanabilir
-
     //1-sipariş ögesi oluşturma ve işlemi yapan kişinin sepetine ekleme methodu->http://localhost:8080/orders/save/filter?cid=1&prod=1&quant=3 //bir productı istediğimiz sayıda alıp carta ekliyoruz.
     // POST http://localhost:8080/orderItem/save - Endpoint to create a new order item and add it to the cart based on provided parameters
     @PostMapping("/save")

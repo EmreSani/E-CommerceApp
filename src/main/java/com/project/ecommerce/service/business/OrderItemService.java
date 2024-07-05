@@ -81,6 +81,7 @@ public class OrderItemService {
                 //   .customer(customer) //if customer doesnt exists?
                 .build();
 
+        orderItem.setOrderItemStatus("in cart");
         // Add the OrderItem to the Cart's orderItemList
         customersCart.getOrderItemList().add(orderItem);
 

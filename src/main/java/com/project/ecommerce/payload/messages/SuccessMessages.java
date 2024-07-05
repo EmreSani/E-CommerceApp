@@ -20,6 +20,7 @@ public class SuccessMessages {
     public static final String PRODUCTS_FOUND = "Products found successfully";
     public static final String PRODUCT_FOUND = "Product found successfully";
     public static final String PRODUCT_UPDATE = "Product updated successfully";
+    public static final String PRODUCT_DELETE = "Products deleted successfully";
 
     public static final String ORDER_CREATE = "Order created successfully with id: %s";
     public static final String ORDERS_FOUND = "Order Items Found Successfully";

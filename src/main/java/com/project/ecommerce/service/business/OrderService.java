@@ -41,9 +41,6 @@ public class OrderService {
     private final PageableHelper pageableHelper;
     private final ProductService productService;
 
-    //todo: setOrderStatus methodu
-
-
     @Transactional
     public ResponseMessage<OrderResponse> createOrderFromCart(HttpServletRequest httpServletRequest) {
 
@@ -65,7 +62,6 @@ public class OrderService {
         // Detach orderItems from cart to avoid shared references issue
         List<OrderItem> orderItems = new ArrayList<>(cart.getOrderItemList());
 
-
         Order order = Order.builder()
                 .orderItems(new ArrayList<>(orderItems)) // Create a new list to avoid shared references
                 .totalPrice(cart.getTotalPrice())
@@ -79,6 +75,7 @@ public class OrderService {
             orderItem.setCart(null);
 //            order.addOrderItem(orderItem);   // Order entity'sine orderItemList ekleniyor
             orderItem.setOrder(order);      // OrderItem entity'sinin order alanı set ediliyor
+            orderItem.setOrderItemStatus("ordered");
         }
 
 
@@ -234,5 +231,39 @@ public class OrderService {
 
         return ResponseMessage.<OrderResponse>builder().message(SuccessMessages.ORDER_UPDATE).httpStatus(HttpStatus.OK)
                 .object(orderMapper.mapOrderToOrderResponse(updatedOrder)).build();
+    }
+
+    public OrderResponse cancelAnonymousOrderById(Long orderId, HttpServletRequest httpServletRequest) {
+
+        HttpSession session = httpServletRequest.getSession();
+        Order order = isOrderExistsById(orderId);
+
+        // Oturumdan anonim tanımlayıcıyı al
+        String sessionAnonymousIdentifier = (String) session.getAttribute("anonymousIdentifier");
+
+        if (sessionAnonymousIdentifier == null) {
+            throw new AccessDeniedException("No anonymous identifier found in session.");
+        }
+
+        // Kullanıcının siparişini iptal etmesine izin ver
+        if (!order.getAnonymousIdentifier().equals(sessionAnonymousIdentifier)) {
+            throw new AccessDeniedException(ErrorMessages.ORDER_CAN_NOT_BE_CANCELED);
+        }
+
+        // Siparişin durumuna göre iptal kontrolü
+        canCancelOrder(order);
+
+        // Sipariş durumunu iptal edilmiş olarak güncelle
+        order.setStatus("cancelled");
+
+        // Sipariş içerisindeki her bir ürünün stok miktarını güncelle
+        for (OrderItem item : order.getOrderItems()) { // Corrected to getOrderItems() method
+            productService.updateProductStockForCancellingOrder(item.getProduct().getId(), item.getQuantity());
+        }
+
+        // Siparişi güncelle
+        orderRepository.save(order);
+
+        return orderMapper.mapOrderToOrderResponse(order);
     }
 }
