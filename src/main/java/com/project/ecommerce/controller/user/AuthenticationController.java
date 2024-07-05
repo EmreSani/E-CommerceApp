@@ -22,9 +22,6 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-
-
-
     // POST http://localhost:8080/auth/login - Endpoint to authenticate a user
     @PostMapping("/login") // http://localhost:8080/auth/login + POST + JSON
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid LoginRequest loginRequest) {
@@ -48,14 +45,3 @@ public class AuthenticationController {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

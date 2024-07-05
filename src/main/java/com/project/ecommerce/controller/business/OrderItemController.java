@@ -21,31 +21,31 @@ import java.util.List;
 public class OrderItemController {
     private final OrderItemService orderItemService;
 
-    //1-sipariş ögesi oluşturma ve işlemi yapan kişinin sepetine ekleme methodu->http://localhost:8080/orders/save/filter?cid=1&prod=1&quant=3 //bir productı istediğimiz sayıda alıp carta ekliyoruz.
-    // POST http://localhost:8080/orderItem/save - Endpoint to create a new order item and add it to the cart based on provided parameters
+    // 1 - Endpoint to create a new order item and add it to the cart based on provided parameters
+    // POST http://localhost:8080/orderItem/save
     @PostMapping("/save")
     public ResponseEntity<OrderItemResponse> createOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
         return orderItemService.createOrderItem(orderItemRequest, httpServletRequest);
     }
 
-    //2-tüm sipariş ögelerini getirme ->http://localhost:8080/orders
-    // GET http://localhost:8080/orderItem - Endpoint to retrieve all order items (requires ADMIN authority)
+    // 2 - Endpoint to retrieve all order items (requires ADMIN authority)
+    // GET http://localhost:8080/orderItem
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<OrderItemResponse>> getAllOrderItems() {
         return ResponseEntity.ok(orderItemService.getAllOrderItems());
     }
 
-    //3-Id ile sipariş ögesi getirme ->http://localhost:8080/orders/5
-    // GET http://localhost:8080/orderItem/{orderItemId} - Endpoint to retrieve an order item by its ID (requires ADMIN authority)
+    // 3 - Endpoint to retrieve an order item by its ID (requires ADMIN authority)
+    // GET http://localhost:8080/orderItem/{orderItemId}
     @GetMapping("/{orderItemId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<OrderItemResponse> getOrderById(@PathVariable Long orderItemId) {
         return ResponseEntity.ok(orderItemService.getOrderItemById(orderItemId));
     }
 
-    //4-Id ile sipariş ögesi miktarını update etme, carttan silme veya carttaki sayısını arttırıp azaltma ->http://localhost:8080/orderItem/update/5 //quantity=0 ise siparişi sil //Burayı cartta mı düzenlemek lazım acaba
-    // PUT http://localhost:8080/orderItem/update/{orderItemId} - Endpoint to update an order item's quantity or delete it from the cart based on provided parameters
+    // 4 - Endpoint to update an order item's quantity based on provided parameters
+    // PUT http://localhost:8080/orderItem/update/{orderItemId}
     @PutMapping("/update/{orderItemId}")
     public ResponseEntity<OrderItemResponse> updateOrderItem(@RequestBody @Valid OrderItemRequestForUpdate orderItemRequestForUpdate,
                                                              @PathVariable Long orderItemId,
@@ -54,8 +54,9 @@ public class OrderItemController {
         return ResponseEntity.ok(orderItemService.updateOrderItem(orderItemRequestForUpdate, httpServletRequest, orderItemId));
     }
 
-    // DELETE http://localhost:8080/orderItem/delete/{orderItemId} - Endpoint to delete an order item by its ID (requires ADMIN authority)
-    //order item silinince karttan da silinir
+    // 5 - Endpoint to delete an order item by its ID
+    // DELETE http://localhost:8080/orderItem/delete/{orderItemId}
+    // Order item is removed from the cart when deleted
     @DeleteMapping("/delete/{orderItemId}")
     public ResponseEntity<OrderItemResponse> deleteOrderItemById(@PathVariable Long orderItemId,
                                                                  HttpServletRequest httpServletRequest
@@ -65,7 +66,8 @@ public class OrderItemController {
 
 //
 
-    // GET http://localhost:8080/orderItem/page?page=1 &size=&sort=id&direction=ASC - Endpoint to retrieve all order items paginated and sorted by specified parameters
+    // 6 - Endpoint to retrieve all order items paginated and sorted by specified parameters (requires ADMIN authority)
+    // GET http://localhost:8080/orderItem/page?page=1&size=&sort=id&direction=ASC
     @GetMapping("/page")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<Page<OrderItemResponse>> getAllOrderItemsByPage(

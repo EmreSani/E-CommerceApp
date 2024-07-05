@@ -20,29 +20,27 @@ import javax.servlet.http.HttpServletRequest;
 public class OrderController {
     private final OrderService orderService;
 
+    // 1. Endpoint to create a new order from the authenticated or anonymous user's cart
+    // POST http://localhost:8080/orders/create
     @PostMapping("/create")
-//1- Order oluşturma. Binevi fiş.
-// POST http://localhost:8080/orders/create - Endpoint to create a new order from the authenticated or anonymous user's cart
-//    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<OrderResponse> createOrder(HttpServletRequest HttpServletrequest) {
 
         return orderService.createOrderFromCart(HttpServletrequest);
 
     }
 
-    // 2-Id ile order delete etme ->http://localhost:8080/orders/delete/5
-    //sadece admin silebilir, ve sadece daha öncesinde cancel edilen orderları silebiliyor, geriye kalan orderları dbde record olarak tutma amacındayız.
-    //order silinince içerisindeki order itemlar da silinir, sipariş daha öncesinde zaten iptal edildiği için stock güncellenmez.
-    // DELETE http://localhost:8080/orders/delete/{orderId} - Endpoint to delete an order by its ID, including its order items
+    // 2. Endpoint to delete an order by its ID, including its order items
+    // DELETE http://localhost:8080/orders/delete/{orderId}
+    // Only admins can delete; order items are deleted along with the order
     @DeleteMapping("/delete/{orderId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<OrderResponse> deleteOrderItem(@PathVariable Long orderId) {
+    public ResponseEntity<OrderResponse> deleteOrder(@PathVariable Long orderId) {
 
         return ResponseEntity.ok(orderService.deleteOrderById(orderId));
     }
 
-    // 3-tüm siparişleri page page gösterme-> http://localhost:8080/orders/page?page=1 &size=&sort=id&direction=ASC
-    // GET http://localhost:8080/orders/page - Endpoint to retrieve all orders paginated and sorted by specified parameters
+    // 3. Endpoint to retrieve all orders paginated and sorted by specified parameters
+    // GET http://localhost:8080/orders/page?page=1&size=10&sort=name&type=desc
     @GetMapping("/page")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<Page<OrderResponse>> getAllOrdersByPage(
@@ -55,8 +53,9 @@ public class OrderController {
     }
 
 
-    //Idsi verilmiş kullanıcının tüm siparişlerini getir
-    // 4-http://localhost:8080/orders/page?page=1&size=&sort=id&direction=ASC
+    // 4. Endpoint to retrieve all orders of a user by user ID
+    // GET http://localhost:8080/orders/page/{userId}?page=0&size=10&sort=name&type=desc
+    // Requires ADMIN or CUSTOMER authority
     @GetMapping("/page/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<Page<OrderResponse>> getAllOrdersByUserIdByPage(
@@ -69,8 +68,10 @@ public class OrderController {
         return orderService.getAllOrdersByUserIdByPage(userId, page, size, sort, type);
     }
 
-    // cancel order, updates the product stock.
-    @PostMapping("/cancel/{orderId}")// http://localhost:8080/orders/cancel/{orderId}
+    // Endpoint to cancel the authenticated user's order by order ID, updating the product stock and setting order status to "cancelled"
+    // POST http://localhost:8080/orders/cancel/{orderId}
+    // Requires ADMIN or CUSTOMER authority
+    @PostMapping("/cancel/{orderId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId, HttpServletRequest httpServletRequest) {
 
@@ -79,8 +80,10 @@ public class OrderController {
         return ResponseEntity.ok(orderResponse);
     }
 
-    //cancelation method that anonymous users can also cancel their order.
-    @PostMapping("/cancel/{orderId}")// http://localhost:8080/orders/cancelAnonymous/{orderId} //todo: test
+    // 6. Endpoint to cancel an anonymous user's order by its ID
+    // POST http://localhost:8080/orders/cancelAnonymous/{orderId}
+    // Allows anonymous users to cancel their order
+    @PostMapping("/cancelAnonymous/{orderId}")
     public ResponseEntity<OrderResponse> cancelAnonymousOrder(@PathVariable Long orderId, HttpServletRequest httpServletRequest) {
 
         OrderResponse orderResponse = orderService.cancelAnonymousOrderById(orderId, httpServletRequest);
@@ -88,7 +91,9 @@ public class OrderController {
         return ResponseEntity.ok(orderResponse);
     }
 
-    // Implement method to get all orders of the logged-in user
+    // 7. Endpoint to retrieve orders of the logged-in user
+    // GET http://localhost:8080/orders/my-orders?page=0&size=10&sort=name&type=desc
+    // Requires ADMIN or CUSTOMER authority
     @GetMapping("/my-orders")
     @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
     public ResponseMessage<Page<OrderResponse>> getMyOrdersByPage(
@@ -98,22 +103,21 @@ public class OrderController {
             @RequestParam(value = "sort", defaultValue = "name") String sort,
             @RequestParam(value = "type", defaultValue = "desc") String type
     ) {
-        //we get the username from the request and fetch orders for the logged-in user
+        // We get the username from the request and fetch orders for the logged-in user
         String username = request.getUserPrincipal().getName();
         return orderService.getOrdersByUsername(username, page, size, sort, type);
     }
 
-    //set order status
-    //http://localhost:8080/orders/update/{orderId}
+    // 8. Endpoint to update order status by its ID
+    // PUT http://localhost:8080/orders/update/{orderId}
+    // Requires ADMIN authority
     @PutMapping("/update/{orderId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseMessage<OrderResponse> updateOrderStatus(
             @RequestBody OrderRequestForStatus orderRequestForStatus,
             @PathVariable Long orderId
-    ){
-
+    ) {
         return orderService.updateOrderStatus(orderRequestForStatus, orderId);
-
     }
 
 

@@ -15,8 +15,7 @@ public class BlackFridayCalculator {
     public LocalDate calculateBlackFriday() {
         int currentYear = LocalDate.now().getYear(); // Geçerli yılı al
         LocalDate firstDayOfMonth = LocalDate.of(currentYear, 11, 1); // Kasım ayının ilk günü
-        LocalDate blackFriday = firstDayOfMonth.with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.FRIDAY));
-        return blackFriday;
+        return firstDayOfMonth.with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.FRIDAY));
     }
 
     // İndirim uygulama metodunu tanımlayabilirsiniz
