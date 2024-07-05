@@ -260,7 +260,7 @@ public class OrderService {
         Order order = isOrderExistsById(orderId);
 
         // Oturumdan anonim tanımlayıcıyı al
-        String sessionAnonymousIdentifier = (String) session.getAttribute("anonymousIdentifier");
+        String sessionAnonymousIdentifier = session.getId();
 
         if (sessionAnonymousIdentifier == null) {
             throw new AccessDeniedException("No anonymous identifier found in session.");

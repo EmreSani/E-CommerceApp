@@ -97,7 +97,8 @@ public class WebSecurityConfig {
             "/auth/login",
             "/cart",
             "/orders/create",
-            "/orders/cancel/**",
+         //   "/orders/cancel/**",
+            "/orders/cancelAnonymous/**",
             "/orderItem/save",
             "/orderItem/update/**", //check this maybe
             "/orderItem/delete/**",
