@@ -3,6 +3,7 @@ package com.project.ecommerce.service.business;
 import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
+import com.project.ecommerce.entity.enums.OrderStatuses;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderItemMapper;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -40,15 +41,6 @@ public class OrderItemService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderItemService.class);
 
-    public List<OrderItemResponse> getOrderItemsByUserId(Long userId) {
-
-        List<OrderItem> orderItemResponseList = orderItemRepository.findAllByUserId(userId);
-
-        return orderItemResponseList.stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList());
-
-    }
-
-
     @Transactional
     public ResponseEntity<OrderItemResponse> createOrderItem(OrderItemRequest orderItemRequest, HttpServletRequest httpServletRequest) {
 
@@ -81,7 +73,7 @@ public class OrderItemService {
                 //   .customer(customer) //if customer doesnt exists?
                 .build();
 
-        orderItem.setOrderItemStatus("in cart");
+        orderItem.setOrderItemStatus(OrderStatuses.IN_CART);
         // Add the OrderItem to the Cart's orderItemList
         customersCart.getOrderItemList().add(orderItem);
 
@@ -217,4 +209,12 @@ public class OrderItemService {
 //                .object(orderItemList)
 //                .build();
 //    }
+
+    public List<OrderItemResponse> getOrderItemsByUserId(Long userId) {
+
+        List<OrderItem> orderItemResponseList = orderItemRepository.findAllByUserId(userId);
+
+        return orderItemResponseList.stream().map(orderItemMapper::mapOrderItemToOrderItemResponse).collect(Collectors.toList());
+
+    }
 }

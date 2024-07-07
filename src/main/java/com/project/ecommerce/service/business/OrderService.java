@@ -4,8 +4,10 @@ import com.project.ecommerce.entity.concretes.business.Cart;
 import com.project.ecommerce.entity.concretes.business.Order;
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
+import com.project.ecommerce.entity.enums.OrderStatuses;
 import com.project.ecommerce.entity.enums.SpecialTimes;
 import com.project.ecommerce.exception.BadRequestException;
+import com.project.ecommerce.exception.InvalidOrderStatusException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.OrderMappers;
 import com.project.ecommerce.payload.messages.ErrorMessages;
@@ -74,7 +76,7 @@ public class OrderService {
                 .orderItems(new ArrayList<>(orderItems)) // Create a new list to avoid shared references
                 .totalPrice(cart.getTotalPrice())
                 .orderDate(LocalDateTime.now())
-                .status("Order is being prepared for shipping.")
+                .status(OrderStatuses.PREPARING_TO_SHIPPING)
                 .build();
 
         // Özel zaman kontrolü
@@ -96,7 +98,7 @@ public class OrderService {
             orderItem.setCart(null);
 //            order.addOrderItem(orderItem);   // Order entity'sine orderItemList ekleniyor
             orderItem.setOrder(order);      // OrderItem entity'sinin order alanı set ediliyor
-            orderItem.setOrderItemStatus("ordered");
+            orderItem.setOrderItemStatus(OrderStatuses.ORDERED);
         }
 
 
@@ -146,7 +148,7 @@ public class OrderService {
        }
 
         // Update stock quantities if necessary
-        if (!order.getStatus().equalsIgnoreCase("canceled")) {
+        if (!order.getStatus().equals(OrderStatuses.CANCELED)) {
             for (OrderItem item : order.getOrderItems()) {
                 orderItemService.deleteOrderItemByIdBeforeDeleteOrder(item.getId());
             }
@@ -162,7 +164,7 @@ public class OrderService {
     private boolean canDeleteOrder(Order order) {
         // Implement business rules for order deletion
 //Todo: order statusleri enum classta belirtebiliriz. Ex: cancelled, shipped, etc.
-        return order.getStatus().equalsIgnoreCase("cancelled");
+        return order.getStatus().equals(OrderStatuses.CANCELED);
 
 
     }
@@ -170,7 +172,7 @@ public class OrderService {
     private void canCancelOrder(Order order) {
         // Implement business rules for order cancelation, we can add more rules.
 
-        if (order.getStatus().equals("shipped") || order.getStatus().equals("delivered")) {
+        if (order.getStatus().equals(OrderStatuses.SHIPPED) || order.getStatus().equals(OrderStatuses.DELIVERED)) {
             throw new BadRequestException(ErrorMessages.ORDER_CAN_NOT_BE_CANCELED);
         }
 
@@ -190,7 +192,7 @@ public class OrderService {
         canCancelOrder(order);
 
         // Sipariş durumunu iptal edilmiş olarak güncelle
-        order.setStatus("cancelled");
+        order.setStatus(OrderStatuses.CANCELED);
 
         // Sipariş içerisindeki her bir ürünün stok miktarını güncelle
         for (OrderItem item : order.getOrderItems()) { // Corrected to getOrderItems() method
@@ -248,7 +250,15 @@ public class OrderService {
 
         Order order = isOrderExistsById(orderId);
 
-        order.setStatus(orderRequestForStatus.getStatus());
+        OrderStatuses status;
+        try {
+            status = OrderStatuses.fromString(orderRequestForStatus.getStatus());
+        } catch (InvalidOrderStatusException e) {
+            return ResponseMessage.<OrderResponse>builder().message(e.getMessage())
+                    .httpStatus(HttpStatus.BAD_REQUEST).build();
+        }
+
+        order.setStatus(status);
 
         Order updatedOrder = orderRepository.save(order);
 
@@ -286,7 +296,7 @@ public class OrderService {
         canCancelOrder(order);
 
         // Sipariş durumunu iptal edilmiş olarak güncelle
-        order.setStatus("cancelled");
+        order.setStatus(OrderStatuses.CANCELED);
 
         // Sipariş içerisindeki her bir ürünün stok miktarını güncelle
         for (OrderItem item : order.getOrderItems()) { // Corrected to getOrderItems() method

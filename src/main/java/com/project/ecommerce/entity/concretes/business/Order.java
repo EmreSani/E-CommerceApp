@@ -3,6 +3,7 @@ package com.project.ecommerce.entity.concretes.business;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.ecommerce.entity.concretes.user.User;
+import com.project.ecommerce.entity.enums.OrderStatuses;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,7 +42,7 @@ public class Order {
 
     private Double totalPrice;
 
-    private String status; // "active", "cancelled", etc.
+    private OrderStatuses status; // "active", "cancelled", etc.
 
     private String anonymousIdentifier; // New field for anonymous users
 
