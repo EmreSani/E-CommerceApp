@@ -19,11 +19,11 @@ import java.util.List;
 public class OrderResponse {
 
     private Long id;
-    private Long customerId;  // customer yerine customerId kullanabilirsiniz
+    private Long customerId;  // customer yerine customerId kullanıyoruz
     private List<OrderItemResponse> orderItems = new ArrayList<>();
-    private Long cartId;  // cart yerine cartId kullanabilirsiniz
+    private Long cartId;  // cart yerine cartId kullanıyoruz
     private LocalDateTime orderDate;
-    private String orderStatus;
+    private String orderStatus; //orderStatus added
     private Double totalPrice;
-    //orderStatus added
+
 }
