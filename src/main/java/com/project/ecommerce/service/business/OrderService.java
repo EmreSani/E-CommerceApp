@@ -31,10 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,10 +161,7 @@ public class OrderService {
 
     private boolean canDeleteOrder(Order order) {
         // Implement business rules for order deletion
-//Todo: order statusleri enum classta belirtebiliriz. Ex: cancelled, shipped, etc.
         return order.getStatus().equals(OrderStatuses.CANCELED);
-
-
     }
 
     private void canCancelOrder(Order order) {
