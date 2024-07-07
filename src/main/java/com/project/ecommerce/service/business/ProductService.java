@@ -2,6 +2,7 @@ package com.project.ecommerce.service.business;
 
 import com.project.ecommerce.entity.concretes.business.OrderItem;
 import com.project.ecommerce.entity.concretes.business.Product;
+import com.project.ecommerce.entity.concretes.user.User;
 import com.project.ecommerce.exception.ConflictException;
 import com.project.ecommerce.exception.ResourceNotFoundException;
 import com.project.ecommerce.payload.mappers.ProductMapper;
@@ -10,6 +11,7 @@ import com.project.ecommerce.payload.messages.SuccessMessages;
 import com.project.ecommerce.payload.request.business.ProductRequest;
 import com.project.ecommerce.payload.response.business.ProductResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
+import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.repository.business.ProductRepository;
 import com.project.ecommerce.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -130,6 +133,25 @@ public class ProductService {
 
         return productRepository.findAll();
     }
+
+    @Transactional
+    public ResponseMessage<List<ProductResponse>> getProductsByNameContainsTheseLetters(String letters) {
+
+        List<Product> productList = productRepository.findByNameContains(letters);
+
+            if (productList.isEmpty()) {
+                throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_PRODUCT_MESSAGE_CONTAINS_LETTERS);
+            }
+
+            return ResponseMessage.<List<ProductResponse>>builder().
+                    message(SuccessMessages.USERS_FOUND).
+                    httpStatus(HttpStatus.OK).
+                    object(productList.stream().
+                            map(productMapper::mapProductToProductResponse).
+                            collect(Collectors.toList())).
+                    build();
+        }
+
 
 //    public void deleteProductById(Long productId) {
 //

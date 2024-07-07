@@ -19,6 +19,7 @@ public class ErrorMessages {
     public static final String NOT_FOUND_USER_MESSAGE_WITH_USERNAME = "Error: User not found with username %s";
 
     public static final String NOT_FOUND_PRODUCT_MESSAGE = "Error: Product not found with id %s";
+    public static final String NOT_FOUND_PRODUCT_MESSAGE_CONTAINS_LETTERS = "Error: Product not found based on your search";
     public static final String NOT_ENOUGH_STOCK_PRODUCT_MESSAGE = "Error: Unfortunately we do not have enough stock for you order. To further information please contact with manager.";
     public static final String PRODUCT_CAN_NOT_BE_DELETED = "This product cannot be deleted due to business rules: You can delete the product if only product is not in a customers cart";
 

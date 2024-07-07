@@ -3,6 +3,7 @@ package com.project.ecommerce.controller.business;
 import com.project.ecommerce.payload.request.business.ProductRequest;
 import com.project.ecommerce.payload.response.business.ProductResponse;
 import com.project.ecommerce.payload.response.business.ResponseMessage;
+import com.project.ecommerce.payload.response.user.UserResponse;
 import com.project.ecommerce.service.business.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -63,6 +64,15 @@ public class ProductController {
         return productService.getAllProductsByPage(page, size, sort, type);
     }
 
+
+    // 6 - Retrieves products which names contain specified letters.
+    // Example URL: GET http://localhost:8080/products/search?letters=pa
+    @GetMapping("/search")
+    public ResponseMessage<List<ProductResponse>> getUserByFullNameContainsTheseLetters(
+            @RequestParam(value = "letters") String letters
+    ) {
+        return productService.getProductsByNameContainsTheseLetters(letters);
+    }
 //    //product silme methodunu değerlendir; orderitemların ve orderların durumunu gözet.
 //    @DeleteMapping("/delete/{productId}")
 //    @PreAuthorize("hasAnyAuthority('ADMIN')")

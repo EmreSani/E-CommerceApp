@@ -105,6 +105,7 @@ public class WebSecurityConfig {
             "/products",
             "/products/{productId}",
             "/products/page",
+            "/products/search",
             "/v3/api-docs/**",
             "swagger-ui.html",
             "/swagger-ui/**",

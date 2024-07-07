@@ -13,14 +13,14 @@ public class OrderItemMapper {
 
     private final UserMapper userMapper;
 
-    public OrderItemResponse mapOrderItemToOrderItemResponse (OrderItem orderItemResponse){
+    public OrderItemResponse mapOrderItemToOrderItemResponse (OrderItem orderItem){
         return OrderItemResponse.builder()
-                .totalPrice(orderItemResponse.getTotalPrice())
-                .id(orderItemResponse.getId())
-                .quantity(orderItemResponse.getQuantity())
-              //  .userId(orderItemResponse.getCustomer().getId())
-                .productId(orderItemResponse.getProduct().getId())
-             //   .cartId(orderItemResponse.getCart().getId())
+                .totalPrice(orderItem.getTotalPrice())
+                .id(orderItem.getId())
+                .quantity(orderItem.getQuantity())
+              //  .userId(orderItem.getCustomer().getId())
+                .productId(orderItem.getProduct().getId())
+                .cartId(orderItem.getCart().getId())
                 .build();
     }
 
