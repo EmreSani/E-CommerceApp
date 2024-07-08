@@ -21,4 +21,5 @@ public class OrderItemResponse {
     private Double totalPrice;
     private Long userId;
     private Long cartId;
+    private String orderItemStatus;
 }

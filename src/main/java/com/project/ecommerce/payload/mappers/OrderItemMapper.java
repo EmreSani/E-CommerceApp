@@ -20,7 +20,8 @@ public class OrderItemMapper {
                 .quantity(orderItem.getQuantity())
               //  .userId(orderItem.getCustomer().getId())
                 .productId(orderItem.getProduct().getId())
-                .cartId(orderItem.getCart().getId())
+             //   .cartId(orderItem.getCart().getId())
+                .orderItemStatus(orderItem.getOrderItemStatus().name())
                 .build();
     }
 

@@ -192,6 +192,7 @@ public class OrderService {
         // Sipariş içerisindeki her bir ürünün stok miktarını güncelle
         for (OrderItem item : order.getOrderItems()) { // Corrected to getOrderItems() method
             productService.updateProductStockForCancellingOrder(item.getProduct().getId(), item.getQuantity());
+            item.setOrderItemStatus(OrderStatuses.CANCELED);
         }
 
         // Siparişi güncelle
@@ -296,6 +297,7 @@ public class OrderService {
         // Sipariş içerisindeki her bir ürünün stok miktarını güncelle
         for (OrderItem item : order.getOrderItems()) { // Corrected to getOrderItems() method
             productService.updateProductStockForCancellingOrder(item.getProduct().getId(), item.getQuantity());
+            item.setOrderItemStatus(OrderStatuses.CANCELED);
         }
 
         // Siparişi güncelle
